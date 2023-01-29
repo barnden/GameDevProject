@@ -6,22 +6,36 @@ public class BasicTurret : MonoBehaviour
 {
     [Header("Turret Properties")]
     public GameObject turretBullet;
+    public float turretBulletLifetime;
+    public GameObject turretBulletPool;
+    public Transform spawnPosition;
     public float turretRadius;
-
+    public float fireRate;
+    private float fireTimer;
 
     public GameObject currentTarget;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        fireTimer = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        fireTimer -= Time.deltaTime;
         currentTarget = TrackNearestEnemy(turretRadius);
         RotateToNearestEnemy(currentTarget);
+
+        if(fireTimer <= 0f)
+        {
+           // print("shot");
+            Shoot();
+            fireTimer = fireRate;
+        }
+        Debug.DrawRay(transform.position, 10f * transform.right, Color.green);
+
     }
 
 
@@ -63,6 +77,25 @@ public class BasicTurret : MonoBehaviour
 
     public void Shoot()
     {
+        if(currentTarget == null)
+        {
+            return;
+        }
+
+        RaycastHit2D turretRayInfo = Physics2D.Raycast(transform.position, transform.right, 10f);
         
+        if (turretRayInfo.collider != null)
+        {
+
+            Debug.Log("Shot at Enemy");
+            GameObject bullet = turretBulletPool.GetComponent<BulletPooling>().GetPooledObject();
+            if(bullet != null)
+            {
+                bullet.transform.position = spawnPosition.transform.position;
+                bullet.transform.rotation = transform.rotation;
+                bullet.GetComponent<BaseBullet>().blifeTime = turretBulletLifetime;
+                bullet.SetActive(true);
+            }
+        } 
     }
 }
