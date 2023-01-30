@@ -8,27 +8,43 @@ using UnityEngine.EventSystems;
 
 public class Movement : MonoBehaviour
 {
-    private LineRenderer _renderer;
+    [SerializeField] float speed = 1.0f;
+    private bool mouseIsUp = true;
+    private bool selectMode = false;
     private bool moveMode = false;
-
-    void Start()
-    {
-        
-    }
+    private Vector3 destination;
 
     void Update()
     {
-        if(moveMode)
+        if(selectMode)
         {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log(transform.position + " " + mouseWorldPos);
-            Handles.DrawDottedLine(transform.position, mouseWorldPos, 10.0f);
+            if (mouseIsUp && Input.GetMouseButtonDown(0))
+            {
+                selectMode = false;
+                destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                destination.Set(destination.x, destination.y, 0.0f); //Z must be set to 0 to prevent object from moving into the background
+                moveMode = true;
+            }
+        }
+        else if(moveMode)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
+            if(transform.position == destination)
+            {
+                moveMode = false;
+            }
         }
     }
 
     private void OnMouseDown()
     {
+        mouseIsUp = false;
         Debug.Log("Clicked");
-        moveMode = true;
+        selectMode = true;
+    }
+
+    private void OnMouseUp()
+    {
+        mouseIsUp = true;
     }
 }
