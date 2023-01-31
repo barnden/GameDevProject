@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class CollectOrbs : MonoBehaviour
