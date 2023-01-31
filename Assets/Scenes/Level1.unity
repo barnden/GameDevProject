@@ -734,6 +734,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pooledObjects: []
   objectToPool: {fileID: 4967661330752684158, guid: 393288b142c08614d91db451c05b42f1, type: 3}
+  bulletLayer:
+    serializedVersion: 2
+    m_Bits: 128
   amountToPool: 10
   poolwillGrow: 1
 --- !u!1001 &1450338024
@@ -761,11 +764,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -4.87
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -875,7 +878,9 @@ GameObject:
   - component: {fileID: 1940245499}
   - component: {fileID: 1940245498}
   - component: {fileID: 1940245501}
-  m_Layer: 0
+  - component: {fileID: 1940245502}
+  - component: {fileID: 1940245503}
+  m_Layer: 6
   m_Name: Turret
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -988,7 +993,46 @@ MonoBehaviour:
   spawnPosition: {fileID: 1940245497}
   turretRadius: 10
   fireRate: 1
+  bulletPrefab: {fileID: 0}
   currentTarget: {fileID: 0}
+--- !u!114 &1940245502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940245495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3a8168215b213a40b312d95a21ecf45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &1940245503
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940245495}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!1001 &5798444986172240418
 PrefabInstance:
   m_ObjectHideFlags: 0

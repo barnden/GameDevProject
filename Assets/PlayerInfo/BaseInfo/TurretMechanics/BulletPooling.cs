@@ -6,18 +6,24 @@ public class BulletPooling : MonoBehaviour
 {
     public List<GameObject> pooledObjects;
     public GameObject objectToPool;
+    public LayerMask bulletLayer;
     public int amountToPool;
     public bool poolwillGrow;
 
     void Start()
     {
+        int layer = (int)Mathf.Log(bulletLayer.value, 2);
         pooledObjects = new List<GameObject>();
         GameObject tmp;
         for (int i = 0; i < amountToPool; i++)
         {
             tmp = Instantiate(objectToPool);
-            // for organization
 
+            // Collider2D required for MouseDown in Draggable but bullets collide with 
+            // Put bullets in a different layer to prevent collision with turrets
+            tmp.layer = layer;
+
+            // for organization
             tmp.SetActive(false);
             pooledObjects.Add(tmp);
         }

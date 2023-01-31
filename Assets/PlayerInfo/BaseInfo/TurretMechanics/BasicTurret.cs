@@ -11,6 +11,7 @@ public class BasicTurret : MonoBehaviour
     public Transform spawnPosition;
     public float turretRadius;
     public float fireRate;
+    public Transform bulletPrefab;
     private float fireTimer;
 
     public GameObject currentTarget;
@@ -87,7 +88,7 @@ public class BasicTurret : MonoBehaviour
         if (turretRayInfo.collider != null)
         {
 
-            Debug.Log("Shot at Enemy");
+            //Debug.Log("Shot at Enemy");
             GameObject bullet = turretBulletPool.GetComponent<BulletPooling>().GetPooledObject();
             if(bullet != null)
             {
