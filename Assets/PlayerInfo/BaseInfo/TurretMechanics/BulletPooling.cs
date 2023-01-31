@@ -23,7 +23,7 @@ public class BulletPooling : MonoBehaviour
         }
     }
 
-
+    // FIXME more efficient arrays
     public GameObject GetPooledObject()
     {
         for (int i = 0; i < pooledObjects.Count; i++)
