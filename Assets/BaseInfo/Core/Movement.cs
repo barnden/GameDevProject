@@ -31,7 +31,7 @@ public class Movement : MonoBehaviour
                 moveMode = true;
             }
         }
-        else if(moveMode)
+        if(moveMode)
         {
             transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
             if(transform.position == destination)
@@ -55,6 +55,11 @@ public class Movement : MonoBehaviour
 
     void addLine(Vector3 destination)
     {
+        if(lineDest != null)
+        {
+            removeLine();
+        }
+
         lineDest = new GameObject("Line Destination");
         lineDest.transform.position = destination;
 
