@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseCore
       objectReference: {fileID: 0}
+    - target: {fileID: 538738474933043638, guid: 087cd05e5fbd77e4abbe2ba7c1fcec79, type: 3}
+      propertyPath: powerObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b503f3c583d26447a42a1100b7e7b2d, type: 2}
     - target: {fileID: 538738474933043639, guid: 087cd05e5fbd77e4abbe2ba7c1fcec79, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1044,6 +1048,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1648147681520710368, guid: 7b8d145e25abfdc42b035c8c8cfb5a2f, type: 3}
+      propertyPath: powerObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b503f3c583d26447a42a1100b7e7b2d, type: 2}
     - target: {fileID: 4221391529528998339, guid: 7b8d145e25abfdc42b035c8c8cfb5a2f, type: 3}
       propertyPath: m_Name
       value: Canvas
