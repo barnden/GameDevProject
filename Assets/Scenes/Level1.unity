@@ -379,7 +379,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 589769189}
-  - component: {fileID: 589769190}
   m_Layer: 0
   m_Name: Basic Enemy Spawner
   m_TagString: Untagged
@@ -402,23 +401,6 @@ Transform:
   m_Father: {fileID: 1480399251}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &589769190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 589769188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9028dff5852f3e2428e328dd79883d08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 962644661464884768, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
-  playerLocation: {fileID: 1940245495}
-  spawnCooldown: 2
-  spawnRadius: 6
-  spawnSpeed: 2
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0

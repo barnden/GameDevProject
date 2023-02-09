@@ -10,10 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 962644661464884782}
   - component: {fileID: 962644661464884783}
-  - component: {fileID: -5399958641287043309}
   - component: {fileID: 1693474713711860434}
   - component: {fileID: 6208993482456013279}
   - component: {fileID: 8425825489313815657}
+  - component: {fileID: 9074310293624954182}
+  - component: {fileID: -5399958641287043309}
   m_Layer: 0
   m_Name: Basic Enemy
   m_TagString: Enemy
@@ -88,20 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-5399958641287043309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 962644661464884768}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e56fb546e916de342ae1eb1d66b47b1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerToFollow: {fileID: 0}
-  baseEnemySpeed: 0
 --- !u!61 &1693474713711860434
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -162,3 +149,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orb: {fileID: 4499453735377373803, guid: 65fac8a9fa4de3a4281b71db9f24bab6, type: 3}
+--- !u!114 &9074310293624954182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962644661464884768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f08fe0b77627d15478868b4f85209cbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locomotionSystem: {fileID: -5399958641287043309}
+  targetTags:
+  - Player
+--- !u!114 &-5399958641287043309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962644661464884768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e56fb546e916de342ae1eb1d66b47b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseEnemySpeed: 0
+  isDirectMovement: 0

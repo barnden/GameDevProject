@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    /*
     // Spawn Factors
     public GameObject enemy;
     public GameObject playerLocation;
@@ -37,8 +38,9 @@ public class EnemySpawner : MonoBehaviour
     public Vector3 RandomEnemyPosition(float radius, float offset)
     {
         float randomAngle = Random.Range(0.0f, Mathf.PI) * Mathf.Rad2Deg;
-        float xPos = radius * Mathf.Cos(randomAngle) /*+ Random.Range(0.0f, offset)*/;
-        float yPos = radius * Mathf.Sin(randomAngle) /*+ Random.Range(0.0f, offset)*/;
+        float xPos = radius * Mathf.Cos(randomAngle) /*+ Random.Range(0.0f, offset);
+        float yPos = radius * Mathf.Sin(randomAngle) /*+ Random.Range(0.0f, offset);
         return new Vector3(xPos,yPos, 0);
     }
+*/
 }
