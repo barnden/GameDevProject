@@ -90,7 +90,7 @@ public class Tower : MonoBehaviour
                 towerBase.transform.eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
                 platform.disableRing();
             }
-            Debug.Log(towerPos);
+            
             towerBase.transform.position = towerPos;
         }
     }
