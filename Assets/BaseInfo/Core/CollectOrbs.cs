@@ -4,7 +4,7 @@ public class CollectOrbs : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;
     [SerializeField] string orbTag;
-    [SerializeField] Power powerObject;
+    [SerializeField] CoreData coreData;
 
     void Update()
     {
@@ -16,7 +16,7 @@ public class CollectOrbs : MonoBehaviour
             if(orb.transform.position == transform.position)
             {
                 Destroy(orb);
-                powerObject.addPower(1.0f);
+                coreData.addEnergy(1.0f);
             }
         }
     }

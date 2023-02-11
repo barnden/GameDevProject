@@ -35,7 +35,6 @@ public class DottedLine : MonoBehaviour
         if(source != null && destination != null)
         {
             _renderer.SetPositions(new Vector3[] { destination.transform.position, source.transform.position });
-            Debug.Log(_renderer.startColor + " " + _renderer.endColor);
         }
     }
 

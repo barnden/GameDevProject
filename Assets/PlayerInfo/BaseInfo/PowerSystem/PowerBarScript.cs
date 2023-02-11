@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class PowerBarScript : MonoBehaviour
 {
-	[SerializeField]
-	Power powerObject;
+	[SerializeField] CoreData coreData;
 
 	private Slider slider;
 	private ParticleSystem particleSys;
@@ -22,7 +21,7 @@ public class PowerBarScript : MonoBehaviour
 
 	void Update()
     {
-		slider.value = powerObject.getPower() / powerObject.getMaxPower();
+		slider.value = coreData.getEnergy() / coreData.getMaxEnergy();
 
         if (slider.value < targetProgress)
 		{
