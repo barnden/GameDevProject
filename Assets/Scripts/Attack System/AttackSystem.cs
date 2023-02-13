@@ -9,35 +9,47 @@ public class AttackSystem : MonoBehaviour
     private class ProjectileParams
     {
         public GameObject projectile;
-        public float aliveTime;
-        public float Speed;
+        public float distToSpawnProjectile;
+        public float lifetime;
+        public float speed;
         public float damage;
         public float fireRate;
         public float AOESize;
         public float fireSpread;
     }
 
-
-    private GameObject target = null;
     [SerializeField] ProjectileParams[] projectilesToFire;
-
-
-    // Start is called before the first frame update
-    void Start()
+    private GameObject target = null;
+    public void setTarget(GameObject target)
     {
-        foreach (ProjectileParams currProjectile in projectilesToFire)
+        this.target = target;
+
+        // Get front of enemy so we can instantiate object between enemy and target
+
+        foreach (ProjectileParams currProjectileParams in projectilesToFire)
         {
-            StartCoroutine(FireProjectile(currProjectile.fireRate));
+            StartCoroutine(FireProjectile(currProjectileParams));
         }
     }
 
-    IEnumerator FireProjectile(float fireRate)
+    IEnumerator FireProjectile(ProjectileParams param)
     {
         // keep the subrutine running so the enemy keeps firing
         while(true)
         {
-            Debug.Log(fireRate.ToString());
-            yield return new WaitForSeconds(fireRate);
+            Vector2 targetDir = target.transform.position - transform.position;
+
+            // find front of enemy to instantiate bullet
+            Vector2 front = new Vector2(transform.position.x + (targetDir.x * param.distToSpawnProjectile), 
+                                        transform.position.y + (targetDir.y * param.distToSpawnProjectile));
+
+            // Instantiate the projectile with provided params
+            GameObject projectile = Instantiate(param.projectile, front, Quaternion.identity);
+            projectile.GetComponent<BaseEnemyBullet>().Init(projectile, param.lifetime, 
+                                                        param.speed, param.damage, 
+                                                        param.AOESize, targetDir);
+
+            yield return new WaitForSeconds(param.fireRate);
         }
     }
 }

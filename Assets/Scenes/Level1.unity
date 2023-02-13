@@ -771,11 +771,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.87
+      value: -6.13
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.17
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -809,6 +809,58 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[0].speed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[0].damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[1].damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[0].AOESize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[0].fireRate
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[0].lifetime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[1].fireRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[1].lifetime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[1].fireSpread
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[1].projectile
+      value: 
+      objectReference: {fileID: 4967661330752684158, guid: c2f2d1947ec9ba84784b8e97f9fa605d, type: 3}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[0].distToSpawnProjectile
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074310293624954182, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: attackSystem
+      value: 
+      objectReference: {fileID: 1469559966}
     - target: {fileID: 9074310293624954182, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: movementComponent
       value: 
@@ -823,49 +875,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
---- !u!1 &1469559951 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 962644661464884768, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
-  m_PrefabInstance: {fileID: 1450338024}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1469559955 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -5399958641287043309, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
   m_PrefabInstance: {fileID: 1450338024}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469559951}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e56fb546e916de342ae1eb1d66b47b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1469559959
+--- !u!114 &1469559966 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+  m_PrefabInstance: {fileID: 1450338024}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469559951}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilesToFire:
-  - projectile: {fileID: 4967661330752684158, guid: c2f2d1947ec9ba84784b8e97f9fa605d, type: 3}
-    aliveTime: 0
-    Speed: 0
-    damage: 0
-    fireRate: 1
-    AOESize: 0
-    fireSpread: 0
-  - projectile: {fileID: 0}
-    aliveTime: 0
-    Speed: 0
-    damage: 0
-    fireRate: 0.5
-    AOESize: 0
-    fireSpread: 0
 --- !u!1001 &1480399250
 PrefabInstance:
   m_ObjectHideFlags: 0

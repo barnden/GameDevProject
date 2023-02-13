@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8425825489313815657}
   - component: {fileID: 9074310293624954182}
   - component: {fileID: -5399958641287043309}
+  - component: {fileID: 4445653251142912815}
   m_Layer: 0
   m_Name: Basic Enemy
   m_TagString: Enemy
@@ -162,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locomotionSystem: {fileID: -5399958641287043309}
+  attackSystem: {fileID: 4445653251142912815}
   targetTags:
   - Player
 --- !u!114 &-5399958641287043309
@@ -176,5 +178,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56fb546e916de342ae1eb1d66b47b1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseEnemySpeed: 0
+  baseEnemySpeed: 2
   isDirectMovement: 0
+--- !u!114 &4445653251142912815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962644661464884768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilesToFire:
+  - projectile: {fileID: 4967661330752684158, guid: c2f2d1947ec9ba84784b8e97f9fa605d, type: 3}
+    distToSpawnProjectile: 0.1
+    lifetime: 5
+    speed: 0.5
+    damage: 10
+    fireRate: 0.5
+    AOESize: 0.1
+    fireSpread: 0

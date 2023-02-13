@@ -8,6 +8,7 @@ using UnityEngine;
 public class BaseEnemyAI : MonoBehaviour
 {
     [SerializeField] BaseEnemyMove locomotionSystem;
+    [SerializeField] AttackSystem attackSystem;
     [SerializeField] string[] targetTags;
     private void OnEnable()
     {
@@ -15,9 +16,10 @@ public class BaseEnemyAI : MonoBehaviour
         // validate all components
         checkComponentsAreValid();
 
-        // find and send target to movement component
+        // find and send target to ai components
         GameObject closestTarget = findValidTargetWithTag(targetTags);
         locomotionSystem.setTarget(closestTarget);
+        attackSystem.setTarget(closestTarget);
     }
 
 
@@ -75,5 +77,6 @@ public class BaseEnemyAI : MonoBehaviour
     private void checkComponentsAreValid()
     {
         Debug.Assert(locomotionSystem != null, "Enemy: " + this.name.ToString() + " does not have it's locomotion script assigned");
+        Debug.Assert(attackSystem != null, "Enemy: " + this.name.ToString() + " does not have it's attack system script assigned");
     }
 }
