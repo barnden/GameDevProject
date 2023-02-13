@@ -379,6 +379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 589769189}
+  - component: {fileID: 589769190}
   m_Layer: 0
   m_Name: Basic Enemy Spawner
   m_TagString: Untagged
@@ -401,6 +402,18 @@ Transform:
   m_Father: {fileID: 1480399251}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &589769190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 589769188}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9028dff5852f3e2428e328dd79883d08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +749,14 @@ PrefabInstance:
       propertyPath: baseEnemySpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: -5399958641287043309, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: tagsToFollow.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5399958641287043309, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: tagsToFollow.Array.data[0]
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 962644661464884768, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_Name
       value: Basic Enemy
@@ -788,8 +809,63 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9074310293624954182, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: movementComponent
+      value: 
+      objectReference: {fileID: 1469559955}
+    - target: {fileID: 9074310293624954182, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: targetTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074310293624954182, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: targetTags.Array.data[0]
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+--- !u!1 &1469559951 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 962644661464884768, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+  m_PrefabInstance: {fileID: 1450338024}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1469559955 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -5399958641287043309, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+  m_PrefabInstance: {fileID: 1450338024}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469559951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e56fb546e916de342ae1eb1d66b47b1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1469559959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469559951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilesToFire:
+  - projectile: {fileID: 4967661330752684158, guid: c2f2d1947ec9ba84784b8e97f9fa605d, type: 3}
+    aliveTime: 0
+    Speed: 0
+    damage: 0
+    fireRate: 1
+    AOESize: 0
+    fireSpread: 0
+  - projectile: {fileID: 0}
+    aliveTime: 0
+    Speed: 0
+    damage: 0
+    fireRate: 0.5
+    AOESize: 0
+    fireSpread: 0
 --- !u!1001 &1480399250
 PrefabInstance:
   m_ObjectHideFlags: 0
