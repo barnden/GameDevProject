@@ -10,6 +10,7 @@ public class BuildDefense : MonoBehaviour
     public bool spawning;
     public GameObject objectSpawned;
     public GameObject defense;
+    public SpriteRenderer defenseSprite;
     [SerializeField] private int numberOfClicks = 0;
 
     void Start()
@@ -30,6 +31,7 @@ public class BuildDefense : MonoBehaviour
             defense.transform.position = mousePosition;
             //Destroy(defense);
             //defense = null;
+            defenseSprite.color = new Color(1f, 1f, 1f, 1f);
             spawning = false;
         }
     }
@@ -41,6 +43,7 @@ public class BuildDefense : MonoBehaviour
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0;
             defense.transform.position = mousePosition;
+            defenseSprite.color = new Color(1, 1, 1, .5f);
             spawning = true;
         }
     }
@@ -48,6 +51,7 @@ public class BuildDefense : MonoBehaviour
     public void BuyDefense()
     {
         defense = Instantiate(objectSpawned);
+        defenseSprite = defense.GetComponent<SpriteRenderer>();
         numberOfClicks = 0;
     }
 }
