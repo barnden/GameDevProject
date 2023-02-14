@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseBullet : MonoBehaviour
+public class AOEBullet : BaseBullet
 {
-    public float bSpeed;
-    public float blifeTime;
-    public Vector2 direction;
+    public float bSize;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -21,6 +20,10 @@ public class BaseBullet : MonoBehaviour
         {
             this.gameObject.SetActive(false);
         }
-        transform.Translate(Time.deltaTime * bSpeed * direction);
+
+        // transform.Translate(Time.deltaTime * bSpeed * direction);
+        float scale = (1 - (blifeTime / bMaxLifeTime));
+        scale *= scale * bSize;
+        transform.localScale = new Vector3(scale, scale, 1f);
     }
 }

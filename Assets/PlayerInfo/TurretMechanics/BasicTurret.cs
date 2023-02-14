@@ -87,14 +87,13 @@ public class BasicTurret : MonoBehaviour
         
         if (turretRayInfo.collider != null)
         {
-
-            //Debug.Log("Shot at Enemy");
             GameObject bullet = turretBulletPool.GetComponent<BulletPooling>().GetPooledObject();
             if(bullet != null)
             {
                 bullet.transform.position = spawnPosition.transform.position;
                 bullet.transform.rotation = transform.rotation;
                 bullet.GetComponent<BaseBullet>().blifeTime = turretBulletLifetime;
+                bullet.GetComponent<BaseBullet>().bMaxLifeTime = turretBulletLifetime;
                 bullet.SetActive(true);
             }
         } 
