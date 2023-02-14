@@ -46,7 +46,6 @@ public class BaseEnemyAI : MonoBehaviour
                 closestObj = currObjectToCheckDist;
             }
         }
-        Debug.Log(closestObj.name.ToString());
 
         return closestObj;
     }
@@ -62,7 +61,7 @@ public class BaseEnemyAI : MonoBehaviour
             targetList.AddRange(GameObject.FindGameObjectsWithTag(currTag));
         }
 
-        Debug.Log(targetList.ToString());
+        //Debug.Log(targetList.ToString());
 
         // Something went wrong if no targets were found
         if (targetList.Count == 0)

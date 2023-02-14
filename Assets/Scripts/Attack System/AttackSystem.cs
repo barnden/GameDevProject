@@ -6,6 +6,8 @@ using UnityEngine;
 public class AttackSystem : MonoBehaviour
 {
     [Serializable]
+
+    // These do nothing currently
     private class ProjectileParams
     {
         public GameObject projectile;
@@ -45,9 +47,12 @@ public class AttackSystem : MonoBehaviour
 
             // Instantiate the projectile with provided params
             GameObject projectile = Instantiate(param.projectile, front, Quaternion.identity);
-            projectile.GetComponent<BaseEnemyBullet>().Init(projectile, param.lifetime, 
+
+            /*projectile.GetComponent<BaseProjectile>().Init(projectile, param.lifetime, 
                                                         param.speed, param.damage, 
-                                                        param.AOESize, targetDir);
+                                                        param.AOESize, targetDir);*/
+            projectile.GetComponent<BaseProjectile>().Init(projectile); // To be removed once custom UI for inspector is made
+            projectile.GetComponent<BaseProjectile>().setDirection(targetDir); // To be removed once custom UI for inspector is made
 
             yield return new WaitForSeconds(param.fireRate);
         }
