@@ -14,12 +14,18 @@ public class BaseEnemyAI : MonoBehaviour
     {
 
         // validate all components
-        checkComponentsAreValid();
+        //checkComponentsAreValid();
 
         // find and send target to ai components
         GameObject closestTarget = findValidTargetWithTag(targetTags);
-        locomotionSystem.setTarget(closestTarget);
-        attackSystem.setTarget(closestTarget);
+        if (locomotionSystem) 
+        { 
+            locomotionSystem.setTarget(closestTarget); 
+        }
+        if (attackSystem) 
+        { 
+            attackSystem.setTarget(closestTarget); 
+        }
     }
 
 

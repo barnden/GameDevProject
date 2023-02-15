@@ -39,6 +39,7 @@ public class AttackSystem : MonoBehaviour
         // keep the subrutine running so the enemy keeps firing
         while(true)
         {
+            if (!target) { yield break; }
             Vector2 targetDir = target.transform.position - transform.position;
 
             // find front of enemy to instantiate bullet
