@@ -6,15 +6,11 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    private Sprite[] tinySprites = new Sprite[6]; //Need 6
-    private Sprite[] mediumSprites = new Sprite[3]; //Need 3
-    private Sprite[] giantSprites = new Sprite[2]; //Need 2
-
-    public enum TowerSize{Tiny, Medium, Giant};
-    public TowerSize towerSize = TowerSize.Medium;
+    private Sprite[] sprites = new Sprite[3]; //Need 3
 
     public GameObject parent;
     public bool placing;
+    private float towerBaseOffsetZ = -0.5f;
 
     private Platform platform;
     private GameObject towerBase;
@@ -24,33 +20,20 @@ public class Tower : MonoBehaviour
     {
         platform = GameObject.Find("Platform").GetComponent<Platform>();
 
-        tinySprites[0] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-        tinySprites[1] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-        tinySprites[2] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-        tinySprites[3] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-        tinySprites[4] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-        tinySprites[5] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-
-        mediumSprites[0] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-        mediumSprites[1] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-        mediumSprites[2] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-
-        giantSprites[0] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-        giantSprites[1] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
-
+        sprites[0] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
+        sprites[1] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
+        sprites[2] = Resources.Load<Sprite>("Sprites/Towers/Bases/tiny0");
+        
         towerBase = new GameObject("Tower Base");
         spriteRenderer = towerBase.AddComponent<SpriteRenderer>();
-        switch (towerSize)
-        {
-            case TowerSize.Tiny: spriteRenderer.sprite = tinySprites[0]; break;
-            case TowerSize.Medium: spriteRenderer.sprite = mediumSprites[0]; break;
-            case TowerSize.Giant: spriteRenderer.sprite = giantSprites[0]; break;
-        }
+        spriteRenderer.sprite = sprites[0]; //Tower base sprites
+
         placing = true;
     }
 
     private void Start()
     {
+        Debug.Log(parent);
         towerBase.transform.parent = parent.transform;
     }
 
@@ -59,35 +42,21 @@ public class Tower : MonoBehaviour
         if (placing)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 towerPos = new Vector3(mousePos.x, mousePos.y, 0.0f);
+            Vector3 towerPos = new Vector3(mousePos.x, mousePos.y, towerBaseOffsetZ);
 
             if (platform.pointInBase(mousePos))
             {
                 platform.setCursorPos(mousePos);
-
-                switch (towerSize)
-                {
-                    case TowerSize.Tiny: platform.setTowerRadius(0.5f); break;
-                    case TowerSize.Medium: platform.setTowerRadius(1.0f); break;
-                    case TowerSize.Giant: platform.setTowerRadius(1.5f); break;
-                }
-
                 platform.enableRing();
-
+                
                 Tuple<Vector2, float, int> snapPos = platform.getSnap();
-
-                towerPos = new Vector3(snapPos.Item1.x, snapPos.Item1.y, 0.0f);
+                towerPos = new Vector3(snapPos.Item1.x, snapPos.Item1.y, towerBaseOffsetZ);
 
                 float snapPosDeg = snapPos.Item2 / (2.0f * Mathf.PI) * 360;
                 towerBase.transform.eulerAngles = new Vector3(0.0f, 0.0f, snapPosDeg);
 
                 int ringNum = snapPos.Item3;
-                switch (towerSize)
-                {
-                    case TowerSize.Tiny: spriteRenderer.sprite = tinySprites[ringNum]; break;
-                    case TowerSize.Medium: spriteRenderer.sprite = mediumSprites[ringNum]; break;
-                    case TowerSize.Giant: spriteRenderer.sprite = giantSprites[ringNum]; break;
-                }
+                spriteRenderer.sprite = sprites[ringNum];
             }
             else
             {
@@ -104,16 +73,19 @@ public class Tower : MonoBehaviour
         return towerBase;
     }
 
-    public Vector3 place()
+    public Tuple<Vector3, bool> place()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (platform.pointInBase(mousePos))
+        
+        if (platform.pointInBase(mousePos) && !platform.towerExists())
         {
-            placing = false;
             platform.disableRing();
-            return towerBase.transform.position;
+            platform.place();
+            placing = false;
+            return new Tuple<Vector3, bool>(towerBase.transform.position, true);
         }
-        return new Vector3();
+
+        return new Tuple<Vector3, bool>(new Vector3(), false);
     }
 
     private void OnDestroy()

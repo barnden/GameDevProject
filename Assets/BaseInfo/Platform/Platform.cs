@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngineInternal;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
@@ -21,14 +22,43 @@ public class Platform : MonoBehaviour
     [SerializeField] private bool displayRing = false;
     [SerializeField] private int defaultStartingSections;
     [SerializeField] private float ringZ;
-    private float ringIncrement;
-    private int startingSections;
+    private float towerRadius = 1.0f;
+    private float ringIncrement = 1.0f; //Towers take up 1.0f radius
+    private int startingSections = 4; //4,8,12 towers in radius 0,1,2
 
     private List<PlacementLine> placementLines = new List<PlacementLine>();
     private List<PlacementCircle> placementCircles = new List<PlacementCircle>();
 
     private Vector2 cursorPos;
-    private float towerRadius;
+    private CursorInfo cursorInfo;
+    
+    private HashSet<(int ringNum, int section)> placedTowers = new HashSet<(int ringNum, int section)>();
+
+    struct CursorInfo
+    {
+        public float cursorRadius;
+
+        public int ringNum;
+        public float innerRadius;
+        public float outerRadius;
+        public float snapRadius;
+
+        public float closestTheta;
+        public int closestSection;
+        public float snapAngle;
+
+        public CursorInfo(float cursorRad, int ringN, float innerRad, float outerRad, float snapRad, float closestThet, int closestSec, float snapAngl)
+        {
+            cursorRadius = cursorRad;
+            ringNum = ringN;
+            innerRadius = innerRad;
+            outerRadius = outerRad;
+            snapRadius = snapRad;
+            closestTheta = closestThet;
+            closestSection = closestSec;
+            snapAngle = snapAngl;
+        }
+    }
 
     private Vector2 rotatePoint(Vector2 point, float theta)
     {
@@ -107,6 +137,55 @@ public class Platform : MonoBehaviour
         }
     }
 
+    private void setCursorInfo()
+    {
+        Vector2 corePos = gameObject.transform.position;
+        float cursorRadius = Vector2.Distance(cursorPos, corePos);
+        Debug.Log(cursorRadius + " " + coreRadius + " " + ringIncrement);
+        int ringNum = (int)((cursorRadius - coreRadius) / ringIncrement);
+        float innerRadius = Mathf.Max(coreRadius + ringIncrement * ringNum, coreRadius);
+        float outerRadius = innerRadius + towerRadius;
+        float snapRadius = (innerRadius + outerRadius) / 2.0f;
+
+        int sections = startingSections + (int)(startingSections * (innerRadius - coreRadius));
+        float closestTheta = 0.0f;
+        int closestSection = 0;
+
+        float cursorAngle = Mathf.Atan2(snapRadius, 0.0f) - Mathf.Atan2(cursorPos.y - corePos.y, cursorPos.x - corePos.x);
+        if (cursorAngle < 0.0f)
+        {
+            cursorAngle += 2.0f * Mathf.PI;
+        }
+
+        for (int section = 0; section < sections; section++) //I bet there is some math to do this in O(1)
+        {
+            float theta = section * ((2.0f * Mathf.PI) / sections);
+            if (theta < cursorAngle)
+            {
+                closestTheta = theta;
+                closestSection = section;
+            }
+        }
+
+        float snapAngle = closestTheta + ((2.0f * Mathf.PI) / sections) / 2.0f;
+        
+        cursorInfo = new CursorInfo(cursorRadius, ringNum, innerRadius, outerRadius, snapRadius, closestTheta, closestSection, snapAngle);
+    }
+
+    public void setCursorPos(Vector2 cursor)
+    {
+        cursorPos = cursor;
+        setCursorInfo();
+    }
+
+    public Tuple<Vector2, float, int> getSnap()
+    {
+        Vector2 corePos = gameObject.transform.position;
+        cursorInfo.snapAngle = 2.0f * Mathf.PI - cursorInfo.snapAngle; //Mirror it
+        Vector2 snapPoint = rotatePoint(new Vector2(0.0f, cursorInfo.snapRadius), cursorInfo.snapAngle);
+        return new Tuple<Vector2, float, int>(snapPoint + corePos, cursorInfo.snapAngle, cursorInfo.ringNum);
+    }
+
     public void enableRing()
     {
         displayRing = true;
@@ -117,16 +196,19 @@ public class Platform : MonoBehaviour
         displayRing = false;
     }
 
-    public void setTowerRadius(float tower)
+    public bool towerExists()
     {
-        towerRadius = tower;
-        ringIncrement = towerRadius;
-        startingSections = (int)(defaultStartingSections / towerRadius);
+        return placedTowers.Contains((cursorInfo.ringNum, cursorInfo.closestSection));
     }
 
-    public void setCursorPos(Vector2 cursor)
+    public void place()
     {
-        cursorPos = cursor;
+        placedTowers.Add((cursorInfo.ringNum, cursorInfo.closestSection));
+    }
+
+    public void delete()
+    {
+        placedTowers.Remove((cursorInfo.ringNum, cursorInfo.closestSection));
     }
 
     public bool pointInBase(Vector2 point)
@@ -135,38 +217,5 @@ public class Platform : MonoBehaviour
         float pointRadius = Vector2.Distance(point, corePosition);
         float baseRadius = baseRadii[coreData.getLevel()];
         return pointRadius < baseRadius;
-    }
-
-    public Tuple<Vector2, float, int> getSnap()
-    {
-        Vector2 corePos = gameObject.transform.position;
-        float cursorRadius = Vector2.Distance(cursorPos, corePos);
-        int ringNum = (int)((cursorRadius - coreRadius) / ringIncrement);
-        float innerRadius = Mathf.Max(coreRadius + ringIncrement * ringNum, coreRadius);
-        float outerRadius = innerRadius + towerRadius;
-
-        float snapRadius = (innerRadius + outerRadius) / 2.0f;
-
-        float angle = Mathf.Atan2(snapRadius, 0.0f) - Mathf.Atan2(cursorPos.y - corePos.y, cursorPos.x - corePos.x);
-        if(angle < 0.0f)
-        {
-            angle += 2.0f * Mathf.PI;
-        }
-
-        int sections = startingSections + (int)(startingSections * (innerRadius - coreRadius));
-        float closestTheta = 0.0f;
-        for (int section = 0; section < sections; section++) //I bet there is some math to do this in O(1)
-        {
-            float theta = section * ((2.0f * Mathf.PI) / sections);
-            if(theta < angle)
-            {
-                closestTheta = theta;
-            }
-        }
-
-        float snapAngle = closestTheta + ((2.0f * Mathf.PI) / sections) / 2.0f;
-        snapAngle = 2.0f * Mathf.PI - snapAngle; //Mirror it
-        Vector2 snapPoint = rotatePoint(new Vector2(0.0f, snapRadius), snapAngle);
-        return new Tuple<Vector2, float, int>(snapPoint + corePos, snapAngle, ringNum);
     }
 }

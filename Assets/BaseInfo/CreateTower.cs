@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine;
 public class CreateTower : MonoBehaviour
 {
     [SerializeField] public KeyCode keyCode;
-    [SerializeField] public Tower.TowerSize towerSize;
 
     private Platform platform;
     private GameObject tower;
@@ -26,15 +26,18 @@ public class CreateTower : MonoBehaviour
 
             towerBase = tower.AddComponent<Tower>();
             towerBase.parent = tower;
-            towerBase.towerSize = towerSize;
 
             placing = true;
         }
 
         if(placing && Input.GetMouseButtonDown(0)) //Left click
         {
-            Vector3 placement = towerBase.place();
-            placing = false;
+            Tuple<Vector3, bool> placement = towerBase.place();
+            Debug.Log(placement.Item1 + " " + placement.Item2);
+            if(placement.Item2)
+            {
+                placing = false;
+            }
         }
     }
 }
