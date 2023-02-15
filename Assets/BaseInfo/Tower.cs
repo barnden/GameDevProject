@@ -20,7 +20,7 @@ public class Tower : MonoBehaviour
     private GameObject towerBase;
     private SpriteRenderer spriteRenderer;
 
-    private void Start()
+    private void Awake()
     {
         platform = GameObject.Find("Platform").GetComponent<Platform>();
 
@@ -40,7 +40,6 @@ public class Tower : MonoBehaviour
 
         towerBase = new GameObject("Tower Base");
         spriteRenderer = towerBase.AddComponent<SpriteRenderer>();
-        towerBase.transform.parent = parent.transform;
         switch (towerSize)
         {
             case TowerSize.Tiny: spriteRenderer.sprite = tinySprites[0]; break;
@@ -48,6 +47,11 @@ public class Tower : MonoBehaviour
             case TowerSize.Giant: spriteRenderer.sprite = giantSprites[0]; break;
         }
         placing = true;
+    }
+
+    private void Start()
+    {
+        towerBase.transform.parent = parent.transform;
     }
 
     private void Update()
@@ -93,6 +97,11 @@ public class Tower : MonoBehaviour
             
             towerBase.transform.position = towerPos;
         }
+    }
+
+    public GameObject getTowerBase()
+    {
+        return towerBase;
     }
 
     public Vector3 place()

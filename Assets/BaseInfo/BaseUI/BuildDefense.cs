@@ -54,10 +54,13 @@ public class BuildDefense : MonoBehaviour
     public void BuyDefense()
     {
         defense = Instantiate(objectSpawned);
-        defense.transform.parent = parentBase;
+        //defense.transform.parent = parentBase.transform;
+        //defense.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+        //defense.transform.localPosition = new Vector3(0.0f, 0.0f, -1.0f); //Relative to parent
         towerBase = defense.AddComponent<Tower>();
-        towerBase.parent = defense;
+        towerBase.parent = parentBase.gameObject;
         towerBase.towerSize = Tower.TowerSize.Medium;
+        defense.transform.parent = towerBase.getTowerBase().transform;
 
         defenseSprite = defense.GetComponentInChildren<SpriteRenderer>();
         numberOfClicks = 0;
