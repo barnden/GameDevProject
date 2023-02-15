@@ -28,6 +28,13 @@ public class EnemyOrbSystem : MonoBehaviour
             
             collision.gameObject.SetActive(false);
             Destroy(gameObject);
+        } else if (collision.CompareTag("AOE"))
+        {
+            // TODO: Do AOE effect like slow instead of killing
+            GameObject orbDropped = Instantiate(orb);
+            orbDropped.transform.position = transform.position;
+
+            Destroy(gameObject);
         }
     }
 }

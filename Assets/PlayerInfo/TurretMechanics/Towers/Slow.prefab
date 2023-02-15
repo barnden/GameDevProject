@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4724325390786108629
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1620287973, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: turretBullet
+      value: 
+      objectReference: {fileID: 7150589617343257682, guid: 110058ab48872bb4cbff85f5ce91fa78, type: 3}
+    - target: {fileID: 1620287973, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: turretRadius
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1620287973, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: turretBulletLifetime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.16314927
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5901519
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.003986544
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849813528197358501, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517641822260694264, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071023942100361842, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_Name
+      value: Slow Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 6429059857514554357, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_Color.g
+      value: 0.614023
+      objectReference: {fileID: 0}
+    - target: {fileID: 6429059857514554357, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dbc2966caa4a198409b837f77ee06e98, type: 3}
