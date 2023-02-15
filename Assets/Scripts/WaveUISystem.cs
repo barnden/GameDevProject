@@ -7,17 +7,27 @@ using TMPro; // for interfacing with the system's subobjects (timer, wave number
 public class WaveUISystem : MonoBehaviour
 {
     [Serializable]
+    private class WaveEnemyParams
+    {
+        public GameObject enemyToSpawn;
+        public int numToSpawn;
+        public float delayForEachSpawn;
+        public float spawnRadius;
+    }
+
+    [Serializable]
     private class WaveInfo
     {
         public int waveTime;
         public string waveName;
         public string waveDescription;
-        public Sprite[] waveSprites;
+        public WaveEnemyParams[] waveEnemies;
     }
 
     [SerializeField] TextMeshProUGUI timer;
     [SerializeField] TextMeshProUGUI waveCounter;
     [SerializeField] WaveInfo[] waveList;
+    public GameObject playerLocation; // TO BE DELETED
 
     // Start is called before the first frame update
     void Start()
@@ -41,9 +51,28 @@ public class WaveUISystem : MonoBehaviour
                 Debug.Log("Start wave!: " + currentWave.waveName);
                 waveCounter.GetComponent<WaveCounter>().setWave(currentWaveNumber + 1);
 
+                // Spawn the wave
+                StartCoroutine(SpawnWave(currentWave));
+                
             }
-
             // display waveSprites
+        }
+    }
+
+    IEnumerator SpawnWave(WaveInfo currentWave)
+    {
+        // Instantiate each enemy within the current wave
+        foreach (WaveEnemyParams currWaveEnemy in currentWave.waveEnemies)
+        {
+            for (int enemyCounter = 0; enemyCounter < currWaveEnemy.numToSpawn; enemyCounter++)
+            {
+                GameObject enemySpawned = Instantiate(currWaveEnemy.enemyToSpawn);
+
+                // find random enemy position
+                Vector3 spawnPos = RandomEnemyPosition(currWaveEnemy.spawnRadius, 1.0f);
+                enemySpawned.transform.position = playerLocation.transform.position + spawnPos;
+                yield return new WaitForSeconds(currWaveEnemy.delayForEachSpawn);
+            }
         }
     }
 
@@ -51,4 +80,14 @@ public class WaveUISystem : MonoBehaviour
     {
         waveCounter.GetComponent<WaveCounter>().getWave();
     }
+    public Vector3 RandomEnemyPosition(float radius, float offset)
+    {
+        float randomAngle = UnityEngine.Random.Range(0.0f, Mathf.PI) * Mathf.Rad2Deg;
+        float xPos = radius * Mathf.Cos(randomAngle);
+        float yPos = radius * Mathf.Sin(randomAngle);
+        return new Vector3(xPos,yPos, 0);
+    }
+
+    // Checks that all params are filled and valid
+
 }

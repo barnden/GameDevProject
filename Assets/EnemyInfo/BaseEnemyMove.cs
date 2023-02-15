@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class BaseEnemyMove : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject playerToFollow;
-    public float baseEnemySpeed;
 
-    private void OnEnable()
-    {
-        playerToFollow = GameObject.FindGameObjectWithTag("Player");
-    }
-    void Start()
-    {
-        
-    }
+    [SerializeField] float baseEnemySpeed;
+    [SerializeField] bool isDirectMovement;
+    private GameObject target = null;
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(baseEnemySpeed * Time.deltaTime * (playerToFollow.transform.position - transform.position).normalized);
+        if (target != null)
+        {
+            transform.Translate(baseEnemySpeed * Time.deltaTime * (target.transform.position - transform.position).normalized);
+        }
+    }
+
+    public void setTarget(GameObject target)
+    {
+        this.target = target;
     }
 }
