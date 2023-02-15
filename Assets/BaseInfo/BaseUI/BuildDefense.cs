@@ -29,10 +29,10 @@ public class BuildDefense : MonoBehaviour
         {
             print("placed object");
             numberOfClicks = 1;
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;
-            defense.transform.position = mousePosition;
-            //Vector3 placement = towerBase.place();
+            //Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //mousePosition.z = 0;
+            //defense.transform.position = mousePosition;
+            Vector3 placement = towerBase.place();
             defenseSprite.color = new Color(0f, 0f, 0f, 1f);
             spawning = false;
         }
@@ -42,9 +42,9 @@ public class BuildDefense : MonoBehaviour
     {
         if(defense != null && numberOfClicks == 0)
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = 0;
-            defense.transform.position = mousePosition;
+            //Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //mousePosition.z = 0;
+            //defense.transform.position = mousePosition;
 
             defenseSprite.color = new Color(1, 1, 1, .5f);
             spawning = true;
@@ -54,10 +54,10 @@ public class BuildDefense : MonoBehaviour
     public void BuyDefense()
     {
         defense = Instantiate(objectSpawned);
-        //defense.transform.parent = parentBase;
-        //towerBase = defense.AddComponent<Tower>();
-        //towerBase.parent = defense;
-        //towerBase.towerSize = Tower.TowerSize.Medium;
+        defense.transform.parent = parentBase;
+        towerBase = defense.AddComponent<Tower>();
+        towerBase.parent = defense;
+        towerBase.towerSize = Tower.TowerSize.Medium;
 
         defenseSprite = defense.GetComponentInChildren<SpriteRenderer>();
         numberOfClicks = 0;
