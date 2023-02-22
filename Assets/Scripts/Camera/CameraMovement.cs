@@ -18,8 +18,6 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
-        
-
         if(Input.mouseScrollDelta.y != 0)
         {
             scrollBase = false;
@@ -32,6 +30,7 @@ public class CameraMovement : MonoBehaviour
 
         if(horizontal != 0.0f || vertical != 0.0f)
         {
+            scrollBase = false;
             baseCentered = false;
         }
 
