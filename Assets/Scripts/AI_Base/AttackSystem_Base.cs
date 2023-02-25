@@ -22,15 +22,29 @@ public class AttackSystem_Base : MonoBehaviour
 
     [SerializeField] ProjectileParams[] projectilesToFire;
     private GameObject target = null;
+    private List<IEnumerator> coroutines;
     public void setTarget(GameObject target)
     {
         this.target = target;
+    }
 
-        // Get front of enemy so we can instantiate object between enemy and target
+    public void Start()
+    {
+        coroutines = new List<IEnumerator>();
 
         foreach (ProjectileParams currProjectileParams in projectilesToFire)
         {
-            StartCoroutine(FireProjectile(currProjectileParams));
+            var coroutine = FireProjectile(currProjectileParams);
+            coroutines.Add(coroutine);
+            StartCoroutine(coroutine);
+        }
+    }
+
+    public void OnDestroy()
+    {
+        foreach (var coroutine in coroutines)
+        {
+            StopCoroutine(coroutine);
         }
     }
 
@@ -39,8 +53,13 @@ public class AttackSystem_Base : MonoBehaviour
         // keep the subrutine running so the enemy keeps firing
         while(true)
         {
-            if (!target) { yield break; }
+            if (!target) {
+                yield return new WaitForSeconds(param.fireRate);
+            }
+
+            // FIXME: Somehow !target lets null thru
             Vector2 targetDir = target.transform.position - transform.position;
+            targetDir.Normalize();
 
             // find front of enemy to instantiate bullet
             Vector2 front = new Vector2(transform.position.x + (targetDir.x * param.distToSpawnProjectile), 

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6208993482456013279}
   - component: {fileID: 8425825489313815657}
   - component: {fileID: 9074310293624954182}
-  - component: {fileID: -5399958641287043309}
+  - component: {fileID: 7956958413074660310}
   - component: {fileID: 4445653251142912815}
   - component: {fileID: -1541882329994755046}
   m_Layer: 0
@@ -163,11 +163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08fe0b77627d15478868b4f85209cbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locomotionSystem: {fileID: -5399958641287043309}
+  locomotionSystem: {fileID: 7956958413074660310}
   attackSystem: {fileID: 4445653251142912815}
   targetTags:
   - Player
---- !u!114 &-5399958641287043309
+--- !u!114 &7956958413074660310
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -176,10 +176,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 962644661464884768}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e56fb546e916de342ae1eb1d66b47b1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6410c959596ba184e86713a51117b3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseEnemySpeed: 2
+  baseEnemySpeed: 1
   isDirectMovement: 0
 --- !u!114 &4445653251142912815
 MonoBehaviour:
@@ -196,10 +196,10 @@ MonoBehaviour:
   projectilesToFire:
   - projectile: {fileID: 4967661330752684158, guid: c2f2d1947ec9ba84784b8e97f9fa605d, type: 3}
     distToSpawnProjectile: 0.1
-    lifetime: 5
+    lifetime: 1
     speed: 0.5
     damage: 10
-    fireRate: 0.5
+    fireRate: 2
     AOESize: 0.1
     fireSpread: 0
 --- !u!114 &-1541882329994755046
@@ -224,4 +224,16 @@ MonoBehaviour:
       m_Calls: []
   OnDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8425825489313815657}
+        m_TargetAssemblyTypeName: EnemyOrbSystem, Assembly-CSharp
+        m_MethodName: DropOrb
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: DropOrb
+          m_BoolArgument: 0
+        m_CallState: 2

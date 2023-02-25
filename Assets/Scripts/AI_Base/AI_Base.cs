@@ -7,24 +7,42 @@ using UnityEngine;
  */
 public class AI_Base : MonoBehaviour
 {
-    [SerializeField] LocomotionSystem_Base locomotionSystem;
+    [SerializeField] LocomotionSystem locomotionSystem;
     [SerializeField] AttackSystem_Base attackSystem;
     [SerializeField] string[] targetTags;
-    private void OnEnable()
+
+    private GameObject target = null;
+
+    private void Retarget()
     {
 
         // validate all components
         //checkComponentsAreValid();
 
         // find and send target to ai components
-        GameObject closestTarget = findValidTargetWithTag(targetTags);
-        if (locomotionSystem) 
-        { 
-            locomotionSystem.setTarget(closestTarget); 
+        target = findValidTargetWithTag(targetTags);
+
+        if (locomotionSystem)
+        {
+            locomotionSystem.setTarget(target);
         }
-        if (attackSystem) 
-        { 
-            attackSystem.setTarget(closestTarget); 
+        if (attackSystem)
+        {
+            attackSystem.setTarget(target);
+        }
+    }
+
+    private void Start()
+    {
+        Retarget();
+    }
+
+
+    private void Update()
+    {
+        if (target == null)
+        {
+            Retarget();
         }
     }
 
@@ -36,6 +54,9 @@ public class AI_Base : MonoBehaviour
         // find all with tags
         List<GameObject> targetList = findAllTargetsWithTagsList(tagsToFind);
 
+        if (targetList.Count == 0)
+            return null;
+
         // Find the closest object to target
         GameObject closestObj = targetList[0];
         Vector3 myPos = transform.position;
@@ -44,10 +65,10 @@ public class AI_Base : MonoBehaviour
         // we can have the loop check the first index again, it's overhead is minimal
         foreach (GameObject currObjectToCheckDist in targetList)
         {
-            float currObjDist = Vector3.Distance(myPos, 
+            float currObjDist = Vector3.Distance(myPos,
                                                  currObjectToCheckDist.transform.position);
-            if (currObjDist < shortestDist) 
-            { 
+            if (currObjDist < shortestDist)
+            {
                 shortestDist = currObjDist;
                 closestObj = currObjectToCheckDist;
             }
@@ -72,9 +93,9 @@ public class AI_Base : MonoBehaviour
         // Something went wrong if no targets were found
         if (targetList.Count == 0)
         {
-            Debug.Log(this.name.ToString() + ": unable to find target with tag");
-            this.enabled = false; // turn off the script so nothing weird happens
-            return null;
+            //Debug.Log(this.name.ToString() + ": unable to find target with tag");
+            //this.enabled = false; // turn off the script so nothing weird happens
+            return new List<GameObject>();
         }
         return targetList;
     }
