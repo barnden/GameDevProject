@@ -64,6 +64,8 @@ public class BaseProjectile : MonoBehaviour
             {
                 Destroy(self);
             }
+
+            collision.GetComponent<HealthComponent>().ChangeHealth(-damage);
         }
     }
 

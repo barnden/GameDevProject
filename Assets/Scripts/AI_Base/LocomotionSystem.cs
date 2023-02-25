@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // This will become an abstract class for both enemies and turrets to reference
-public class LocomotionSystem_Base : MonoBehaviour
+public abstract class LocomotionSystem : MonoBehaviour
 {
 
-    [SerializeField] float baseEnemySpeed;
-    [SerializeField] bool isDirectMovement;
-    private GameObject target = null;
+    [SerializeField] protected float baseEnemySpeed;
+    [SerializeField] protected bool isDirectMovement;
+    protected GameObject target = null;
+
+    public abstract void Target();
+
 
     // Update is called once per frame
     void Update()
     {
         if (target != null)
         {
-            transform.Translate(baseEnemySpeed * Time.deltaTime * (target.transform.position - transform.position).normalized);
+            Target();
         }
     }
 
