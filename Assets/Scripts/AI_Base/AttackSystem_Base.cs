@@ -23,6 +23,7 @@ public class AttackSystem_Base : MonoBehaviour
     [SerializeField] ProjectileParams[] projectilesToFire;
     private GameObject target = null;
     private List<IEnumerator> coroutines;
+
     public void setTarget(GameObject target)
     {
         this.target = target;
@@ -53,26 +54,24 @@ public class AttackSystem_Base : MonoBehaviour
         // keep the subrutine running so the enemy keeps firing
         while(true)
         {
-            if (!target) {
-                yield return new WaitForSeconds(param.fireRate);
+            if(target)
+            {
+                Vector2 targetDir = target.transform.position - transform.position;
+                targetDir.Normalize();
+
+                // find front of enemy to instantiate bullet
+                Vector2 front = new Vector2(transform.position.x + (targetDir.x * param.distToSpawnProjectile),
+                                            transform.position.y + (targetDir.y * param.distToSpawnProjectile));
+
+                // Instantiate the projectile with provided params
+                GameObject projectile = Instantiate(param.projectile, front, Quaternion.identity);
+
+                /*projectile.GetComponent<BaseProjectile>().Init(projectile, param.lifetime, 
+                                                            param.speed, param.damage, 
+                                                            param.AOESize, targetDir);*/
+                projectile.GetComponent<BaseProjectile>().Init(projectile); // To be removed once custom UI for inspector is made
+                projectile.GetComponent<BaseProjectile>().setDirection(targetDir); // To be removed once custom UI for inspector is made
             }
-
-            // FIXME: Somehow !target lets null thru
-            Vector2 targetDir = target.transform.position - transform.position;
-            targetDir.Normalize();
-
-            // find front of enemy to instantiate bullet
-            Vector2 front = new Vector2(transform.position.x + (targetDir.x * param.distToSpawnProjectile), 
-                                        transform.position.y + (targetDir.y * param.distToSpawnProjectile));
-
-            // Instantiate the projectile with provided params
-            GameObject projectile = Instantiate(param.projectile, front, Quaternion.identity);
-
-            /*projectile.GetComponent<BaseProjectile>().Init(projectile, param.lifetime, 
-                                                        param.speed, param.damage, 
-                                                        param.AOESize, targetDir);*/
-            projectile.GetComponent<BaseProjectile>().Init(projectile); // To be removed once custom UI for inspector is made
-            projectile.GetComponent<BaseProjectile>().setDirection(targetDir); // To be removed once custom UI for inspector is made
 
             yield return new WaitForSeconds(param.fireRate);
         }

@@ -22,6 +22,7 @@ public class BuildDefense : MonoBehaviour
             if (placement.Item2) //Placed successfully
             {
                 numberOfClicks = 1;
+                defense.GetComponent<AI_Base>().enabled = true; //Turn the AI on once placed
                 defenseSprite.color = new Color(0f, 0f, 0f, 1f);
                 spawning = false;
             }
@@ -44,6 +45,8 @@ public class BuildDefense : MonoBehaviour
         towerBase = defense.AddComponent<Tower>();
         towerBase.parent = parentBase.gameObject;
         defense.transform.parent = towerBase.getTowerBase().transform;
+
+        defense.GetComponent<AI_Base>().enabled = false; //Turn off the AI while placing
 
         defenseSprite = defense.GetComponentInChildren<SpriteRenderer>();
         numberOfClicks = 0;
