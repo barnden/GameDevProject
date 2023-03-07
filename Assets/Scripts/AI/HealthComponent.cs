@@ -28,37 +28,39 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
     /// <param name="amount">Net amount to change health by. Negative changes cause damage. Positive changes cause healing.</param>
     public void DamageStat(Stats statToDamage, float amount)
     {
-        currentHealth -= amount;
+        switch (statToDamage)
+        {
+            case Stats.HEALTH:
+                currentHealth -= amount;
 
-        // prevent healing past maxHealth
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        
-        invokeReponse(amount);
+                // prevent healing past maxHealth
+                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+                invokeReponse(amount);
+                return;
+
+            default:
+                return;
+        }
     }
 
     public void SetStat(Stats statToDamage, float value)
     {
-        currentHealth -= value;
-
-        // prevent healing past maxHealth
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
-        invokeReponse(value);
-    }
-
-    /*
-    bool IsValidCompStat(Stats statToCheck)
-    {
-        switch (statToCheck)
+        switch (statToDamage)
         {
             case Stats.HEALTH:
-                return true;
+                currentHealth = value;
+
+                // prevent healing past maxHealth
+                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+                invokeReponse(value);
+                return;
 
             default:
-                return false;
+                return;
         }
     }
-    */
 
     /// If healing occured the OnHeal event will be invoked.
     /// If health dropped below 0 OnDeath will be invoked.
@@ -80,4 +82,18 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         }
 
     }
+
+    /*
+    bool IsValidCompStat(Stats statToCheck)
+    {
+        switch (statToCheck)
+        {
+            case Stats.HEALTH:
+                return true;
+
+            default:
+                return false;
+        }
+    }
+    */
 }
