@@ -6,8 +6,12 @@ using UnityEngine;
 public interface BaseAIComponent
 {
     // Damages (or heals if negative) a given stat
-    void DamageStat(Stats statToAdjust, float amount);
+    void DamageStat(Stats statToDamage, float amount);
     
     // Sets a given stat to a specified value
-    void SetStat(Stats statToAdjust, float amount);
+    void SetStat(Stats statToSet, float value);
+
+    // Checks for valid stats (ex: The health component would fail if
+    // speed was requested to be altered
+    // bool IsValidCompStat(Stats statToCheck);
 }
