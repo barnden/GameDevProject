@@ -17,11 +17,6 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         currentHealth = maxHealth;
     }
 
-    void Update()
-    {
-
-    }
-
     /// <summary>
     /// Changes health by the value specified amount.
     /// </summary>
