@@ -6,6 +6,6 @@ public class LocomotionTranslate : LocomotionSystem
 {
     public override void Target()
     {
-        transform.Translate(baseEnemySpeed * Time.deltaTime * (target.transform.position - transform.position).normalized);
+        transform.Translate(speed * Time.deltaTime * (target.transform.position - transform.position).normalized);
     }
 }
