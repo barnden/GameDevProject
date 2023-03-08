@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Damage Instant", menuName = "StatusTypes/StatDamageInstant", order = 1)]
-public class StatDamageInstant : BaseStatusEffect
+// Damage is applied instantly
+[CreateAssetMenu(fileName = "Dmg", menuName = "StatusTypes/StatDmgInstant", order = 1)]
+public class StatDmgInstant : BaseStatusEffect
 {
     public override void Apply(StatusSystem entityStatSysToEffect,
                                 BaseAIComponent compToEffect)
     {
-        compToEffect.DamageStat(statToEffect, amount);   
+        compToEffect.DamageStat(statToEffect, amount);
     }
 }
