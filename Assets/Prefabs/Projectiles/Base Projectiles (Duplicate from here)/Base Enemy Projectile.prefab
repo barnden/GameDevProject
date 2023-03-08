@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3193240227853100158}
   - component: {fileID: 7699977890187544110}
   m_Layer: 6
-  m_Name: Basic Enemy Projectile
+  m_Name: Base Enemy Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   targetTags:
   - Player
   effects: []
-  recursiveProjectile: {fileID: 4967661330752684158, guid: 1fc7b2596f7c8644f8054655ebc6fa39, type: 3}
+  recursiveProjectile: {fileID: 0}
   dieOnCollision: 1
   lifeTime: 5
   speed: 5

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77542e7464d03804db9a6ca12d47848f, type: 3}
-  m_Name: DOTSpeed_1pt
-  m_EditorClassIdentifier: 
-  statToEffect: 2
-  amount: 1
-  Duration: 2
+  m_Script: {fileID: 11500000, guid: fdeae6486e4b7e44ca4b5568c00b700d, type: 3}
+  m_Name: DamageHealth_3pt
+  m_EditorClassIdentifier: Assembly-CSharp::Damage
+  statToEffect: 1
+  isStackable: 0
+  amount: 3

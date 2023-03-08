@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77542e7464d03804db9a6ca12d47848f, type: 3}
-  m_Name: DOTHealth_2pt
+  m_Name: DOTSpeed_1pt_2sec
   m_EditorClassIdentifier: 
-  statToEffect: 1
-  amount: 2
-  Duration: 5
+  statToEffect: 2
+  amount: 1
+  Duration: 2
