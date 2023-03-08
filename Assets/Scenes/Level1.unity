@@ -161,7 +161,7 @@ MonoBehaviour:
     lifetime: 5
     speed: 2
     damage: 1
-    fireRate: 0.5
+    fireRate: 2
     AOESize: 0
     fireSpread: 0
 --- !u!114 &53922365
@@ -176,7 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736f3c63ebba1f947a958c2c202c25bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseEnemySpeed: 0
+  speed: 0
+  maxSpeed: 0
   isDirectMovement: 0
 --- !u!114 &53922366
 MonoBehaviour:
@@ -918,11 +919,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.735
+      value: 4.28
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.423
+      value: 1.94
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.z
