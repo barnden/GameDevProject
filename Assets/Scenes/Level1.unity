@@ -161,7 +161,7 @@ MonoBehaviour:
     lifetime: 5
     speed: 2
     damage: 1
-    fireRate: 1
+    fireRate: 0.5
     AOESize: 0
     fireSpread: 0
 --- !u!114 &53922365
@@ -179,6 +179,7 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0
   isDirectMovement: 0
+  rawSpeed: 0
 --- !u!114 &53922366
 MonoBehaviour:
   m_ObjectHideFlags: 0

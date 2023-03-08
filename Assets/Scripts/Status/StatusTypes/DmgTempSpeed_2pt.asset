@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: DmgTempSpeed_2pt
   m_EditorClassIdentifier: 
   statToEffect: 2
+  isStackable: 1
   amount: 2
   Duration: 1

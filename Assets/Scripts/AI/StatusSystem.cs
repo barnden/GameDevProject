@@ -18,7 +18,7 @@ public class StatusSystem : MonoBehaviour
     {
         // No need to keep track of the se if it's only going
         // to apply perminant damage once and never again
-        if (se is StatDmgInstant)
+        if (se is StatDmgInstant || se.isStackable)
         {
             se.Apply(this, getEffectedComponent(se.statToEffect));
         }

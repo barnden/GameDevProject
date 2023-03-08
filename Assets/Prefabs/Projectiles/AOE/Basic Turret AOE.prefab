@@ -142,6 +142,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 41eb249083a1e854f8bb1785e5f4c531, type: 2}
   recursiveProjectile: {fileID: 0}
   dieOnCollision: 0
-  lifeTime: 5
+  lifeTime: 1
   speed: 0
   scale: 1

@@ -11,8 +11,16 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
     [SerializeField] protected bool isDirectMovement;
     protected GameObject target = null;
 
+    // without bounds, used to calculate status changes, so stackable
+    // status do not step on each others toes when reverting damage, ect
+    public float rawSpeed;
+
     public abstract void Target();
 
+    void Start()
+    {
+        rawSpeed = speed;
+    }
 
     // Update is called once per frame
     void Update()
@@ -33,11 +41,12 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
         switch (statToDamage)
         {
             case Stats.SPEED:
-                speed -= amount;
+                rawSpeed -= amount;
+
 
                 // prevent healing past maxHealth
                 // give small wiggle room to protect against float inaccuracies
-                speed = Mathf.Clamp(speed, 0.0f, maxSpeed);
+                speed = Mathf.Clamp(rawSpeed, 0.0f, maxSpeed);
                 return;
 
             default:
@@ -50,10 +59,10 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
         switch (statToDamage)
         {
             case Stats.SPEED:
-                speed = value;
+                rawSpeed = value;
 
                 // we don't want to have negative speed
-                speed = Mathf.Clamp(speed, 0.0f, maxSpeed);
+                speed = Mathf.Clamp(rawSpeed, 0.0f, maxSpeed);
                 return;
 
             default:
