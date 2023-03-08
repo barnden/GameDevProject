@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdeae6486e4b7e44ca4b5568c00b700d, type: 3}
-  m_Name: DamageHealth_5pt
+  m_Name: DamageHealth_10pt
   m_EditorClassIdentifier: Assembly-CSharp::Damage
   statToEffect: 1
   amount: 10

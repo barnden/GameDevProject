@@ -331,6 +331,10 @@ PrefabInstance:
       value: 102
       objectReference: {fileID: 0}
     - target: {fileID: 3427060631372646993, guid: 087cd05e5fbd77e4abbe2ba7c1fcec79, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427060631372646993, guid: 087cd05e5fbd77e4abbe2ba7c1fcec79, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -919,11 +923,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.28
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.94
+      value: 3.38
       objectReference: {fileID: 0}
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -956,6 +960,14 @@ PrefabInstance:
     - target: {fileID: 962644661464884782, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[0].fireRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4445653251142912815, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}
+      propertyPath: projectilesToFire.Array.data[0].distToSpawnProjectile
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 167cdb38e5288984c97c4e3fff5d97a8, type: 3}

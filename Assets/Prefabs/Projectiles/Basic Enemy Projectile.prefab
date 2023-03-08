@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 4967661330752684128}
   - component: {fileID: 4967661330752684129}
   - component: {fileID: -4100914919882022276}
+  - component: {fileID: 3193240227853100158}
   - component: {fileID: 7699977890187544110}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Basic Enemy Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,6 +103,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!50 &3193240227853100158
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967661330752684158}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &7699977890187544110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,9 +138,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTags:
   - Player
+  effects: []
   recursiveProjectile: {fileID: 4967661330752684158, guid: 1fc7b2596f7c8644f8054655ebc6fa39, type: 3}
   dieOnCollision: 1
   lifeTime: 5
   speed: 5
-  damage: 10
   scale: 1

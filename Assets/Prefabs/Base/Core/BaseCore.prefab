@@ -122,7 +122,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCode: 102
-  towerSize: 0
 --- !u!114 &3427060630855968925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCode: 103
-  towerSize: 1
 --- !u!114 &3427060630855968914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCode: 104
-  towerSize: 2
 --- !u!1 &3427060631372646993
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +162,7 @@ GameObject:
   - component: {fileID: 3427060631853910635}
   - component: {fileID: 3427060631853910632}
   - component: {fileID: 3427060631853910633}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BaseCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
