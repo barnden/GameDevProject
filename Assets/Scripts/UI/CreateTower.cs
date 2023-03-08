@@ -32,7 +32,7 @@ public class CreateTower : MonoBehaviour
 
         if(placing && Input.GetMouseButtonDown(0)) //Left click
         {
-            Tuple<Vector3, bool> placement = towerBase.place();
+            Tuple<Vector3, bool> placement = towerBase.place(tower);
             Debug.Log(placement.Item1 + " " + placement.Item2);
             if(placement.Item2)
             {

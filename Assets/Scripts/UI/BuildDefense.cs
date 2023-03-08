@@ -18,7 +18,7 @@ public class BuildDefense : MonoBehaviour
     {
         if(Input.GetMouseButton(0) && spawning == true)
         {
-            Tuple<Vector3, bool> placement = towerBase.place();
+            Tuple<Vector3, bool> placement = towerBase.place(defense);
             if (placement.Item2) //Placed successfully
             {
                 numberOfClicks = 1;
@@ -48,6 +48,15 @@ public class BuildDefense : MonoBehaviour
 
         defense.GetComponent<AI_Base>().enabled = false; //Turn off the AI while placing
 
+        defenseSprite = defense.GetComponentInChildren<SpriteRenderer>();
+        numberOfClicks = 0;
+    }
+
+    public void MoveDefense(GameObject def)
+    {
+        defense = def;
+        towerBase = defense.GetComponent<Tower>();
+        towerBase.setPlacing(true);
         defenseSprite = defense.GetComponentInChildren<SpriteRenderer>();
         numberOfClicks = 0;
     }

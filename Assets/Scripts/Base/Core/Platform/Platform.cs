@@ -32,7 +32,8 @@ public class Platform : MonoBehaviour
     private Vector2 cursorPos;
     private CursorInfo cursorInfo;
     
-    private HashSet<(int ringNum, int section)> placedTowers = new HashSet<(int ringNum, int section)>();
+    //private HashSet<(int ringNum, int section)> placedTowers = new HashSet<(int ringNum, int section)>();
+    private Dictionary<(int ringNum, int section), GameObject> placedTowers = new Dictionary<(int ringNum, int section), GameObject>();
 
     struct CursorInfo
     {
@@ -135,6 +136,15 @@ public class Platform : MonoBehaviour
                 drawRing(innerRadius, outerRadius);
             }
         }
+        
+        if(Input.GetMouseButtonDown(1))
+        {
+            Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if(pointInBase(cursorPos))
+            {
+                setCursorPos(cursorPos);
+            }
+        }
     }
 
     private void setCursorInfo()
@@ -198,17 +208,19 @@ public class Platform : MonoBehaviour
 
     public bool towerExists()
     {
-        return placedTowers.Contains((cursorInfo.ringNum, cursorInfo.closestSection));
+        return placedTowers.ContainsKey((cursorInfo.ringNum, cursorInfo.closestSection));
     }
 
-    public void place()
+    public void place(GameObject obj)
     {
-        placedTowers.Add((cursorInfo.ringNum, cursorInfo.closestSection));
+        placedTowers.Add((cursorInfo.ringNum, cursorInfo.closestSection), obj);
     }
 
-    public void delete()
+    public GameObject delete()
     {
+        GameObject obj = placedTowers[(cursorInfo.ringNum, cursorInfo.closestSection)];
         placedTowers.Remove((cursorInfo.ringNum, cursorInfo.closestSection));
+        return obj;
     }
 
     public bool pointInBase(Vector2 point)

@@ -47,11 +47,6 @@ public class CameraMovement : MonoBehaviour
 
             Vector3 cameraDelta = new Vector3((basePos.x - pos.x) / baseCenteringSpeed, (basePos.y - pos.y) / baseCenteringSpeed, 0.0f);
             gameObject.transform.position += cameraDelta;
-
-            if(gameObject.transform.position.x == basePos.x && gameObject.transform.position.y == basePos.y)
-            {
-                baseCentered = false;
-            }
         }
 
         if(scrollBase)

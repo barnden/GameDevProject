@@ -60,14 +60,19 @@ public class Tower : MonoBehaviour
         return towerBase;
     }
 
-    public Tuple<Vector3, bool> place()
+    public void setPlacing(bool p)
+    {
+        placing = p;
+    }
+
+    public Tuple<Vector3, bool> place(GameObject obj)
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
         if (platform.pointInBase(mousePos) && !platform.towerExists())
         {
             platform.disableRing();
-            platform.place();
+            platform.place(obj);
             placing = false;
             return new Tuple<Vector3, bool>(towerBase.transform.position, true);
         }
