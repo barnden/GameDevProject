@@ -29,7 +29,8 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
                 currentHealth -= amount;
 
                 // prevent healing past maxHealth
-                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+                // give small wiggle room to protect against float inaccuracies
+                currentHealth = Mathf.Clamp(currentHealth, -0.1f, maxHealth);
 
                 invokeReponse(amount);
                 return;
@@ -47,7 +48,8 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
                 currentHealth = value;
 
                 // prevent healing past maxHealth
-                currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+                // give small wiggle room to protect against float inaccuracies
+                currentHealth = Mathf.Clamp(currentHealth, -0.1f, maxHealth);
 
                 invokeReponse(value);
                 return;
@@ -62,7 +64,7 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
     /// Otherwise if damage occured OnDamageTaken will be invoked.
     private void invokeReponse(float amount)
     {
-        if (amount > 0)
+        if (amount < 0)
         {
             OnHeal.Invoke(amount);
         }
@@ -70,12 +72,10 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         {
             OnDeath.Invoke();
         }
-        else if (amount < 0)
+        else if (amount > 0)
         {
-            // amount is negated so that a positive value is passed as the event parameter.
-            OnDamageTaken.Invoke(-amount);
+            OnDamageTaken.Invoke(amount);
         }
-
     }
 
     /*

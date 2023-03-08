@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// To replace old BaseProjectile once completed
 public class BaseProjectile : MonoBehaviour
 {
     [SerializeField] List<string> targetTags; // Tags that the bullet will check collision with
 
+    [SerializeField] List<BaseStatusEffect> effects;
     /* A projectile in which this projectile will spawn
      * useful for AOE explosions, or projectiles firing more
      * projectiles 
@@ -14,7 +16,6 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField] bool dieOnCollision;
     [SerializeField] float lifeTime;
     [SerializeField] float speed;
-    [SerializeField] float damage;
     [SerializeField] float scale; // Changes the scale from the default object
     
 
@@ -55,7 +56,6 @@ public class BaseProjectile : MonoBehaviour
         {
             if (recursiveProjectile)
             {
-                Debug.Log("Bang!");
                 GameObject projectile = Instantiate(recursiveProjectile, transform.position, Quaternion.identity);
                 projectile.GetComponent<BaseProjectile>().Init(projectile); // To be removed once custom UI for inspector is made
                 projectile.GetComponent<BaseProjectile>().setDirection(new Vector3(0.0f, 0.0f, 0.0f)); // To be removed once custom UI for inspector is made
@@ -65,7 +65,15 @@ public class BaseProjectile : MonoBehaviour
                 Destroy(self);
             }
 
-            collision.GetComponent<HealthComponent>().ChangeHealth(-damage);
+            //collision.GetComponent<HealthComponent>().DamageStat(Stats.HEALTH, damage);
+            StatusSystem statSys = collision.GetComponent<StatusSystem>();
+            if (statSys)
+            {
+                foreach (BaseStatusEffect currEffect in effects)
+                {
+                    statSys.ApplyEffect(currEffect);
+                }
+            }
         }
     }
 

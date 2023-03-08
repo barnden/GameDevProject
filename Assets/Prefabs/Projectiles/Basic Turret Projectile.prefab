@@ -116,9 +116,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTags:
   - Enemy
+  effects:
+  - {fileID: 11400000, guid: 0c57284386fa4d042b561180075d4f7d, type: 2}
   recursiveProjectile: {fileID: 0}
   dieOnCollision: 1
   lifeTime: 5
   speed: 5
-  damage: 10
   scale: 1

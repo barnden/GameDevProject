@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9074310293624954182}
   - component: {fileID: 7956958413074660310}
   - component: {fileID: 4445653251142912815}
+  - component: {fileID: 481477862952636339}
   - component: {fileID: -1541882329994755046}
   m_Layer: 0
   m_Name: Basic Enemy
@@ -179,7 +180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6410c959596ba184e86713a51117b3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseEnemySpeed: 1
+  speed: 2
+  maxSpeed: 5
   isDirectMovement: 0
 --- !u!114 &4445653251142912815
 MonoBehaviour:
@@ -202,6 +204,20 @@ MonoBehaviour:
     fireRate: 2
     AOESize: 0.1
     fireSpread: 0
+--- !u!114 &481477862952636339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962644661464884768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c240ec1ab5d70c54ea75b1bf1c746517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeEffects: []
+  entityRoot: {fileID: 0}
 --- !u!114 &-1541882329994755046
 MonoBehaviour:
   m_ObjectHideFlags: 0
