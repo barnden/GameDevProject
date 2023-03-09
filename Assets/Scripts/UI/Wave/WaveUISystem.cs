@@ -7,26 +7,39 @@ using TMPro; // for interfacing with the system's subobjects (timer, wave number
 public class WaveUISystem : MonoBehaviour
 {
     [Serializable]
-    private class WaveEnemyParams
+    private class WaveEnemy
     {
         public GameObject enemyToSpawn;
         public int numToSpawn;
-        public float delayForEachSpawn;
-        public float spawnRadius;
     }
 
+    // A group within a wave
+    // Used in conjunction with the specific angle spawning mechanic
     [Serializable]
-    private class WaveInfo
+    private class WaveGroup
+    {
+        public WaveEnemy[] enemiesInGroup;
+        public float spawnRadius;
+        public float delayForEachSpawn;
+
+        // angles to spawn the enemy group in
+        public float angleBegin;
+        public float angleEnd;
+    }
+
+
+    [Serializable]
+    private class Wave
     {
         public int waveTime;
         public string waveName;
         public string waveDescription;
-        public WaveEnemyParams[] waveEnemies;
+        public WaveGroup[] waveGroups;
     }
 
     [SerializeField] TextMeshProUGUI timer;
     [SerializeField] TextMeshProUGUI waveCounter;
-    [SerializeField] WaveInfo[] waveList;
+    [SerializeField] Wave[] waveList;
     public GameObject playerLocation; // TO BE DELETED
 
     // Start is called before the first frame update
@@ -45,7 +58,7 @@ public class WaveUISystem : MonoBehaviour
         // make sure we don't go out of scope
         if (currentWaveNumber < waveList.Length)
         {
-            WaveInfo currentWave = waveList[currentWaveNumber];
+            Wave currentWave = waveList[currentWaveNumber];
             if (currentWave.waveTime <= timer.GetComponent<Stopwatch>().getCurrentSecond())
             {
                 Debug.Log("Start wave!: " + currentWave.waveName);
@@ -59,19 +72,27 @@ public class WaveUISystem : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnWave(WaveInfo currentWave)
+    IEnumerator SpawnWave(Wave currentWave)
     {
+        // for each group in wave
+            // for each enemy in group
         // Instantiate each enemy within the current wave
-        foreach (WaveEnemyParams currWaveEnemy in currentWave.waveEnemies)
+        foreach (WaveGroup currWaveGroup in currentWave.waveGroups)
         {
-            for (int enemyCounter = 0; enemyCounter < currWaveEnemy.numToSpawn; enemyCounter++)
+            foreach (WaveEnemy currWaveEnemy in currWaveGroup.enemiesInGroup)
             {
-                GameObject enemySpawned = Instantiate(currWaveEnemy.enemyToSpawn);
+                for (int enemyCounter = 0; enemyCounter < currWaveEnemy.numToSpawn; enemyCounter++)
+                {
+                    GameObject enemySpawned = Instantiate(currWaveEnemy.enemyToSpawn);
 
-                // find random enemy position
-                Vector3 spawnPos = RandomEnemyPosition(currWaveEnemy.spawnRadius, 1.0f);
-                enemySpawned.transform.position = playerLocation.transform.position + spawnPos;
-                yield return new WaitForSeconds(currWaveEnemy.delayForEachSpawn);
+                    // find random enemy position
+                    Vector3 spawnPos = RandomEnemyPosition(currWaveGroup.spawnRadius, 
+                                                           currWaveGroup.angleBegin,
+                                                           currWaveGroup.angleEnd,
+                                                           1.0f);
+                    enemySpawned.transform.position = playerLocation.transform.position + spawnPos;
+                    yield return new WaitForSeconds(currWaveGroup.delayForEachSpawn);
+                }
             }
         }
     }
@@ -80,9 +101,12 @@ public class WaveUISystem : MonoBehaviour
     {
         waveCounter.GetComponent<WaveCounter>().getWave();
     }
-    public Vector3 RandomEnemyPosition(float radius, float offset)
+    public Vector3 RandomEnemyPosition(float radius, float angleBegin, float angleEnd, float offset)
     {
-        float randomAngle = UnityEngine.Random.Range(0.0f, Mathf.PI) * Mathf.Rad2Deg;
+        float angleBeginRad = angleBegin * Mathf.Deg2Rad;
+        float angleEndRad = angleEnd * Mathf.Deg2Rad;
+
+        float randomAngle = UnityEngine.Random.Range(angleBeginRad, angleEndRad);
         float xPos = radius * Mathf.Cos(randomAngle);
         float yPos = radius * Mathf.Sin(randomAngle);
         return new Vector3(xPos,yPos, 0);
