@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7eca33e6b7bda84aa8e67a26f15999e, type: 3}
+  m_Name: Upgrade Tree
+  m_EditorClassIdentifier: 
+  tree:
+  - title: Basic
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 
+    exclusion: 
+    bought: 1
+    color: 0
+    position: {x: 46, y: 295}
+  - title: Range 1
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 00000000
+    exclusion: 
+    bought: 0
+    color: 0
+    position: {x: 340, y: 118}
+  - title: Range 2
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 01000000
+    exclusion: 
+    bought: 0
+    color: 0
+    position: {x: 650, y: 131}
+  - title: Rapid Fire 1
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 00000000
+    exclusion: 
+    bought: 0
+    color: 0
+    position: {x: 342, y: 287}
+  - title: Rapid Fire 2
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 03000000
+    exclusion: 
+    bought: 0
+    color: 0
+    position: {x: 675, y: 289}
+  - title: Damage 1
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 00000000
+    exclusion: 
+    bought: 0
+    color: 0
+    position: {x: 351, y: 443}
+  - title: Damage 2
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 05000000
+    exclusion: 
+    bought: 0
+    color: 0
+    position: {x: 683, y: 441}
