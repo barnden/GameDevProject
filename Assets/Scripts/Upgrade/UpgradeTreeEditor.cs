@@ -10,6 +10,7 @@ public class UpgradeTreeEditor : Editor
     // Positioning
     static Vector2 nodeSize = new Vector2(184f, 74f);
     static Vector2 nodeTitleSize = new Vector2(184f, 20f);
+    static float columnWidth = 120.0f;
 
     float minTreeHeight = 720f;
     float minTreeWidth = 1000f;
@@ -63,13 +64,13 @@ public class UpgradeTreeEditor : Editor
         AssetDatabase.Refresh();
     }
 
-    void UpdateTree(string change = "")
+    private void UpdateTree(string change = "")
     {
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         Undo.RegisterCompleteObjectUndo(tree, change);
     }
 
-    void DrawArrow(Vector2 begin, Vector2 end, Color color, float width, float opacity = 1f)
+    private void DrawArrow(Vector2 begin, Vector2 end, Color color, float width, float opacity = 1f)
     {
         Vector2 startTangent = begin + Vector2.left;
         Vector2 endTangent = end + Vector2.right;
@@ -90,7 +91,7 @@ public class UpgradeTreeEditor : Editor
         Handles.DrawLine(begin, begin + dnArrowVec);
     }
 
-    void DrawConnections(UpgradeTree tree, UpgradeNode node, List<int> edges, Color color)
+    private void DrawConnections(UpgradeTree tree, UpgradeNode node, List<int> edges, Color color)
     {
         int i = tree.IndexOf(node);
         foreach (int j in edges)
@@ -111,7 +112,7 @@ public class UpgradeTreeEditor : Editor
         }
     }
 
-    public void DeleteActiveNode()
+    private void DeleteActiveNode()
     {
         if (active.node == null)
             return;
@@ -120,7 +121,69 @@ public class UpgradeTreeEditor : Editor
         tree.DeleteNode(active.node);
         UpdateTree($"Deleted node \"{name}\"");
 
-        active = (null, null, null, null);
+        SetActive(null);
+    }
+
+    private void SetActive(UpgradeNode node, Rect? rect = null)
+    {
+        if (node == null)
+        {
+            active = (null, null, null, null);
+            return;
+        }
+
+        int idx = tree.IndexOf(node);
+        active = (node, rect, tree.GetAncestors(idx, true), CreateTemporaryMSO());
+    }
+
+    private SerializedObject CreateTemporaryMSO()
+    {
+        // Create a temporary scriptable object to hold List<Modifier> to display properly in EditorGUILayout#PropertyField
+
+        ModifierSO mso = CreateInstance<ModifierSO>();
+        mso.Init();
+        SerializedObject smso = new SerializedObject(mso);
+
+        return smso;
+    }
+
+    private void PropertyLayout<T>(string label, ref T property)
+    {
+        EditorGUILayout.BeginHorizontal();
+
+        {
+            if (typeof(T) != typeof(SerializedProperty))
+                EditorGUILayout.LabelField(label, GUILayout.MaxWidth(columnWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight));
+
+            switch (property)
+            {
+                case string s:
+                    property = (T)Convert.ChangeType(EditorGUILayout.TextField(s, GUILayout.MaxWidth(2f * columnWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight)), typeof(T));
+                    break;
+
+                case double d:
+                    property = (T)Convert.ChangeType(EditorGUILayout.DoubleField(d, GUILayout.MaxWidth(2f * columnWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight)), typeof(T));
+                    break;
+
+                case int i:
+                    property = (T)Convert.ChangeType(EditorGUILayout.IntField(i, GUILayout.MaxWidth(2f * columnWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight)), typeof(T));
+                    break;
+
+                case bool b:
+                    property = (T)Convert.ChangeType(EditorGUILayout.Toggle(b, GUILayout.MaxWidth(2f * columnWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight)), typeof(T));
+                    break;
+
+                case SerializedProperty p:
+                    EditorGUILayout.PropertyField(p, true, GUILayout.Width(3f * columnWidth));
+                    break;
+
+                case UnityEngine.Object o:
+                    property = (T)Convert.ChangeType(EditorGUILayout.ObjectField(o, typeof(T), false, GUILayout.Height(EditorGUIUtility.singleLineHeight), GUILayout.MaxWidth(2f * columnWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight)), typeof(T));
+                    break;
+            }
+        }
+
+        EditorGUILayout.EndHorizontal();
     }
 
     public override void OnInspectorGUI()
@@ -205,10 +268,7 @@ public class UpgradeTreeEditor : Editor
                 case EventType.MouseDown:
                     if (Event.current.button <= 1)
                     {
-                        ModifierSO mso = CreateInstance<ModifierSO>();
-                        mso.Init();
-                        SerializedObject smso = new SerializedObject(mso);
-                        active = (node, outerRect, tree.GetAncestors(i, true), smso);
+                        SetActive(node, outerRect);
                         mouseSelectionOffset = node.position - mousePosition;
                     }
                     Repaint();
@@ -274,7 +334,7 @@ public class UpgradeTreeEditor : Editor
 
                 if (active.node != null && active.rect != null && Event.current.button == 0 && !active.rect.Value.Contains(mousePosition))
                 {
-                    active = (null, null, null, null);
+                    SetActive(null);
                     EditorGUI.FocusTextInControl(null);
 
                     Repaint();
@@ -288,10 +348,7 @@ public class UpgradeTreeEditor : Editor
                     {
                         UpdateTree($"Add node \"{name}\"");
                         var node = tree.IndexOf(name);
-                        ModifierSO mso = CreateInstance<ModifierSO>();
-                        mso.Init();
-                        SerializedObject smso = new SerializedObject(mso);
-                        active = (tree[node], null, tree.GetAncestors(node, true), smso);
+                        SetActive(tree[node]);
                     }
                 }
 
@@ -342,59 +399,58 @@ public class UpgradeTreeEditor : Editor
 
         // Add labels
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Active", GUILayout.MaxWidth(120.0f));
-        EditorGUILayout.LabelField((active.node == null) ? "None" : active.node.title, GUILayout.MaxWidth(240.0f));
-        EditorGUILayout.EndHorizontal();
 
-        if (active.node != null)
         {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Title", GUILayout.MaxWidth(120.0f));
-            active.node.title = EditorGUILayout.TextField(active.node.title, GUILayout.MaxWidth(240.0f));
-            EditorGUILayout.EndHorizontal();
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Description", GUILayout.MaxWidth(120.0f));
-            active.node.description = EditorGUILayout.TextField(active.node.description, GUILayout.MaxWidth(240.0f));
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Cost", GUILayout.MaxWidth(120.0f));
-            active.node.cost = EditorGUILayout.DoubleField(active.node.cost, GUILayout.MaxWidth(240.0f));
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Sprite", GUILayout.MaxWidth(120.0f));
-            active.node.sprite = (Sprite)EditorGUILayout.ObjectField(active.node.sprite, typeof(Sprite), false, GUILayout.Height(EditorGUIUtility.singleLineHeight), GUILayout.MaxWidth(240.0f));
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Is Owned", GUILayout.MaxWidth(120.0f));
-            active.node.bought = EditorGUILayout.Toggle(active.node.bought, GUILayout.MaxWidth(240.0f));
-            EditorGUILayout.EndHorizontal();
-
-            SerializedProperty modifiers = active.list.FindProperty("modifiers");
-            active.list.Update();
-            Serializable.SetTargetObjectOfProperty(modifiers, active.node.modifiers);
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(modifiers, true, GUILayout.MaxWidth(360.0f));
-            if (active.list.hasModifiedProperties)
+            if (active.node != null)
             {
-                active.list.ApplyModifiedProperties();
-                active.node.modifiers = (List<Modifier>)Serializable.GetTargetObjectOfProperty(modifiers);
+                EditorGUILayout.BeginVertical(GUILayout.MaxWidth(3.25f * columnWidth));
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Selected Node", GUILayout.MaxWidth(120.0f));
+                EditorGUILayout.EndHorizontal();
+                {
+                    PropertyLayout("Title", ref active.node.title);
+                    PropertyLayout("Description", ref active.node.description);
+                    PropertyLayout("Cost", ref active.node.cost);
+                    PropertyLayout("Sprite", ref active.node.sprite);
+                    PropertyLayout("Is Owned", ref active.node.bought);
+                }
+                EditorGUILayout.EndVertical();
+
+                EditorGUILayout.BeginVertical(GUILayout.MaxWidth(3.25f * columnWidth));
+                {
+                    SerializedProperty modifiers = active.list.FindProperty("modifiers");
+                    active.list.Update();
+                    Serializable.SetTargetObjectOfProperty(modifiers, active.node.modifiers);
+
+                    PropertyLayout("Modifiers", ref modifiers);
+
+                    if (active.list.hasModifiedProperties)
+                    {
+                        active.list.ApplyModifiedProperties();
+                        active.node.modifiers = (List<Modifier>)Serializable.GetTargetObjectOfProperty(modifiers);
+                    }
+                }
+
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("Delete " + active.node.title, GUILayout.MaxWidth(2f * columnWidth)))
+                {
+                    DeleteActiveNode();
+                }
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.EndVertical();
+
             }
-            EditorGUILayout.EndHorizontal();
-
-
-
-            EditorGUILayout.BeginHorizontal();
-
-            if (GUILayout.Button("Delete " + active.node.title, GUILayout.MaxWidth(240.0f)))
+            else
             {
-                DeleteActiveNode();
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("No Currently Selected Node", GUILayout.MaxWidth(3f * columnWidth));
+                EditorGUILayout.EndHorizontal();
             }
-
-            EditorGUILayout.EndHorizontal();
         }
+
+        EditorGUILayout.EndHorizontal();
     }
 }
