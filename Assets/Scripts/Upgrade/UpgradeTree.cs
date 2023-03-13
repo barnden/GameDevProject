@@ -1,71 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Node
-{
-    public string title;
-    public string description;
-    public Sprite sprite;
-    public double cost;
-    public List<int> prerequisites;
-    public List<int> exclusion;
-    public bool bought;
-    public int color;
-
-    public Vector2 position;
-
-    public Node(string title, string description, Sprite sprite, double cost, List<int> prerequisites, List<int> exclusion, bool bought, Vector2 position)
-    {
-        this.title = title;
-        this.description = description;
-        this.sprite = sprite;
-        this.prerequisites = prerequisites;
-        this.exclusion = exclusion;
-        this.bought = bought;
-        this.position = position;
-    }
-
-    public Node(Node other)
-    {
-        this.title = other.title;
-        this.description = other.description;
-        this.sprite = other.sprite;
-
-        this.prerequisites = new List<int>();
-        this.exclusion = new List<int>();
-
-        foreach (var upgrade in other.prerequisites)
-            this.prerequisites.Add(upgrade);
-
-        foreach (var upgrade in other.exclusion)
-            this.exclusion.Add(upgrade);
-
-        this.position = other.position;
-
-        this.bought = false;
-    }
-}
-
 [CreateAssetMenu(menuName = "Upgrades/Tree")]
 [System.Serializable]
 public class UpgradeTree : ScriptableObject
 {
     [SerializeField]
-    public List<Node> tree;
+    public List<UpgradeNode> tree;
 
     public int size { get { return tree.Count; } }
 
     public UpgradeTree Init(UpgradeTree other)
     {
-        tree = new List<Node>();
+        tree = new List<UpgradeNode>();
 
         if (other == null || other.tree == null)
             return this;
 
-        foreach (var node in other.tree)
+        foreach (var otherNode in other.tree)
         {
-            tree.Add(new Node(node));
+            tree.Add(new UpgradeNode(otherNode));
         }
 
         return this;
@@ -78,7 +32,7 @@ public class UpgradeTree : ScriptableObject
         if (idx != -1)
             return false;
 
-        tree.Add(new Node(title, "", null, 0.0, new List<int>(), new List<int>(), false, pos));
+        tree.Add(new UpgradeNode(title, "", null, 0.0, new List<int>(), new List<int>(), false, pos));
         return true;
     }
 
@@ -86,7 +40,7 @@ public class UpgradeTree : ScriptableObject
     {
         if (idx is int i)
         {
-            foreach (Node n in tree)
+            foreach (UpgradeNode n in tree)
             {
                 n.prerequisites.RemoveAll(u => u == i);
                 n.exclusion.RemoveAll(u => u == i);
@@ -96,7 +50,7 @@ public class UpgradeTree : ScriptableObject
         }
     }
 
-    public void DeleteNode(Node node) => DeleteNode(IndexOf(node));
+    public void DeleteNode(UpgradeNode node) => DeleteNode(IndexOf(node));
 
     public bool HasCycle(int? query, int subject, bool checkExclusion = false)
     {
@@ -142,7 +96,7 @@ public class UpgradeTree : ScriptableObject
 
         foreach (var a in ancestors)
         {
-            Node ancestor = tree[a];
+            UpgradeNode ancestor = tree[a];
 
             if (!ancestor.bought)
                 return false;
@@ -151,10 +105,10 @@ public class UpgradeTree : ScriptableObject
         return true;
     }
 
-    public List<Node> GetBuyable()
+    public List<UpgradeNode> GetBuyable()
     {
-        var buyable = new List<Node>();
-        foreach ((Node node, int i) in tree.WithIndex())
+        var buyable = new List<UpgradeNode>();
+        foreach ((UpgradeNode node, int i) in tree.WithIndex())
         {
             if (!node.bought && Buyable(i))
                 buyable.Add(node);
@@ -199,12 +153,12 @@ public class UpgradeTree : ScriptableObject
         return -1;
     }
 
-    public int IndexOf(Node node)
+    public int IndexOf(UpgradeNode node)
     {
         return tree.IndexOf(node);
     }
 
-    public Node this[int key]
+    public UpgradeNode this[int key]
     {
         get => tree[key];
         set => tree[key] = value;

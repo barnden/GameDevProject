@@ -28,7 +28,7 @@ public class UpgradeTreeEditor : Editor
     Vector2 scrollPosition = Vector2.zero;
     Vector2 scrollStartPos;
 
-    (Node node, Rect? rect, HashSet<int> prereqs) active;
+    (UpgradeNode node, Rect? rect, HashSet<int> prereqs, SerializedObject list) active;
 
     HashSet<KeyCode> keydown;
 
@@ -90,7 +90,7 @@ public class UpgradeTreeEditor : Editor
         Handles.DrawLine(begin, begin + dnArrowVec);
     }
 
-    void DrawConnections(UpgradeTree tree, Node node, List<int> edges, Color color)
+    void DrawConnections(UpgradeTree tree, UpgradeNode node, List<int> edges, Color color)
     {
         int i = tree.IndexOf(node);
         foreach (int j in edges)
@@ -120,7 +120,7 @@ public class UpgradeTreeEditor : Editor
         tree.DeleteNode(active.node);
         UpdateTree($"Deleted node \"{name}\"");
 
-        active = (null, null, null);
+        active = (null, null, null, null);
     }
 
     public override void OnInspectorGUI()
@@ -148,13 +148,13 @@ public class UpgradeTreeEditor : Editor
         EditorGUILayout.BeginScrollView(Vector2.zero, GUILayout.MinHeight(720));
 
         if (tree.tree == null)
-            tree.tree = new List<Node>();
+            tree.tree = new List<UpgradeNode>();
 
         Vector2 mousePosition = Event.current.mousePosition;
 
         for (int i = 0; i < tree.size; i++)
         {
-            Node node = tree[i];
+            UpgradeNode node = tree[i];
 
             if (node == null || node.title == null)
             {
@@ -205,7 +205,10 @@ public class UpgradeTreeEditor : Editor
                 case EventType.MouseDown:
                     if (Event.current.button <= 1)
                     {
-                        active = (node, outerRect, tree.GetAncestors(i, true));
+                        ModifierSO mso = CreateInstance<ModifierSO>();
+                        mso.Init();
+                        SerializedObject smso = new SerializedObject(mso);
+                        active = (node, outerRect, tree.GetAncestors(i, true), smso);
                         mouseSelectionOffset = node.position - mousePosition;
                     }
                     Repaint();
@@ -271,7 +274,7 @@ public class UpgradeTreeEditor : Editor
 
                 if (active.node != null && active.rect != null && Event.current.button == 0 && !active.rect.Value.Contains(mousePosition))
                 {
-                    active = (null, null, null);
+                    active = (null, null, null, null);
                     EditorGUI.FocusTextInControl(null);
 
                     Repaint();
@@ -285,7 +288,10 @@ public class UpgradeTreeEditor : Editor
                     {
                         UpdateTree($"Add node \"{name}\"");
                         var node = tree.IndexOf(name);
-                        active = (tree[node], null, tree.GetAncestors(node, true));
+                        ModifierSO mso = CreateInstance<ModifierSO>();
+                        mso.Init();
+                        SerializedObject smso = new SerializedObject(mso);
+                        active = (tree[node], null, tree.GetAncestors(node, true), smso);
                     }
                 }
 
@@ -363,12 +369,23 @@ public class UpgradeTreeEditor : Editor
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Currently Owned", GUILayout.MaxWidth(120.0f));
+            EditorGUILayout.LabelField("Is Owned", GUILayout.MaxWidth(120.0f));
             active.node.bought = EditorGUILayout.Toggle(active.node.bought, GUILayout.MaxWidth(240.0f));
             EditorGUILayout.EndHorizontal();
 
+            SerializedProperty modifiers = active.list.FindProperty("modifiers");
+            active.list.Update();
+            Serializable.SetTargetObjectOfProperty(modifiers, active.node.modifiers);
             EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PropertyField(modifiers, true, GUILayout.MaxWidth(360.0f));
+            if (active.list.hasModifiedProperties)
+            {
+                active.list.ApplyModifiedProperties();
+                active.node.modifiers = (List<Modifier>)Serializable.GetTargetObjectOfProperty(modifiers);
+            }
             EditorGUILayout.EndHorizontal();
+
+
 
             EditorGUILayout.BeginHorizontal();
 
