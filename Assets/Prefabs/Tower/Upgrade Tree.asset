@@ -20,26 +20,10 @@ MonoBehaviour:
     prerequisites: 
     exclusion: 
     bought: 1
-    color: 0
-    position: {x: 46, y: 295}
-  - title: Range 1
-    description: 
-    sprite: {fileID: 0}
-    cost: 0
-    prerequisites: 00000000
-    exclusion: 
-    bought: 0
-    color: 0
-    position: {x: 340, y: 118}
-  - title: Range 2
-    description: 
-    sprite: {fileID: 0}
-    cost: 0
-    prerequisites: 01000000
-    exclusion: 
-    bought: 0
-    color: 0
-    position: {x: 650, y: 131}
+    modifiers: []
+    position: {x: 79, y: 145}
+    zindex: 0
+    inheritSprite: 0
   - title: Rapid Fire 1
     description: 
     sprite: {fileID: 0}
@@ -47,17 +31,27 @@ MonoBehaviour:
     prerequisites: 00000000
     exclusion: 
     bought: 0
-    color: 0
-    position: {x: 342, y: 287}
+    modifiers:
+    - stat: 3
+      action: 1
+      amount: 1.2
+    - stat: 1
+      action: 0
+      amount: 1
+    position: {x: 350, y: 47}
+    zindex: 1
+    inheritSprite: 1
   - title: Rapid Fire 2
     description: 
     sprite: {fileID: 0}
     cost: 0
-    prerequisites: 03000000
+    prerequisites: 01000000
     exclusion: 
     bought: 0
-    color: 0
-    position: {x: 675, y: 289}
+    modifiers: []
+    position: {x: 608, y: 47}
+    zindex: 0
+    inheritSprite: 1
   - title: Damage 1
     description: 
     sprite: {fileID: 0}
@@ -65,14 +59,40 @@ MonoBehaviour:
     prerequisites: 00000000
     exclusion: 
     bought: 0
-    color: 0
-    position: {x: 351, y: 443}
+    modifiers: []
+    position: {x: 351, y: 145}
+    zindex: 1
+    inheritSprite: 1
   - title: Damage 2
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 03000000
+    exclusion: 
+    bought: 0
+    modifiers: []
+    position: {x: 609, y: 141}
+    zindex: 2
+    inheritSprite: 1
+  - title: Range 1
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 00000000
+    exclusion: 
+    bought: 0
+    modifiers: []
+    position: {x: 351, y: 246}
+    zindex: 0
+    inheritSprite: 1
+  - title: Range 2
     description: 
     sprite: {fileID: 0}
     cost: 0
     prerequisites: 05000000
     exclusion: 
     bought: 0
-    color: 0
-    position: {x: 683, y: 441}
+    modifiers: []
+    position: {x: 609, y: 246}
+    zindex: 0
+    inheritSprite: 1

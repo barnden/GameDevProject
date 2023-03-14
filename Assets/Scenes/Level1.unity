@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 53922366}
   - component: {fileID: 53922365}
   - component: {fileID: 53922364}
+  - component: {fileID: 53922369}
   m_Layer: 0
   m_Name: BaseTower
   m_TagString: Untagged
@@ -263,6 +264,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &53922369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53922363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54ea60617b8715247936c059e7d1184f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeTree: {fileID: 11400000, guid: bb89fba745b50654b8e166066f172554, type: 2}
+  coreData: {fileID: 11400000, guid: 66b651cb5000d5b478f91d12dc7b758e, type: 2}
 --- !u!1 &169599447 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3427060631372646993, guid: 087cd05e5fbd77e4abbe2ba7c1fcec79, type: 3}
