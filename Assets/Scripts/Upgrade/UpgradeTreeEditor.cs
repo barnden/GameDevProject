@@ -75,7 +75,7 @@ public class UpgradeTreeEditor : Editor
         Vector2 startTangent = begin + Vector2.left;
         Vector2 endTangent = end + Vector2.right;
 
-        if (Math.Abs(end.y - begin.y) > 30f && Math.Abs(end.x - begin.x) > 40f)
+        if (Math.Abs(end.y - begin.y) > 30f && Math.Abs(end.x - begin.x) > 30f)
         {
             startTangent += Vector2.left * 100;
             endTangent += Vector2.right * 100;
@@ -149,7 +149,7 @@ public class UpgradeTreeEditor : Editor
 
     private void PropertyLayout<T>(string label, ref T property)
     {
-        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.BeginHorizontal(GUILayout.Width(3f * columnWidth));
 
         {
             if (typeof(T) != typeof(SerializedProperty))
@@ -174,11 +174,14 @@ public class UpgradeTreeEditor : Editor
                     break;
 
                 case SerializedProperty p:
-                    EditorGUILayout.PropertyField(p, true, GUILayout.Width(3f * columnWidth));
+                    EditorGUILayout.PropertyField(p, new GUIContent(label), true);
                     break;
 
-                case UnityEngine.Object o:
-                    property = (T)Convert.ChangeType(EditorGUILayout.ObjectField(o, typeof(T), false, GUILayout.Height(EditorGUIUtility.singleLineHeight), GUILayout.MaxWidth(2f * columnWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight)), typeof(T));
+                default:
+                    if (typeof(T).IsSubclassOf(typeof(UnityEngine.Object)) || property == null)
+                    {
+                        property = (T)Convert.ChangeType(EditorGUILayout.ObjectField(property as UnityEngine.Object, typeof(T), false, GUILayout.Height(EditorGUIUtility.singleLineHeight), GUILayout.MaxWidth(2f * columnWidth), GUILayout.Height(EditorGUIUtility.singleLineHeight)), typeof(T));
+                    }
                     break;
             }
         }
@@ -250,7 +253,17 @@ public class UpgradeTreeEditor : Editor
             EditorGUI.LabelField(new Rect(position + nextLineVec + Vector2.right * 4f, nodeLabelSize), "Cost");
             node.cost = EditorGUI.DoubleField(new Rect(position + nextLineVec + indentVec, nodeContentSize), node.cost);
             EditorGUI.LabelField(new Rect(position + 2 * nextLineVec + Vector2.right * 4f, nodeLabelSize), "Sprite");
-            node.sprite = (Sprite)EditorGUI.ObjectField(new Rect(position + 2 * nextLineVec + indentVec, nodeContentSize), node.sprite, typeof(Sprite), true);
+
+            var parent = tree.GetParentSprite(node);
+            var effectiveSprite = (node.inheritSprite && parent != -1) ? tree[parent].sprite : node.sprite;
+            GUI.enabled = !node.inheritSprite;
+            var sprite = (Sprite)EditorGUI.ObjectField(new Rect(position + 2 * nextLineVec + indentVec, nodeContentSize), effectiveSprite, typeof(Sprite), true);
+
+            if (parent == -1)
+            {
+                node.sprite = sprite;
+            }
+            GUI.enabled = true;
 
             DrawConnections(tree, node, node.prerequisites, Color.white);
             DrawConnections(tree, node, node.exclusion, Color.red);
@@ -413,9 +426,61 @@ public class UpgradeTreeEditor : Editor
                     PropertyLayout("Title", ref active.node.title);
                     PropertyLayout("Description", ref active.node.description);
                     PropertyLayout("Cost", ref active.node.cost);
-                    PropertyLayout("Sprite", ref active.node.sprite);
                     PropertyLayout("Is Owned", ref active.node.bought);
+
+                    EditorGUILayout.BeginHorizontal();
+                    if (GUILayout.Button("Delete " + active.node.title, GUILayout.MaxWidth(3f * columnWidth)))
+                    {
+                        DeleteActiveNode();
+                    }
+                    EditorGUILayout.EndHorizontal();
                 }
+                EditorGUILayout.EndVertical();
+
+                EditorGUILayout.BeginVertical(GUILayout.MaxWidth(3.25f * columnWidth));
+
+                EditorGUILayout.LabelField("Sprite Options", GUILayout.MaxWidth(3f * columnWidth));
+
+                PropertyLayout("Inherit Sprite", ref active.node.inheritSprite);
+
+                var parent = tree.GetParentSprite(active.node);
+                if (active.node.inheritSprite)
+                {
+                    GUI.enabled = false;
+                    {
+                        var parentName = parent < 0 ? "None" : tree[parent].title;
+
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField("Inheritance", GUILayout.MaxWidth(columnWidth));
+                        EditorGUILayout.LabelField(parentName, GUILayout.MaxWidth(2f * columnWidth));
+                        EditorGUILayout.EndHorizontal();
+
+                        if (parent != -1)
+                        {
+                            PropertyLayout("Effective Sprite", ref tree[parent].sprite);
+                        }
+                    }
+                    GUI.enabled = true;
+                } else
+                {
+                    PropertyLayout("Sprite", ref active.node.sprite);
+                    PropertyLayout("Z-Index", ref active.node.zindex);
+
+                    EditorGUILayout.BeginHorizontal();
+                    if (GUILayout.Button("Auto Z-Index"))
+                    {
+                        if (parent < 0)
+                        {
+                            active.node.zindex = 0;
+                        } else
+                        {
+                            active.node.zindex = tree[parent].zindex + 1;
+                        }
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
+
+
                 EditorGUILayout.EndVertical();
 
                 EditorGUILayout.BeginVertical(GUILayout.MaxWidth(3.25f * columnWidth));
@@ -432,13 +497,6 @@ public class UpgradeTreeEditor : Editor
                         active.node.modifiers = (List<Modifier>)Serializable.GetTargetObjectOfProperty(modifiers);
                     }
                 }
-
-                EditorGUILayout.BeginHorizontal();
-                if (GUILayout.Button("Delete " + active.node.title, GUILayout.MaxWidth(2f * columnWidth)))
-                {
-                    DeleteActiveNode();
-                }
-                EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.EndVertical();
 

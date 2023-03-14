@@ -20,12 +20,39 @@ MonoBehaviour:
     prerequisites: 
     exclusion: 
     bought: 1
+    modifiers: []
+    position: {x: 77, y: 146}
+    zindex: 0
+    inheritSprite: 0
+  - title: Rapid Fire 1
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 00000000
+    exclusion: 
+    bought: 0
     modifiers:
+    - stat: 3
+      action: 1
+      amount: 1.2
     - stat: 1
       action: 0
-      amount: 15
-    position: {x: 167, y: 284}
-  - title: Upgrade 2
+      amount: 1
+    position: {x: 350, y: 49}
+    zindex: 1
+    inheritSprite: 1
+  - title: Rapid Fire 2
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 01000000
+    exclusion: 
+    bought: 0
+    modifiers: []
+    position: {x: 608, y: 47}
+    zindex: 0
+    inheritSprite: 1
+  - title: Damage 1
     description: 
     sprite: {fileID: 0}
     cost: 0
@@ -33,4 +60,39 @@ MonoBehaviour:
     exclusion: 
     bought: 0
     modifiers: []
-    position: {x: 481, y: 311}
+    position: {x: 351, y: 145}
+    zindex: 1
+    inheritSprite: 1
+  - title: Damage 2
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 03000000
+    exclusion: 
+    bought: 0
+    modifiers: []
+    position: {x: 609, y: 144}
+    zindex: 2
+    inheritSprite: 1
+  - title: Range 1
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 00000000
+    exclusion: 
+    bought: 0
+    modifiers: []
+    position: {x: 351, y: 246}
+    zindex: 0
+    inheritSprite: 1
+  - title: Range 2
+    description: 
+    sprite: {fileID: 0}
+    cost: 0
+    prerequisites: 05000000
+    exclusion: 
+    bought: 0
+    modifiers: []
+    position: {x: 612, y: 242}
+    zindex: 0
+    inheritSprite: 1

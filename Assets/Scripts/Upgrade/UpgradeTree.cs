@@ -137,6 +137,31 @@ public class UpgradeTree : ScriptableObject
         return ancestors;
     }
 
+    public int GetParentSprite(int node, HashSet<int> ancestors = null)
+    {
+        if (ancestors == null)
+            ancestors = GetAncestors(node, true);
+
+        int zindexMax = int.MinValue;
+        int parentSprite = -1;
+
+        foreach (var u in ancestors)
+        {
+            UpgradeNode ancestor = tree[u];
+            var zindex = ancestor.inheritSprite ? int.MinValue : ancestor.zindex;
+
+            if (zindexMax < zindex)
+            {
+                zindexMax = zindex;
+                parentSprite = u;
+            }
+        }
+
+        return parentSprite;
+    }
+
+    public int GetParentSprite(UpgradeNode node, HashSet<int> ancestors = null) => GetParentSprite(IndexOf(node), ancestors);
+
     public void RemoveCycles(int idx)
     {
         var ancestors = GetAncestors(idx, false);

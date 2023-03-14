@@ -41,6 +41,8 @@ public class UpgradeNode
     public List<Modifier> modifiers;
 
     public Vector2 position;
+    public int zindex;
+    public bool inheritSprite;
 
     public UpgradeNode(string title, string description, Sprite sprite, double cost, List<int> prerequisites, List<int> exclusion, bool bought, Vector2 position)
     {
@@ -54,6 +56,8 @@ public class UpgradeNode
         this.cost = cost;
 
         modifiers = new List<Modifier>();
+        zindex = 0;
+        inheritSprite = false;
     }
 
     public UpgradeNode(UpgradeNode other)
