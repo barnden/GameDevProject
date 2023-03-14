@@ -105,13 +105,13 @@ public class UpgradeTree : ScriptableObject
         return true;
     }
 
-    public List<UpgradeNode> GetBuyable()
+    public List<int> GetBuyable()
     {
-        var buyable = new List<UpgradeNode>();
+        var buyable = new List<int>();
         foreach ((UpgradeNode node, int i) in tree.WithIndex())
         {
             if (!node.bought && Buyable(i))
-                buyable.Add(node);
+                buyable.Add(i);
         }
 
         return buyable;

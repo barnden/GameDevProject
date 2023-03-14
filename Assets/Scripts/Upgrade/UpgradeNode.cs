@@ -62,6 +62,7 @@ public class UpgradeNode
 
     public UpgradeNode(UpgradeNode other)
     {
+        // FIXME: Is there a better way to deep-copy?
         title = other.title;
         description = other.description;
         sprite = other.sprite;
@@ -80,6 +81,9 @@ public class UpgradeNode
 
         position = other.position;
 
-        bought = false;
+        bought = other.bought;
+
+        zindex = other.zindex;
+        inheritSprite = other.inheritSprite;
     }
 }

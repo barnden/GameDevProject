@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7eca33e6b7bda84aa8e67a26f15999e, type: 3}
-  m_Name: New Upgrade Tree
+  m_Name: Upgrade Tree
   m_EditorClassIdentifier: 
   tree:
   - title: Basic
@@ -21,7 +21,7 @@ MonoBehaviour:
     exclusion: 
     bought: 1
     modifiers: []
-    position: {x: 77, y: 146}
+    position: {x: 79, y: 145}
     zindex: 0
     inheritSprite: 0
   - title: Rapid Fire 1
@@ -38,7 +38,7 @@ MonoBehaviour:
     - stat: 1
       action: 0
       amount: 1
-    position: {x: 350, y: 49}
+    position: {x: 350, y: 47}
     zindex: 1
     inheritSprite: 1
   - title: Rapid Fire 2
@@ -71,7 +71,7 @@ MonoBehaviour:
     exclusion: 
     bought: 0
     modifiers: []
-    position: {x: 609, y: 144}
+    position: {x: 609, y: 141}
     zindex: 2
     inheritSprite: 1
   - title: Range 1
@@ -93,6 +93,6 @@ MonoBehaviour:
     exclusion: 
     bought: 0
     modifiers: []
-    position: {x: 612, y: 242}
+    position: {x: 609, y: 246}
     zindex: 0
     inheritSprite: 1
