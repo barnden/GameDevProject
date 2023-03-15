@@ -59,6 +59,11 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         }
     }
 
+    public float GetStat()
+    {
+        return currentHealth;
+    }
+
     /// If healing occured the OnHeal event will be invoked.
     /// If health dropped below 0 OnDeath will be invoked.
     /// Otherwise if damage occured OnDamageTaken will be invoked.

@@ -1,20 +1,25 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class Upgrade
 {
-    public string title { get;  set; }
-    public string description { get; set; }
-    public double cost { get; set; }
-    public int index { get; set; }
+    // Wrapper class for UpgradeNode with immutable members
+    public string title { get; }
+    public string description { get; }
+    public double cost { get; }
+    public int index { get; }
 
-    public Upgrade(UpgradeNode node)
+    public Sprite sprite { get;  }
+
+    public Upgrade(UpgradeNode node, int index)
     {
         title = node.title;
         description = node.description;
         cost = node.cost;
+        sprite = node.sprite;
+        
+        this.index = index;
     }
 };
 
@@ -30,37 +35,61 @@ public class TowerUpgrade : MonoBehaviour
     // Private instance of upgrade tree
     private UpgradeTree tree = null;
 
-    public void BuyUpgrade(int idx) {
+    public bool BuyUpgrade(int idx) {
         if (tree == null)
         {
             Debug.LogWarning("Attempted to buy upgrade before tree instantiation.");
-            return;
+            return false;
         }
 
         UpgradeNode node = tree[idx];
 
         Debug.Log($"Buying: \"{node.title}\"");
 
-        // Remove power
-        // TODO: Should we error out if cost > energy?
-        coreData.removeEnergy((float) node.cost);
+        // Get StatusSystem component
+        var statusSystem = gameObject.GetComponent<StatusSystem>();
+        if (!statusSystem)
+        {
+            Debug.LogError("No status system found on tower game object.");
+            return false;
+        }
 
         // Set node as owned
         node.bought = true;
 
+        // Remove power
+        // TODO: Should we error out if cost > energy?
+        coreData.removeEnergy((float)node.cost);
+
         // Resolve effective sprite
-        int parent = -1;
-
-        if (node.inheritSprite)
-            parent = tree.GetParentSprite(idx);
-
-
-        Sprite effectiveSprite = (parent == -1) ? node.sprite : tree[parent].sprite;
+        var effectiveSprite = tree.GetEffectiveSprite(node);
 
         if (effectiveSprite != null)
             gameObject.GetComponent<SpriteRenderer>().sprite = effectiveSprite;
 
-        // TODO: Apply upgrade status effects
+        foreach (Modifier mod in node.modifiers)
+        {
+            var component = statusSystem.getEffectedComponent(mod.stat);
+            
+            if (component == null)
+            {
+                Debug.LogWarning($"Cannot find component for status effect \"{mod.stat}\".");
+                continue;
+            }
+
+            var amount = mod.amount;
+
+            if (mod.action == ModifierAction.MULTIPLY)
+            {
+                component.SetStat(mod.stat, (float) (component.GetStat() * mod.amount));
+            }
+            else
+            {
+                component.DamageStat(mod.stat, (float) amount);
+            }
+        }
+
+        return true;
     }
 
     public void BuyUpgrade(Upgrade upgrade) => BuyUpgrade(upgrade.index);
@@ -73,24 +102,25 @@ public class TowerUpgrade : MonoBehaviour
         if (checkPower)
             buyableIndicies.RemoveAll(i => tree[i].cost <= coreData.getEnergy());
 
-        // Extract information
-        var buyable = buyableIndicies.Select(i => {
-            var node = tree[i];
-
-            var upgrade = new Upgrade(node);
-            upgrade.index = i;
-
-            return upgrade;
-        }).ToList();
+        // Extract UpgradeNode information to immutable Upgrade wrapper
+        // FIXME: Is this even needed?
+        var buyable = buyableIndicies.Select(i => new Upgrade(tree[i], i)).ToList();
 
         return buyable;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         // Hydrate new instance of UpgradeTree with existing upgrade tree
         tree = ScriptableObject.CreateInstance<UpgradeTree>();
         tree.Init(upgradeTree);
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            BuyUpgrade(GetBuyableUpgrades()[0]);
+        }
     }
 }

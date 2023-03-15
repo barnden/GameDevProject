@@ -14,4 +14,7 @@ public interface BaseAIComponent
     // Checks for valid stats (ex: The health component would fail if
     // speed was requested to be altered
     // bool IsValidCompStat(Stats statToCheck);
+
+    // Retrieves value of a given stat
+    float GetStat();
 }
