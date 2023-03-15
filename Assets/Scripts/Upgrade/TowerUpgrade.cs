@@ -35,7 +35,7 @@ public class TowerUpgrade : MonoBehaviour
     // Private instance of upgrade tree
     private UpgradeTree tree = null;
 
-    public bool BuyUpgrade(int idx) {
+    public bool BuyUpgrade(int idx, bool free=false) {
         if (tree == null)
         {
             Debug.LogWarning("Attempted to buy upgrade before tree instantiation.");
@@ -58,8 +58,10 @@ public class TowerUpgrade : MonoBehaviour
         node.bought = true;
 
         // Remove power
-        // TODO: Should we error out if cost > energy?
-        coreData.removeEnergy((float)node.cost);
+        if (!free && coreData.getEnergy() < node.cost)
+        {
+            coreData.removeEnergy((float)node.cost);
+        }
 
         // Resolve effective sprite
         var effectiveSprite = tree.GetEffectiveSprite(node);
@@ -114,13 +116,5 @@ public class TowerUpgrade : MonoBehaviour
         // Hydrate new instance of UpgradeTree with existing upgrade tree
         tree = ScriptableObject.CreateInstance<UpgradeTree>();
         tree.Init(upgradeTree);
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            BuyUpgrade(GetBuyableUpgrades()[0]);
-        }
     }
 }
