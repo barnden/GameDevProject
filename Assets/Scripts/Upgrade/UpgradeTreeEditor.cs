@@ -42,7 +42,7 @@ public class UpgradeTreeEditor : Editor
         tree = (UpgradeTree)target;
         EditorSceneManager.sceneSaving += OnSceneSave;
         EditorSceneManager.sceneClosing += OnSceneClose;
-        Undo.undoRedoPerformed += Save;
+        Undo.undoRedoPerformed += OnUndo;
     }
 
     private void OnSceneClose(UnityEngine.SceneManagement.Scene scene, bool removingScene)
@@ -54,6 +54,15 @@ public class UpgradeTreeEditor : Editor
     private void OnSceneSave(UnityEngine.SceneManagement.Scene scene, string path)
     {
         // https://docs.unity3d.com/ScriptReference/SceneManagement.EditorSceneManager.SceneSavingCallback.html
+        Save();
+    }
+
+    private void OnUndo()
+    {
+        if (active.node == null || tree.IndexOf(active.node) == -1)
+        {
+            SetActive(null);
+        }
         Save();
     }
 
