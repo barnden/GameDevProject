@@ -149,6 +149,8 @@ public class UpgradeTreeEditor : Editor
 
     private void PropertyLayout<T>(string label, ref T property)
     {
+        // Automatically create label/editor horizontal layout based on typeof T
+
         EditorGUILayout.BeginHorizontal(GUILayout.Width(3f * columnWidth));
 
         {
@@ -255,7 +257,7 @@ public class UpgradeTreeEditor : Editor
             EditorGUI.LabelField(new Rect(position + 2 * nextLineVec + Vector2.right * 4f, nodeLabelSize), "Sprite");
 
             var parent = tree.GetParentSprite(node);
-            var effectiveSprite = (node.inheritSprite && parent != -1) ? tree[parent].sprite : node.sprite;
+            var effectiveSprite = tree.GetEffectiveSprite(node);
             GUI.enabled = !node.inheritSprite;
             var sprite = (Sprite)EditorGUI.ObjectField(new Rect(position + 2 * nextLineVec + indentVec, nodeContentSize), effectiveSprite, typeof(Sprite), true);
 
@@ -374,10 +376,6 @@ public class UpgradeTreeEditor : Editor
                     Repaint();
                 }
                 break;
-
-            case EventType.DragUpdated:
-                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-                break;
         }
 
         EditorGUILayout.EndScrollView();
@@ -410,79 +408,81 @@ public class UpgradeTreeEditor : Editor
         scrollPosition.x = GUILayout.HorizontalScrollbar(scrollPosition.x, 20f, 0f, minTreeWidth);
         scrollPosition.y = GUI.VerticalScrollbar(new Rect(0, 0, 20, 720), scrollPosition.y, 20f, 0f, minTreeHeight);
 
-        // Add labels
+        // Build node inspector fields
         EditorGUILayout.BeginHorizontal();
-
         {
 
             if (active.node != null)
             {
+                // Left most column of node inspector for basic node information
                 EditorGUILayout.BeginVertical(GUILayout.MaxWidth(3.25f * columnWidth));
-
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Selected Node", GUILayout.MaxWidth(120.0f));
-                EditorGUILayout.EndHorizontal();
                 {
-                    PropertyLayout("Title", ref active.node.title);
-                    PropertyLayout("Description", ref active.node.description);
-                    PropertyLayout("Cost", ref active.node.cost);
-                    PropertyLayout("Is Owned", ref active.node.bought);
-
-                    EditorGUILayout.BeginHorizontal();
-                    if (GUILayout.Button("Delete " + active.node.title, GUILayout.MaxWidth(3f * columnWidth)))
+                    EditorGUILayout.LabelField("Node Inspector", GUILayout.MaxWidth(3f * columnWidth));
                     {
-                        DeleteActiveNode();
-                    }
-                    EditorGUILayout.EndHorizontal();
-                }
-                EditorGUILayout.EndVertical();
-
-                EditorGUILayout.BeginVertical(GUILayout.MaxWidth(3.25f * columnWidth));
-
-                EditorGUILayout.LabelField("Sprite Options", GUILayout.MaxWidth(3f * columnWidth));
-
-                PropertyLayout("Inherit Sprite", ref active.node.inheritSprite);
-
-                var parent = tree.GetParentSprite(active.node);
-                if (active.node.inheritSprite)
-                {
-                    GUI.enabled = false;
-                    {
-                        var parentName = parent < 0 ? "None" : tree[parent].title;
+                        PropertyLayout("Title", ref active.node.title);
+                        PropertyLayout("Description", ref active.node.description);
+                        PropertyLayout("Cost", ref active.node.cost);
+                        PropertyLayout("Is Owned", ref active.node.bought);
 
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField("Inheritance", GUILayout.MaxWidth(columnWidth));
-                        EditorGUILayout.LabelField(parentName, GUILayout.MaxWidth(2f * columnWidth));
+                        if (GUILayout.Button("Delete " + active.node.title, GUILayout.MaxWidth(3f * columnWidth)))
+                        {
+                            DeleteActiveNode();
+                        }
                         EditorGUILayout.EndHorizontal();
-
-                        if (parent != -1)
-                        {
-                            PropertyLayout("Effective Sprite", ref tree[parent].sprite);
-                        }
                     }
-                    GUI.enabled = true;
-                } else
-                {
-                    PropertyLayout("Sprite", ref active.node.sprite);
-                    PropertyLayout("Z-Index", ref active.node.zindex);
-
-                    EditorGUILayout.BeginHorizontal();
-                    if (GUILayout.Button("Auto Z-Index"))
-                    {
-                        if (parent < 0)
-                        {
-                            active.node.zindex = 0;
-                        } else
-                        {
-                            active.node.zindex = tree[parent].zindex + 1;
-                        }
-                    }
-                    EditorGUILayout.EndHorizontal();
                 }
-
-
                 EditorGUILayout.EndVertical();
 
+                // Middle column of node inspector for sprite details
+                EditorGUILayout.BeginVertical(GUILayout.MaxWidth(3.25f * columnWidth));
+                {
+                    EditorGUILayout.LabelField("Sprite Options", GUILayout.MaxWidth(3f * columnWidth));
+
+                    PropertyLayout("Inherit Sprite", ref active.node.inheritSprite);
+
+                    var parent = tree.GetParentSprite(active.node);
+                    if (active.node.inheritSprite)
+                    {
+                        GUI.enabled = false;
+                        {
+                            var parentName = parent < 0 ? "None" : tree[parent].title;
+
+                            EditorGUILayout.BeginHorizontal();
+                            EditorGUILayout.LabelField("Inheritance", GUILayout.MaxWidth(columnWidth));
+                            EditorGUILayout.LabelField(parentName, GUILayout.MaxWidth(2f * columnWidth));
+                            EditorGUILayout.EndHorizontal();
+
+                            if (parent != -1)
+                            {
+                                PropertyLayout("Effective Sprite", ref tree[parent].sprite);
+                            }
+                        }
+                        GUI.enabled = true;
+                    }
+                    else
+                    {
+                        PropertyLayout("Sprite", ref active.node.sprite);
+                        PropertyLayout("Z-Index", ref active.node.zindex);
+
+                        EditorGUILayout.BeginHorizontal();
+                        if (GUILayout.Button("Auto Z-Index"))
+                        {
+                            if (parent < 0)
+                            {
+                                active.node.zindex = 0;
+                            }
+                            else
+                            {
+                                active.node.zindex = tree[parent].zindex + 1;
+                            }
+                        }
+                        EditorGUILayout.EndHorizontal();
+                    }
+                }
+                EditorGUILayout.EndVertical();
+
+                // Right most column of node inspector for modifiers
                 EditorGUILayout.BeginVertical(GUILayout.MaxWidth(3.25f * columnWidth));
                 {
                     SerializedProperty modifiers = active.list.FindProperty("modifiers");
@@ -497,9 +497,7 @@ public class UpgradeTreeEditor : Editor
                         active.node.modifiers = (List<Modifier>)Serializable.GetTargetObjectOfProperty(modifiers);
                     }
                 }
-
                 EditorGUILayout.EndVertical();
-
             }
             else
             {

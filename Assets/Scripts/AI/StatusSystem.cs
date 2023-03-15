@@ -5,8 +5,9 @@ using UnityEngine;
 // Handles an AI status's such as damage, DOT, ect...
 public class StatusSystem : MonoBehaviour
 {
-    public List<BaseStatusEffect> activeEffects = new List<BaseStatusEffect>();
+    [System.NonSerialized]
     public GameObject entityRoot;
+    public List<BaseStatusEffect> activeEffects = new List<BaseStatusEffect>();
 
     void Start()
     {
@@ -40,7 +41,7 @@ public class StatusSystem : MonoBehaviour
 
     // Adjust this function to get the correct component if a
     // new stat is being added!
-    private BaseAIComponent getEffectedComponent(Stats stat)
+    public BaseAIComponent getEffectedComponent(Stats stat)
     {
         switch (stat)
         {

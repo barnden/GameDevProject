@@ -9,7 +9,7 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
     [SerializeField] protected float speed;
     [SerializeField] protected float maxSpeed;
     [SerializeField] protected bool isDirectMovement;
-    protected GameObject target = null;
+    [System.NonSerialized] protected GameObject target = null;
 
     // without bounds, used to calculate status changes, so stackable
     // status do not step on each others toes when reverting damage, ect
@@ -68,5 +68,10 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
             default:
                 return;
         }
+    }
+
+    public float GetStat()
+    {
+        return speed;
     }
 }

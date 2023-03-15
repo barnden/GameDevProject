@@ -162,6 +162,18 @@ public class UpgradeTree : ScriptableObject
 
     public int GetParentSprite(UpgradeNode node, HashSet<int> ancestors = null) => GetParentSprite(IndexOf(node), ancestors);
 
+    public Sprite GetEffectiveSprite(int node)
+    {
+        int parent = -1;
+
+        if (tree[node].inheritSprite)
+            parent = GetParentSprite(node);
+
+        return (parent == -1) ? tree[node].sprite : tree[parent].sprite;
+    }
+
+    public Sprite GetEffectiveSprite(UpgradeNode node) => GetEffectiveSprite(IndexOf(node));
+
     public void RemoveCycles(int idx)
     {
         var ancestors = GetAncestors(idx, false);
