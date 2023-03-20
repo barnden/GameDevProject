@@ -54,6 +54,12 @@ public class RadialUi : MonoBehaviour
                 upgradeButton.GetComponent<Button>().interactable = onTower;
                 moveButton.GetComponent<Button>().interactable = onTower;
                 deleteButton.GetComponent<Button>().interactable = onTower;
+
+                if (onTower)
+                {
+                    GameObject oj = platform.getTower();
+                }
+                    
             }
             else
             {

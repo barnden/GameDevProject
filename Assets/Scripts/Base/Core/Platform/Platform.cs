@@ -211,6 +211,11 @@ public class Platform : MonoBehaviour
         return placedTowers.ContainsKey((cursorInfo.ringNum, cursorInfo.closestSection));
     }
 
+    public GameObject getTower()
+    {
+        return placedTowers[(cursorInfo.ringNum, cursorInfo.closestSection)];
+    }
+
     public void place(GameObject obj)
     {
         placedTowers.Add((cursorInfo.ringNum, cursorInfo.closestSection), obj);
