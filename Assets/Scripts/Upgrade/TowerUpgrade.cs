@@ -71,23 +71,15 @@ public class TowerUpgrade : MonoBehaviour
 
         foreach (Modifier mod in node.modifiers)
         {
-            var component = statusSystem.getEffectedComponent(mod.stat);
-            
-            if (component == null)
-            {
-                Debug.LogWarning($"Cannot find component for status effect \"{mod.stat}\".");
-                continue;
-            }
-
             var amount = mod.amount;
 
             if (mod.action == ModifierAction.MULTIPLY)
             {
-                component.SetStat(mod.stat, (float) (component.GetStat() * mod.amount));
+                statusSystem.SetStat(mod.stat, (float) (statusSystem.GetStat(mod.stat) * mod.amount));
             }
             else
             {
-                component.DamageStat(mod.stat, (float) amount);
+                statusSystem.DamageStat(mod.stat, (float) amount);
             }
         }
 

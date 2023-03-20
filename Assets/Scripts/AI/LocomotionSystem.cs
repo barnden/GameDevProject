@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
 {
 
-    [SerializeField] protected float speed;
+    [SerializeField] protected float effectiveSpeed;
     [SerializeField] protected float maxSpeed;
     [SerializeField] protected bool isDirectMovement;
     [System.NonSerialized] protected GameObject target = null;
@@ -19,7 +19,8 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
 
     void Start()
     {
-        rawSpeed = speed;
+        rawSpeed = effectiveSpeed;
+        GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.SPEED);
     }
 
     // Update is called once per frame
@@ -46,7 +47,7 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
 
                 // prevent healing past maxHealth
                 // give small wiggle room to protect against float inaccuracies
-                speed = Mathf.Clamp(rawSpeed, 0.0f, maxSpeed);
+                effectiveSpeed = Mathf.Clamp(rawSpeed, 0.0f, maxSpeed);
                 return;
 
             default:
@@ -62,7 +63,7 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
                 rawSpeed = value;
 
                 // we don't want to have negative speed
-                speed = Mathf.Clamp(rawSpeed, 0.0f, maxSpeed);
+                effectiveSpeed = Mathf.Clamp(rawSpeed, 0.0f, maxSpeed);
                 return;
 
             default:
@@ -70,8 +71,15 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
         }
     }
 
-    public float GetStat()
+    public float GetStat(Stats stat)
     {
-        return speed;
+        switch (stat)
+        {
+            case Stats.SPEED:
+                return effectiveSpeed;
+
+            default:
+                return 0f;
+        }
     }
 }

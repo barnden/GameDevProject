@@ -158,9 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6410c959596ba184e86713a51117b3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  effectiveSpeed: 2
   maxSpeed: 5
   isDirectMovement: 0
+  rawSpeed: 0
 --- !u!114 &4445653251142912815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +196,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeEffects: []
-  entityRoot: {fileID: 0}
 --- !u!114 &-1541882329994755046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 5
-  currentHealth: 5
+  effectiveHealth: 0
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []

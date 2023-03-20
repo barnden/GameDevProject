@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 public class HealthComponent : MonoBehaviour, BaseAIComponent
 {
     [SerializeField] public float maxHealth;
-    [SerializeField] private float currentHealth;
+    [SerializeField] private float effectiveHealth;
     public FloatEvent OnDamageTaken;
     public FloatEvent OnHeal;
     public UnityEvent OnDeath;
@@ -14,7 +15,8 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
     /// </summary>
     void Start()
     {
-        currentHealth = maxHealth;
+        effectiveHealth = maxHealth;
+        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.HEALTH);
     }
 
     /// <summary>
@@ -26,11 +28,11 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         switch (statToDamage)
         {
             case Stats.HEALTH:
-                currentHealth -= amount;
+                effectiveHealth -= amount;
 
                 // prevent healing past maxHealth
                 // give small wiggle room to protect against float inaccuracies
-                currentHealth = Mathf.Clamp(currentHealth, -0.1f, maxHealth);
+                effectiveHealth = Mathf.Clamp(effectiveHealth, -0.1f, maxHealth);
 
                 invokeReponse(amount);
                 return;
@@ -45,11 +47,11 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         switch (statToDamage)
         {
             case Stats.HEALTH:
-                currentHealth = value;
+                effectiveHealth = value;
 
                 // prevent healing past maxHealth
                 // give small wiggle room to protect against float inaccuracies
-                currentHealth = Mathf.Clamp(currentHealth, -0.1f, maxHealth);
+                effectiveHealth = Mathf.Clamp(effectiveHealth, -0.1f, maxHealth);
 
                 invokeReponse(value);
                 return;
@@ -59,9 +61,12 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         }
     }
 
-    public float GetStat()
+    public float GetStat(Stats stat)
     {
-        return currentHealth;
+        if (stat != Stats.HEALTH)
+            return 0f;
+
+        return effectiveHealth;
     }
 
     /// If healing occured the OnHeal event will be invoked.
@@ -73,7 +78,7 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         {
             OnHeal.Invoke(amount);
         }
-        else if (currentHealth <= 0)
+        else if (effectiveHealth <= 0)
         {
             OnDeath.Invoke();
         }
@@ -82,18 +87,4 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
             OnDamageTaken.Invoke(amount);
         }
     }
-
-    /*
-    bool IsValidCompStat(Stats statToCheck)
-    {
-        switch (statToCheck)
-        {
-            case Stats.HEALTH:
-                return true;
-
-            default:
-                return false;
-        }
-    }
-    */
 }
