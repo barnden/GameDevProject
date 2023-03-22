@@ -47,19 +47,28 @@ public class RadialUi : MonoBehaviour
             {
                 platform.setCursorPos(cursorPos);
                 Tuple<Vector2, float, int> snap = platform.getSnap();
-                uiWorldPos.transform.position = snap.Item1;
+                
+                bool onCore = platform.pointInCore(cursorPos);
+                upgradeButton.GetComponent<RadialUiButton>().coreClicked = onCore;
+                if(onCore)
+                {
+                    uiWorldPos.transform.position = platform.transform.position;
+                }
+                else
+                {
+                    uiWorldPos.transform.position = snap.Item1;
+                }
 
                 bool onTower = platform.towerExists();
-                createButton.GetComponent<Button>().interactable = !onTower;
-                upgradeButton.GetComponent<Button>().interactable = onTower;
-                moveButton.GetComponent<Button>().interactable = onTower;
-                deleteButton.GetComponent<Button>().interactable = onTower;
-
-                if (onTower)
+                if (onTower && !onCore)
                 {
                     GameObject oj = platform.getTower();
                 }
-                    
+
+                createButton.GetComponent<Button>().interactable = !onTower && !onCore;
+                upgradeButton.GetComponent<Button>().interactable = onTower || onCore;
+                moveButton.GetComponent<Button>().interactable = onTower && !onCore;
+                deleteButton.GetComponent<Button>().interactable = onTower && !onCore;
             }
             else
             {

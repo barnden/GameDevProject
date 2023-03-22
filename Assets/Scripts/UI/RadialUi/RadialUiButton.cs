@@ -8,6 +8,9 @@ public class RadialUiButton : MonoBehaviour
     [SerializeField] ButtonType buttonType;
     [SerializeField] Platform platform;
     [SerializeField] RadialUi radialUi;
+    [SerializeField] CoreData coreData;
+
+    public bool coreClicked = false;
 
     void Start()
     {
@@ -22,7 +25,14 @@ public class RadialUiButton : MonoBehaviour
         }
         else if(buttonType == ButtonType.Upgrade)
         {
+            if (coreClicked)
+            {
+                coreData.levelUp();
+            }
+            else
+            {
 
+            }
         }
         if (buttonType == ButtonType.Move)
         {
