@@ -21,30 +21,30 @@ public class UpgradeOverlay : MonoBehaviour
         if(Input.GetMouseButtonDown(1))
         {
             BuildingPause();
-            // make 2D ray, needs a 2D collider on the object that the ray will hit
-            RaycastHit2D rayIntersect = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
-            if(rayIntersect.collider != null)
-            {
-                if(rayIntersect.collider.CompareTag("Base"))
-                {
-                    // show base exclusive upgrades
-                    print("Hit Base or Turrets");
-                }
-            }
-            // right click hit the screen
-            else
-            {
-                print("hit the screen");
-            }
+            //// make 2D ray, needs a 2D collider on the object that the ray will hit
+            //RaycastHit2D rayIntersect = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
+            //if(rayIntersect.collider != null)
+            //{
+            //    if(rayIntersect.collider.CompareTag("Base"))
+            //    {
+            //        // show base exclusive upgrades
+            //        print("Hit Base or Turrets");
+            //    }
+            //}
+            //// right click hit the screen
+            //else
+            //{
+            //    print("hit the screen");
+            //}
             
-            if(isScreen) 
-            {
+            //if(isScreen) 
+            //{
 
-            }
-            else
-            {
+            //}
+            //else
+            //{
 
-            }
+            //}
         }
     }
 
