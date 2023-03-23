@@ -142,6 +142,9 @@ MonoBehaviour:
   effects: []
   recursiveProjectile: {fileID: 4967661330752684158, guid: 856f2d6e60a5ad246b226fe87b267b6a, type: 3}
   dieOnCollision: 1
+  onCollision:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7044427833928562938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,13 +157,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventTrigger: 1
   projectiles:
   - projectile: {fileID: 4967661330752684158, guid: 856f2d6e60a5ad246b226fe87b267b6a, type: 3}
     projectileProperties:
       speed: 0
       scaleModifier: 1
-      lifeTime: 0.2
+      lifeTime: 1
       damage: 10
+      target: {fileID: 0}
     projectileSpawnDistance: 0.1
     fireRate: 0.5
     fireSpread: 0

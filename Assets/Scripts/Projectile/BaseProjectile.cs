@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 // To replace old BaseProjectile once completed
@@ -16,6 +17,8 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField] GameObject recursiveProjectile;
     [SerializeField] bool dieOnCollision;
 
+    public UnityEvent onCollision;
+
     /* Since projectile systems deal with how projectiles
      * act, with projectiles just being payloads for effects
      * and in charge of collision events, we don't get to
@@ -25,11 +28,17 @@ public class BaseProjectile : MonoBehaviour
 
     private GameObject self; 
     private Vector2 direction;
+    private ProjectileSystem projectileSysComponent;
+    private void Start()
+    {
+        projectileSysComponent = GetComponent<ProjectileSystem>();
+    }
 
     // Will be added once subparams within arrays can be displayed
-    public void Init(GameObject self, float lifeTime, float damage, float speed, float scaleMod, Vector2 direction)
+    public void Init(GameObject self, float lifeTime, float damage, float speed, float scaleMod, GameObject target, Vector2 direction)
     {
         this.self = self;
+        properties.target = target;
 
         properties.lifeTime = lifeTime;
         properties.damage = damage;
@@ -60,6 +69,15 @@ public class BaseProjectile : MonoBehaviour
     {
         if (checkCollisionTags(collision))
         {
+            onCollision.Invoke();
+
+            // pass target information to projectileSystem (if there is one)
+            if (projectileSysComponent != null)
+            {
+                projectileSysComponent.setTarget(properties.target);
+                projectileSysComponent.FireProjectiles(1);
+            }
+
             if (recursiveProjectile)
             {
                 GameObject projectile = Instantiate(recursiveProjectile, transform.position, Quaternion.identity);

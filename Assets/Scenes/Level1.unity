@@ -1161,6 +1161,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseTower
       objectReference: {fileID: 0}
+    - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
+      propertyPath: eventTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298007, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectileSystem
       value: 
