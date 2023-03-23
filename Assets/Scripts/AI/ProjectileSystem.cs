@@ -5,21 +5,6 @@ using UnityEngine;
 
 public class ProjectileSystem : MonoBehaviour
 {
-    [Serializable]
-
-    // These do nothing currently
-    private class ProjectileParams
-    {
-        public GameObject projectile;
-        public float distToSpawnProjectile;
-        public float lifetime;
-        public float speed;
-        public float damage;
-        public float fireRate;
-        public float AOESize;
-        public float fireSpread;
-    }
-
     // Keep public so other systems may change these
     // attributes (such as status's)
     [Serializable]
@@ -37,7 +22,6 @@ public class ProjectileSystem : MonoBehaviour
 
 
     [SerializeField] AttackProperties[] projectiles;
-    [SerializeField] ProjectileParams[] projectilesToFire;
     private GameObject target = null;
     private List<IEnumerator> coroutines;
 
@@ -83,11 +67,20 @@ public class ProjectileSystem : MonoBehaviour
                 // Instantiate the projectile with provided params
                 GameObject projectile = Instantiate(attack.projectile, front, Quaternion.identity);
 
-                /*projectile.GetComponent<BaseProjectile>().Init(projectile, param.lifetime, 
-                                                            param.speed, param.damage, 
-                                                            param.AOESize, targetDir);*/
-                projectile.GetComponent<BaseProjectile>().Init(projectile);
-                projectile.GetComponent<BaseProjectile>().setDirection(targetDir);
+                ProjectileProperties properties = attack.projectileProperties;
+                projectile.GetComponent<BaseProjectile>().Init(projectile, properties.lifeTime, 
+                                                               properties.damage, 
+                                                               properties.speed, properties.scaleModifier, targetDir);
+                
+                // Pass down target information for recursive bullet spawning
+                ProjectileSystem currProjProjSystem = projectile.GetComponent<ProjectileSystem>();
+                if(currProjProjSystem != null)
+                {
+                    currProjProjSystem.setTarget(target);
+                }
+
+                //projectile.GetComponent<BaseProjectile>().Init(projectile);
+                //projectile.GetComponent<BaseProjectile>().setDirection(targetDir);
             }
 
             yield return new WaitForSeconds(attack.fireRate);

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -4100914919882022276}
   - component: {fileID: 4817145319344370506}
   - component: {fileID: 7699977890187544110}
+  - component: {fileID: 7044427833928562938}
   m_Layer: 8
   m_Name: Turret AOE Damage Health
   m_TagString: Untagged
@@ -141,6 +142,25 @@ MonoBehaviour:
   effects: []
   recursiveProjectile: {fileID: 4967661330752684158, guid: 856f2d6e60a5ad246b226fe87b267b6a, type: 3}
   dieOnCollision: 1
-  lifeTime: 5
-  speed: 5
-  scale: 1
+--- !u!114 &7044427833928562938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967661330752684158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectiles:
+  - projectile: {fileID: 4967661330752684158, guid: 856f2d6e60a5ad246b226fe87b267b6a, type: 3}
+    projectileProperties:
+      speed: 0
+      scaleModifier: 1
+      lifeTime: 0.2
+      damage: 10
+    projectileSpawnDistance: 0.1
+    fireRate: 0.5
+    fireSpread: 0

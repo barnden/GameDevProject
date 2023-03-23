@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public struct ProjectileProperties
 {
-    [SerializeField] float speed;
-    [SerializeField] float scaleModifier;
-    [SerializeField] float lifeTime;
-    [SerializeField] float damage;
+    [SerializeField] public float speed;
+    [SerializeField] public float scaleModifier;
+    [SerializeField] public float lifeTime;
+    [SerializeField] public float damage;
 }

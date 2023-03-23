@@ -136,21 +136,12 @@ MonoBehaviour:
   projectiles:
   - projectile: {fileID: 4967661330752684158, guid: adce051043ab17b48bb8afd266e7a47e, type: 3}
     projectileProperties:
-      speed: 2
+      speed: 5
       scaleModifier: 1
       lifeTime: 5
-      damage: 1
+      damage: 10
     projectileSpawnDistance: 1
     fireRate: 0.5
-    fireSpread: 0
-  projectilesToFire:
-  - projectile: {fileID: 4967661330752684158, guid: adce051043ab17b48bb8afd266e7a47e, type: 3}
-    distToSpawnProjectile: 1
-    lifetime: 5
-    speed: 2
-    damage: 1
-    fireRate: 0.5
-    AOESize: 0
     fireSpread: 0
 --- !u!114 &4605530934032298088
 MonoBehaviour:
