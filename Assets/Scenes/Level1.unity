@@ -636,6 +636,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4605530934032298002, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
   m_PrefabInstance: {fileID: 4605530934050535977}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &780662933 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
+  m_PrefabInstance: {fileID: 4605530934050535977}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780662930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &812339094 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9064391136583620753, guid: 7b4f981815cd9a94199dd29bb5d81572, type: 3}
@@ -1150,6 +1161,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseTower
       objectReference: {fileID: 0}
+    - target: {fileID: 4605530934032298007, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
+      propertyPath: projectileSystem
+      value: 
+      objectReference: {fileID: 780662933}
     - target: {fileID: 4605530934032298089, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: m_RootOrder
       value: 5

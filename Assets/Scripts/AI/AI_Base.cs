@@ -34,6 +34,16 @@ public class AI_Base : MonoBehaviour
 
     private void Start()
     {
+        // Attempt to find the locomotion and projectile system
+        if(locomotionSystem == null) 
+        { 
+            locomotionSystem = gameObject.GetComponent<LocomotionSystem>(); 
+        }
+        if (projectileSystem == null)
+        {
+            projectileSystem = gameObject.GetComponent<ProjectileSystem>();
+        }
+
         Retarget();
     }
 
