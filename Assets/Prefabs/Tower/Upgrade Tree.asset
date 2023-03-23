@@ -38,7 +38,7 @@ MonoBehaviour:
     - stat: 1
       action: 0
       amount: 1
-    position: {x: 350, y: 46}
+    position: {x: 318, y: 363}
     zindex: 1
     inheritSprite: 1
   - title: Rapid Fire 2

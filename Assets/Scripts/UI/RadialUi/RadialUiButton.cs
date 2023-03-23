@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 
 public class RadialUiButton : MonoBehaviour
 {
@@ -31,7 +33,30 @@ public class RadialUiButton : MonoBehaviour
             }
             else
             {
-
+                radialUi.UpgradeScreenPanel.SetActive(true);
+                radialUi.BuildingPhaseOn();
+                // then create amount of buttons available in tower's upgrade tree
+                List<Upgrade> upgrades = radialUi.selectedGameObject.GetComponent<TowerUpgrade>().GetBuyableUpgrades();
+                
+                // FIXME: code better positioning of choices
+                float ypos = 150f;
+                float xpos = 0;
+                for(int i = 0; i < upgrades.Count; ++i)
+                {
+                    if(ypos <= -150f)
+                    {
+                        ypos = 150f;
+                        xpos += 100;
+                    }
+                    // instantiate upgrade choice buttons prefab
+                    GameObject createdButton = Instantiate(radialUi.upgradeButtonPrefab, radialUi.UpgradeScreenPanel.transform);
+                    createdButton.transform.localPosition = new Vector3(xpos, ypos, 0);
+                    UpgradeChoice button_Upgrade = createdButton.GetComponent<UpgradeChoice>();
+                    button_Upgrade.chosenUpgrade = upgrades[i];
+                    button_Upgrade.radialUIref = radialUi;
+                    ypos -= 75f;
+                }
+            
             }
         }
         if (buttonType == ButtonType.Move)
