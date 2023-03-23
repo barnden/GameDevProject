@@ -174,6 +174,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectiles:
+  - projectile: {fileID: 4967661330752684158, guid: c2f2d1947ec9ba84784b8e97f9fa605d, type: 3}
+    projectileProperties:
+      speed: 0.5
+      scaleModifier: 1
+      lifeTime: 1
+      damage: 10
+    projectileSpawnDistance: 0.1
+    fireRate: 3
+    fireSpread: 0
   projectilesToFire:
   - projectile: {fileID: 4967661330752684158, guid: c2f2d1947ec9ba84784b8e97f9fa605d, type: 3}
     distToSpawnProjectile: 0.1

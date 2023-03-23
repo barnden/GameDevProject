@@ -20,6 +20,23 @@ public class ProjectileSystem : MonoBehaviour
         public float fireSpread;
     }
 
+    // Keep public so other systems may change these
+    // attributes (such as status's)
+    [Serializable]
+    public struct AttackProperties
+    {
+        // We'll keep it as a gameObject if we want the system
+        // to deploy more than just "projectiles"
+        public GameObject projectile;
+        public ProjectileProperties projectileProperties;
+        public float projectileSpawnDistance;
+        public float fireRate; // in seconds
+        public float fireSpread; // in degrees
+         
+    }
+
+
+    [SerializeField] AttackProperties[] projectiles;
     [SerializeField] ProjectileParams[] projectilesToFire;
     private GameObject target = null;
     private List<IEnumerator> coroutines;
@@ -33,9 +50,9 @@ public class ProjectileSystem : MonoBehaviour
     {
         coroutines = new List<IEnumerator>();
 
-        foreach (ProjectileParams currProjectileParams in projectilesToFire)
+        foreach (AttackProperties currProjectile in projectiles)
         {
-            var coroutine = FireProjectile(currProjectileParams);
+            var coroutine = FireProjectile(currProjectile);
             coroutines.Add(coroutine);
             StartCoroutine(coroutine);
         }
@@ -49,7 +66,7 @@ public class ProjectileSystem : MonoBehaviour
         }
     }
 
-    IEnumerator FireProjectile(ProjectileParams param)
+    IEnumerator FireProjectile(AttackProperties attack)
     {
         // keep the subrutine running so the enemy keeps firing
         while(true)
@@ -60,20 +77,20 @@ public class ProjectileSystem : MonoBehaviour
                 targetDir.Normalize();
 
                 // find front of enemy to instantiate bullet
-                Vector2 front = new Vector2(transform.position.x + (targetDir.x * param.distToSpawnProjectile),
-                                            transform.position.y + (targetDir.y * param.distToSpawnProjectile));
+                Vector2 front = new Vector2(transform.position.x + (targetDir.x * attack.projectileSpawnDistance),
+                                            transform.position.y + (targetDir.y * attack.projectileSpawnDistance));
 
                 // Instantiate the projectile with provided params
-                GameObject projectile = Instantiate(param.projectile, front, Quaternion.identity);
+                GameObject projectile = Instantiate(attack.projectile, front, Quaternion.identity);
 
                 /*projectile.GetComponent<BaseProjectile>().Init(projectile, param.lifetime, 
                                                             param.speed, param.damage, 
                                                             param.AOESize, targetDir);*/
-                projectile.GetComponent<BaseProjectile>().Init(projectile); // To be removed once custom UI for inspector is made
-                projectile.GetComponent<BaseProjectile>().setDirection(targetDir); // To be removed once custom UI for inspector is made
+                projectile.GetComponent<BaseProjectile>().Init(projectile);
+                projectile.GetComponent<BaseProjectile>().setDirection(targetDir);
             }
 
-            yield return new WaitForSeconds(param.fireRate);
+            yield return new WaitForSeconds(attack.fireRate);
         }
     }
 }
