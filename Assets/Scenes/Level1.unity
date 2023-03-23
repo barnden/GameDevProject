@@ -862,7 +862,7 @@ PrefabInstance:
     - target: {fileID: 1267725760232941302, guid: 9125442803d36374eaec2a63cc661ff0, type: 3}
       propertyPath: objectSpawned
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4605530934032298002, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
     - target: {fileID: 1267725760232941309, guid: 9125442803d36374eaec2a63cc661ff0, type: 3}
       propertyPath: m_Name
       value: Build Turret Button

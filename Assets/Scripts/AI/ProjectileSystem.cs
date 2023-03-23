@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackSystem_Base : MonoBehaviour
+public class ProjectileSystem : MonoBehaviour
 {
     [Serializable]
 

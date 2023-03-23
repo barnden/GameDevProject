@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locomotionSystem: {fileID: 4605530934032298004}
-  attackSystem: {fileID: 4605530934032298005}
+  projectileSystem: {fileID: 4605530934032298005}
   targetTags:
   - Enemy
 --- !u!114 &4605530934032298004
