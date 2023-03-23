@@ -53,13 +53,13 @@ public class ProjectileSystem : MonoBehaviour
 
         foreach (AttackProperties currProjectile in projectiles)
         {
-            var coroutine = FireProjectile(currProjectile);
+            var coroutine = FireProjectileCoroutine(currProjectile);
             coroutines.Add(coroutine);
             StartCoroutine(coroutine);
         }
     }
 
-    IEnumerator FireProjectile(AttackProperties attack)
+    IEnumerator FireProjectileCoroutine(AttackProperties attack)
     {
         // keep the subroutine running so the enemy keeps firing
         while (true)
@@ -113,12 +113,12 @@ public class ProjectileSystem : MonoBehaviour
 
                     ProjectileProperties properties = currProjectile.projectileProperties;
                     projectile.GetComponent<BaseProjectile>().Init(projectile,
-                                                                    properties.lifeTime,
-                                                                    properties.damage,
-                                                                    properties.speed,
-                                                                    properties.scaleModifier,
-                                                                    target,
-                                                                    targetDir);
+                                                                   properties.lifeTime,
+                                                                   properties.damage,
+                                                                   properties.speed,
+                                                                   properties.scaleModifier,
+                                                                   target,
+                                                                   targetDir);
                 }
             }
         }
