@@ -23,7 +23,7 @@ public class StatusSystem : MonoBehaviour
         if ((se is StatDmgInstant || se.isStackable) && !activeEffects.Contains(se))
             activeEffects.Add(se);
 
-        se.Apply(this, GetComponent(GetAIComponent(se.statToEffect)) as BaseAIComponent);
+        se.Apply(this, GetComponent(GetAIComponentType(se.statToEffect)) as BaseAIComponent);
     }
 
     public void RemoveEffect(BaseStatusEffect se)
@@ -40,10 +40,12 @@ public class StatusSystem : MonoBehaviour
         }
     }
 
-    public Type GetAIComponent(Stats stat)
+    public Type GetAIComponentType(Stats stat)
     {
-        if (!handlers.ContainsKey(stat))
+        if (!handlers.ContainsKey(stat)) {
+            Debug.LogError($"Attempted to retrieve nonexistent AI component for {stat}.");
             return null;
+        }
 
         return handlers[stat];
     }
@@ -56,7 +58,16 @@ public class StatusSystem : MonoBehaviour
         component.DamageStat(stat, val);
     }
 
-    public void DamageStat(Stats stat, float val) => DamageStat(GetComponent(GetAIComponent(stat)) as BaseAIComponent, stat, val);
+    public BaseAIComponent GetAIComponent(Stats stat) {
+        var componentType = GetAIComponentType(stat);
+
+        if (componentType == null)
+            return null;
+
+        return GetComponent(componentType) as BaseAIComponent;
+    }
+
+    public void DamageStat(Stats stat, float val) => DamageStat(GetAIComponent(stat), stat, val);
 
     public void SetStat(BaseAIComponent component, Stats stat, float val)
     {
@@ -66,7 +77,7 @@ public class StatusSystem : MonoBehaviour
         component.SetStat(stat, val);
     }
 
-    public void SetStat(Stats stat, float val) => SetStat(GetComponent(GetAIComponent(stat)) as BaseAIComponent, stat, val);
+    public void SetStat(Stats stat, float val) => SetStat(GetAIComponent(stat), stat, val);
 
     public float GetStat(BaseAIComponent component, Stats stat, float defaultValue=0f)
     {
@@ -76,7 +87,7 @@ public class StatusSystem : MonoBehaviour
         return component.GetStat(stat);
     }
 
-    public float GetStat(Stats stat, float defaultValue=0f) => GetStat(GetComponent(GetAIComponent(stat)) as BaseAIComponent, stat, defaultValue);
+    public float GetStat(Stats stat, float defaultValue=0f) => GetStat(GetAIComponent(stat), stat, defaultValue);
 
     public float this[Stats stat]
     {

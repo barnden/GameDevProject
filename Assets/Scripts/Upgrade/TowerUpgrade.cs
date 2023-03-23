@@ -81,6 +81,8 @@ public class TowerUpgrade : MonoBehaviour
             {
                 statusSystem.DamageStat(mod.stat, (float) amount);
             }
+
+            Debug.Log($"[Upgrade] {node.title} Applying modifier {mod.stat} {mod.action} {mod.amount}. Updated value: {statusSystem.GetStat(mod.stat)}");
         }
 
         return true;
