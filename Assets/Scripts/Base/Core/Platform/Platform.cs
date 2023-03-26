@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -18,12 +19,14 @@ public class Platform : MonoBehaviour
     [SerializeField] private CoreData coreData;
     [SerializeField] private float coreRadius;
     [SerializeField] private float[] baseRadii;
+    [SerializeField] private Sprite[] baseSprites;
 
     [SerializeField] private bool displayRing = false;
     [SerializeField] private int defaultStartingSections;
     [SerializeField] private float ringZ;
-    private float towerRadius = 1.0f;
-    private float ringIncrement = 1.0f; //Towers take up 1.0f radius
+    
+    [SerializeField] private float[] towerRadii;
+    //private float ringIncrement = 0.75f; //Towers take up 0.75f radius
     private int startingSections = 4; //4,8,12 towers in radius 0,1,2
 
     private List<PlacementLine> placementLines = new List<PlacementLine>();
@@ -87,11 +90,11 @@ public class Platform : MonoBehaviour
         placementLines.Add(line);
     }
 
-    private void drawRing(float startRadius, float endRadius)
+    private void drawRing(float startRadius, float endRadius, int ringNum)
     {
         drawCircle(startRadius);
         drawCircle(endRadius);
-        int sections = startingSections + (int)(startingSections * (startRadius - coreRadius));
+        int sections = startingSections + (int)(startingSections * ringNum);
         for (int section = 0; section < sections; section++)
         {
             float theta = section * ((2.0f * Mathf.PI) / sections);
@@ -118,6 +121,7 @@ public class Platform : MonoBehaviour
     {
         float baseRadius = baseRadii[coreData.getLevel()];
         gameObject.transform.localScale = new Vector3(baseRadius * 2, baseRadius * 2, 1.0f);
+        gameObject.GetComponent<SpriteRenderer>().sprite = baseSprites[coreData.getLevel()];
 
         if(placementLines.Count > 0 || placementCircles.Count > 0)
         {
@@ -128,12 +132,30 @@ public class Platform : MonoBehaviour
         {
             Vector2 corePos = gameObject.transform.position;
             float cursorRadius = Vector2.Distance(cursorPos, corePos);
-            int ringNum = (int)((cursorRadius - coreRadius) / ringIncrement);
-            float innerRadius = Mathf.Max(coreRadius + ringIncrement * ringNum, coreRadius);
-            float outerRadius = innerRadius + towerRadius;
+
+            int ringNum = 0;
+            float radSum = coreRadius;
+            for (int i = 0; i < baseRadii.Length; i++)
+            {
+                radSum += towerRadii[i];
+                if (cursorRadius <= radSum)
+                {
+                    ringNum = i;
+                    break;
+                }
+            }
+
+            float innerAdd = 0.0f;
+            for(int i = 0; i < ringNum; i++)
+            {
+                innerAdd += towerRadii[i];
+            }
+            float innerRadius = Mathf.Max(coreRadius + innerAdd, coreRadius);
+            float outerRadius = innerRadius + towerRadii[ringNum];
+            
             if (outerRadius <= baseRadius)
             {
-                drawRing(innerRadius, outerRadius);
+                drawRing(innerRadius, outerRadius, ringNum);
             }
         }
         
@@ -151,13 +173,29 @@ public class Platform : MonoBehaviour
     {
         Vector2 corePos = gameObject.transform.position;
         float cursorRadius = Vector2.Distance(cursorPos, corePos);
+
+        int ringNum = 0;
+        float radSum = coreRadius;
+        for (int i = 0; i < baseRadii.Length; i++)
+        {
+            radSum += towerRadii[i];
+            if (cursorRadius <= radSum)
+            {
+                ringNum = i;
+                break;
+            }
+        }
         
-        int ringNum = (int)((cursorRadius - coreRadius) / ringIncrement);
-        float innerRadius = Mathf.Max(coreRadius + ringIncrement * ringNum, coreRadius);
-        float outerRadius = innerRadius + towerRadius;
+        float innerAdd = 0.0f;
+        for (int i = 0; i < ringNum; i++)
+        {
+            innerAdd += towerRadii[i];
+        }
+        float innerRadius = Mathf.Max(coreRadius + innerAdd, coreRadius);
+        float outerRadius = innerRadius + towerRadii[ringNum];
         float snapRadius = (innerRadius + outerRadius) / 2.0f;
 
-        int sections = startingSections + (int)(startingSections * (innerRadius - coreRadius));
+        int sections = startingSections + (int)(startingSections * ringNum);
         float closestTheta = 0.0f;
         int closestSection = 0;
 
@@ -234,5 +272,12 @@ public class Platform : MonoBehaviour
         float pointRadius = Vector2.Distance(point, corePosition);
         float baseRadius = baseRadii[coreData.getLevel()];
         return pointRadius < baseRadius;
+    }
+
+    public bool pointInCore(Vector2 point)
+    {
+        Vector2 corePosition = gameObject.transform.position;
+        float pointRadius = Vector2.Distance(point, corePosition);
+        return pointRadius < coreRadius;
     }
 }

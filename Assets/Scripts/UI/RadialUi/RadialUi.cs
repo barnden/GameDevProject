@@ -13,6 +13,10 @@ public class RadialUi : MonoBehaviour
     [SerializeField] Platform platform;
     public GameObject uiWorldPos;
 
+    [Header("What Player Mouse Selected")]
+    public GameObject selectedGameObject;
+    public GameObject UpgradeScreenPanel;
+    public GameObject upgradeButtonPrefab;
     private bool open;
 
     private void Start()
@@ -34,7 +38,9 @@ public class RadialUi : MonoBehaviour
             setAlpha(0.0f);
             Destroy(uiWorldPos);
             open = false;
+            BuildingPhaseOff();
         }
+      
         
         if (Input.GetMouseButtonDown(1))
         {
@@ -47,19 +53,29 @@ public class RadialUi : MonoBehaviour
             {
                 platform.setCursorPos(cursorPos);
                 Tuple<Vector2, float, int> snap = platform.getSnap();
-                uiWorldPos.transform.position = snap.Item1;
+                
+                bool onCore = platform.pointInCore(cursorPos);
+                upgradeButton.GetComponent<RadialUiButton>().coreClicked = onCore;
+                if(onCore)
+                {
+                    uiWorldPos.transform.position = platform.transform.position;
+                }
+                else
+                {
+                    uiWorldPos.transform.position = snap.Item1;
+                }
 
                 bool onTower = platform.towerExists();
-                createButton.GetComponent<Button>().interactable = !onTower;
-                upgradeButton.GetComponent<Button>().interactable = onTower;
-                moveButton.GetComponent<Button>().interactable = onTower;
-                deleteButton.GetComponent<Button>().interactable = onTower;
-
-                if (onTower)
+                if (onTower && !onCore)
                 {
-                    GameObject oj = platform.getTower();
+                    GameObject towerSelected = platform.getTower();
+                    selectedGameObject = towerSelected;
                 }
-                    
+
+                createButton.GetComponent<Button>().interactable = !onTower && !onCore;
+                upgradeButton.GetComponent<Button>().interactable = onTower || onCore;
+                moveButton.GetComponent<Button>().interactable = onTower && !onCore;
+                deleteButton.GetComponent<Button>().interactable = onTower && !onCore;
             }
             else
             {
@@ -72,6 +88,7 @@ public class RadialUi : MonoBehaviour
 
             setAlpha(1.0f);
             open = true;
+            BuildingPhaseOn();
         }
 
         if(uiWorldPos)
@@ -95,4 +112,26 @@ public class RadialUi : MonoBehaviour
         moveButton.GetComponent<Button>().interactable = false;
         deleteButton.GetComponent<Button>().interactable = false;
     }
+
+    public void BuildingPhaseOn()
+    {
+        Time.timeScale = 0.0f;
+    }
+    public void BuildingPhaseOff()
+    {
+        Time.timeScale = 1f;
+    }
+    public void UpgradeModeOff()
+    {
+        // delete all upgrade choice buttons
+        foreach (Transform child in UpgradeScreenPanel.transform)
+        {
+            if (child.name != "Close")
+            {
+                Destroy(child.gameObject);
+            }
+
+        }
+    }
+    
 }

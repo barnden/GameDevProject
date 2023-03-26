@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingEnergyStored: 0
   energyMax: 50
-  startingCoreLevel: 2
+  startingCoreLevel: 0
