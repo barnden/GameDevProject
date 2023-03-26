@@ -32,7 +32,7 @@ public class UpgradeTree : ScriptableObject
         if (idx != -1)
             return false;
 
-        tree.Add(new UpgradeNode(title, "", null, 0.0, new List<int>(), new List<int>(), false, pos));
+        tree.Add(new UpgradeNode(title, "", null, null, 0.0, new List<int>(), new List<int>(), false, pos));
         return true;
     }
 
