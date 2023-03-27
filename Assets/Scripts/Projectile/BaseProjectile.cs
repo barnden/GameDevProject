@@ -10,7 +10,6 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField] List<string> targetTags; 
 
     [SerializeField] List<BaseStatusEffect> effects;
-    [SerializeField] bool dieOnCollision;
 
     public UnityEvent onCollision;
 
@@ -31,7 +30,7 @@ public class BaseProjectile : MonoBehaviour
     }
 
     // Will be added once subparams within arrays can be displayed
-    public void Init(GameObject self, GameObject owner, float lifeTime, float damage, float speed, float scaleMod, GameObject target, Vector2 direction)
+    public void Init(GameObject self, GameObject owner, float lifeTime, float damage, float speed, float scaleMod, bool dieOnCollision, GameObject target, Vector2 direction)
     {
         this.self = self;
         this.owner = owner;
@@ -41,6 +40,7 @@ public class BaseProjectile : MonoBehaviour
         properties.damage = damage;
         properties.speed = speed;
         properties.scaleModifier = scaleMod;
+        properties.dieOnCollision = dieOnCollision;
 
         // Update the scale
         gameObject.transform.localScale *= scaleMod;
@@ -69,7 +69,6 @@ public class BaseProjectile : MonoBehaviour
     {
         if (checkCollisionTags(collision))
         {
-
             // pass target information to projectileSystem (if there is one)
             if (projectileSysComponent != null)
             {
@@ -78,7 +77,7 @@ public class BaseProjectile : MonoBehaviour
 
             onCollision.Invoke();
 
-            if (dieOnCollision)
+            if (properties.dieOnCollision)
             {
                 Destroy(self);
             }

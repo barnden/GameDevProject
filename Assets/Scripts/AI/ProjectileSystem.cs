@@ -82,7 +82,8 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
                                                                properties.lifeTime, 
                                                                properties.damage, 
                                                                properties.speed, 
-                                                               properties.scaleModifier, 
+                                                               properties.scaleModifier,
+                                                               properties.dieOnCollision,
                                                                target, 
                                                                targetDir);
 
@@ -137,6 +138,7 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
                                                                    properties.damage,
                                                                    properties.speed,
                                                                    properties.scaleModifier,
+                                                                   properties.dieOnCollision,
                                                                    target,
                                                                    targetDir);
 

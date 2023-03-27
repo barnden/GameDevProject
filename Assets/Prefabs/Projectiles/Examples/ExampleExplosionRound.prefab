@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3019415976513176237}
   - component: {fileID: -2210693612578009972}
   m_Layer: 8
-  m_Name: ExplosionRound
+  m_Name: ExampleExplosionRound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +141,6 @@ MonoBehaviour:
   targetTags:
   - Enemy
   effects: []
-  dieOnCollision: 1
   onCollision:
     m_PersistentCalls:
       m_Calls:
@@ -176,6 +175,7 @@ MonoBehaviour:
       scaleModifier: 2
       lifeTime: 0.5
       damage: 10
+      dieOnCollision: 0
       target: {fileID: 0}
     projectileSpawnDistance: 0
     fireRate: 0
