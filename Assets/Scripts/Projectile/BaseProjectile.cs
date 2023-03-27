@@ -10,11 +10,6 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField] List<string> targetTags; 
 
     [SerializeField] List<BaseStatusEffect> effects;
-    /* A projectile in which this projectile will spawn
-     * useful for AOE explosions, or projectiles firing more
-     * projectiles 
-     */
-    [SerializeField] GameObject recursiveProjectile;
     [SerializeField] bool dieOnCollision;
 
     public UnityEvent onCollision;
@@ -45,6 +40,9 @@ public class BaseProjectile : MonoBehaviour
         properties.speed = speed;
         properties.scaleModifier = scaleMod;
 
+        // Update the scale
+        gameObject.transform.localScale *= scaleMod;
+
         this.direction = direction;
     }
 
@@ -69,21 +67,15 @@ public class BaseProjectile : MonoBehaviour
     {
         if (checkCollisionTags(collision))
         {
-            onCollision.Invoke();
 
             // pass target information to projectileSystem (if there is one)
             if (projectileSysComponent != null)
             {
                 projectileSysComponent.setTarget(properties.target);
-                projectileSysComponent.FireProjectiles(1);
             }
 
-            if (recursiveProjectile)
-            {
-                GameObject projectile = Instantiate(recursiveProjectile, transform.position, Quaternion.identity);
-                projectile.GetComponent<BaseProjectile>().Init(projectile); // To be removed once custom UI for inspector is made
-                projectile.GetComponent<BaseProjectile>().setDirection(new Vector3(0.0f, 0.0f, 0.0f)); // To be removed once custom UI for inspector is made
-            }
+            onCollision.Invoke();
+
             if (dieOnCollision)
             {
                 Destroy(self);
