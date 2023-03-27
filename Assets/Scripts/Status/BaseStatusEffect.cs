@@ -7,6 +7,7 @@ public abstract class BaseStatusEffect : ScriptableObject
 {
     public Stats statToEffect;
     public bool isStackable; // can targets have multiple of these statuses
+    public bool isPercentageBased; // Switch to percent based damage instead of fixed value
 
     // may be removed in the future if all status effects do
     // not require this

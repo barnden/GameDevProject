@@ -58,16 +58,12 @@ public class StatusSystem : MonoBehaviour
         component.DamageStat(stat, val);
     }
 
-    public BaseAIComponent GetAIComponent(Stats stat) {
-        var componentType = GetAIComponentType(stat);
-
-        if (componentType == null)
-            return null;
-
-        return GetComponent(componentType) as BaseAIComponent;
-    }
-
     public void DamageStat(Stats stat, float val) => DamageStat(GetAIComponent(stat), stat, val);
+    public void DamageStatPercent(Stats stat, float val)
+    {
+        float statValue = GetStat(stat);
+        DamageStat(stat, statValue * val);
+    }
 
     public void SetStat(BaseAIComponent component, Stats stat, float val)
     {
@@ -88,6 +84,18 @@ public class StatusSystem : MonoBehaviour
     }
 
     public float GetStat(Stats stat, float defaultValue=0f) => GetStat(GetAIComponent(stat), stat, defaultValue);
+
+
+    // Helpers
+    public BaseAIComponent GetAIComponent(Stats stat)
+    {
+        var componentType = GetAIComponentType(stat);
+
+        if (componentType == null)
+            return null;
+
+        return GetComponent(componentType) as BaseAIComponent;
+    }
 
     public float this[Stats stat]
     {

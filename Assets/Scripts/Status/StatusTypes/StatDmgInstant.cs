@@ -9,6 +9,15 @@ public class StatDmgInstant : BaseStatusEffect
     public override void Apply(StatusSystem entityStatSysToEffect,
                                 BaseAIComponent compToEffect)
     {
-        compToEffect.DamageStat(statToEffect, amount);
+        //compToEffect.DamageStat(statToEffect, amount);
+        if (isPercentageBased)
+        {
+            float statVal = entityStatSysToEffect.GetStat(statToEffect);
+            entityStatSysToEffect.DamageStat(statToEffect, statVal * amount);
+        }
+        else
+        {
+            entityStatSysToEffect.DamageStat(statToEffect, amount);
+        }
     }
 }

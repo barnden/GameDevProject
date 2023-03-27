@@ -22,13 +22,31 @@ public class StatDmgTemp : BaseStatusEffect
         int counter = this.Duration;
         while (counter > 0)
         {
-            compToEffect.DamageStat(statToEffect, amount);
+            //compToEffect.DamageStat(statToEffect, amount);
+            if (isPercentageBased)
+            {
+                float statVal = entityStatSysToEffect.GetStat(statToEffect);
+                entityStatSysToEffect.DamageStat(statToEffect, statVal * amount);
+            }
+            else
+            {
+                entityStatSysToEffect.DamageStat(statToEffect, amount);
+            }
             counter--;
             yield return new WaitForSeconds(1.0f);
         }
 
         // revert the damage
-        compToEffect.DamageStat(statToEffect, -amount);
+        //compToEffect.DamageStat(statToEffect, -amount);
+        if (isPercentageBased)
+        {
+            float statVal = entityStatSysToEffect.GetStat(statToEffect);
+            entityStatSysToEffect.DamageStat(statToEffect, statVal * amount);
+        }
+        else
+        {
+            entityStatSysToEffect.DamageStat(statToEffect, -amount);
+        }
         entityStatSysToEffect.RemoveEffect(this);
     }
 }
