@@ -10,7 +10,6 @@ public class BaseProjectile : MonoBehaviour
     [SerializeField] List<string> targetTags; 
 
     [SerializeField] List<BaseStatusEffect> effects;
-    [SerializeField] bool dieOnCollision;
 
     public UnityEvent onCollision;
 
@@ -21,7 +20,8 @@ public class BaseProjectile : MonoBehaviour
      */
     private ProjectileProperties properties;
 
-    private GameObject self; 
+    private GameObject self;
+    private GameObject owner;
     private Vector2 direction;
     private ProjectileSystem projectileSysComponent;
     private void Start()
@@ -30,15 +30,17 @@ public class BaseProjectile : MonoBehaviour
     }
 
     // Will be added once subparams within arrays can be displayed
-    public void Init(GameObject self, float lifeTime, float damage, float speed, float scaleMod, GameObject target, Vector2 direction)
+    public void Init(GameObject self, GameObject owner, float lifeTime, float damage, float speed, float scaleMod, bool dieOnCollision, GameObject target, Vector2 direction)
     {
         this.self = self;
+        this.owner = owner;
         properties.target = target;
 
         properties.lifeTime = lifeTime;
         properties.damage = damage;
         properties.speed = speed;
         properties.scaleModifier = scaleMod;
+        properties.dieOnCollision = dieOnCollision;
 
         // Update the scale
         gameObject.transform.localScale *= scaleMod;
@@ -67,7 +69,6 @@ public class BaseProjectile : MonoBehaviour
     {
         if (checkCollisionTags(collision))
         {
-
             // pass target information to projectileSystem (if there is one)
             if (projectileSysComponent != null)
             {
@@ -76,7 +77,7 @@ public class BaseProjectile : MonoBehaviour
 
             onCollision.Invoke();
 
-            if (dieOnCollision)
+            if (properties.dieOnCollision)
             {
                 Destroy(self);
             }
@@ -87,7 +88,11 @@ public class BaseProjectile : MonoBehaviour
             {
                 foreach (BaseStatusEffect currEffect in effects)
                 {
-                    statSys.ApplyEffect(currEffect);
+                    // check to see if status effect is self inflicting
+                    if (collision.gameObject != owner || currEffect.isOwnerInflicting)
+                    {
+                        statSys.ApplyEffect(currEffect);
+                    }
                 }
             }
         }

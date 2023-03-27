@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: -4100914919882022276}
   - component: {fileID: 4817145319344370506}
   - component: {fileID: 7699977890187544110}
+  - component: {fileID: 3019415976513176237}
+  - component: {fileID: -2210693612578009972}
   m_Layer: 8
   m_Name: Base Turret Projectile
   m_TagString: Untagged
@@ -138,7 +140,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTags:
   - Enemy
-  effects:
-  - {fileID: 11400000, guid: 41eb249083a1e854f8bb1785e5f4c531, type: 2}
-  recursiveProjectile: {fileID: 4967661330752684158, guid: adce051043ab17b48bb8afd266e7a47e, type: 3}
+  effects: []
   dieOnCollision: 1
+  onCollision:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3019415976513176237}
+        m_TargetAssemblyTypeName: ProjectileSystem, Assembly-CSharp
+        m_MethodName: FireProjectiles
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3019415976513176237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967661330752684158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectiles: []
+--- !u!114 &-2210693612578009972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967661330752684158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c240ec1ab5d70c54ea75b1bf1c746517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeEffects: []

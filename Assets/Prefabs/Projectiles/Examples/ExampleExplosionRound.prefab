@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: -4100914919882022276}
   - component: {fileID: 4817145319344370506}
   - component: {fileID: 7699977890187544110}
-  - component: {fileID: 7044427833928562938}
+  - component: {fileID: 3019415976513176237}
+  - component: {fileID: -2210693612578009972}
   m_Layer: 8
-  m_Name: Turret AOE Damage Health
+  m_Name: ExampleExplosionRound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,23 +141,22 @@ MonoBehaviour:
   targetTags:
   - Enemy
   effects: []
-  dieOnCollision: 1
   onCollision:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7044427833928562938}
+      - m_Target: {fileID: 3019415976513176237}
         m_TargetAssemblyTypeName: ProjectileSystem, Assembly-CSharp
         m_MethodName: FireProjectiles
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7044427833928562938
+--- !u!114 &3019415976513176237
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,11 +171,25 @@ MonoBehaviour:
   projectiles:
   - projectile: {fileID: 4967661330752684158, guid: 3f42f513db84b234a87e93af58189a27, type: 3}
     projectileProperties:
-      speed: 1
-      scaleModifier: 5
-      lifeTime: 2
+      speed: 0
+      scaleModifier: 2
+      lifeTime: 0.5
       damage: 10
+      dieOnCollision: 0
       target: {fileID: 0}
-    projectileSpawnDistance: 0.1
-    fireRate: 0.5
+    projectileSpawnDistance: 0
+    fireRate: 0
     fireSpread: 0
+--- !u!114 &-2210693612578009972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967661330752684158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c240ec1ab5d70c54ea75b1bf1c746517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeEffects: []

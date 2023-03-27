@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: -4100914919882022276}
   - component: {fileID: 3193240227853100158}
   - component: {fileID: 7699977890187544110}
+  - component: {fileID: -2147655852664870264}
+  - component: {fileID: -3143111645263491675}
   m_Layer: 6
   m_Name: Base Enemy Projectile
   m_TagString: Untagged
@@ -139,8 +141,45 @@ MonoBehaviour:
   targetTags:
   - Player
   effects: []
-  recursiveProjectile: {fileID: 0}
   dieOnCollision: 1
-  lifeTime: 5
-  speed: 5
-  scale: 1
+  onCollision:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -2147655852664870264}
+        m_TargetAssemblyTypeName: ProjectileSystem, Assembly-CSharp
+        m_MethodName: FireProjectiles
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &-2147655852664870264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967661330752684158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectiles: []
+--- !u!114 &-3143111645263491675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4967661330752684158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c240ec1ab5d70c54ea75b1bf1c746517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeEffects: []

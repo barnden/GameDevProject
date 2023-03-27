@@ -76,7 +76,10 @@ public class TowerUpgrade : MonoBehaviour
 
             if (mod.action == ModifierAction.MULTIPLY)
             {
-                statusSystem.SetStat(mod.stat, (float) (statusSystem.GetStat(mod.stat) * mod.amount));
+                foreach (float currStat in statusSystem.GetStat(mod.stat))
+                {
+                    statusSystem.SetStat(mod.stat, (float)(currStat * mod.amount));
+                }
             }
             else
             {
