@@ -12,5 +12,6 @@ public interface BaseAIComponent
     void SetStat(Stats statToSet, float value);
 
     // Retrieves value of a given stat
-    float GetStat(Stats stats);
+    // Assumes to be a list in case multiple stats are required
+    List<float> GetStat(Stats stats);
 }

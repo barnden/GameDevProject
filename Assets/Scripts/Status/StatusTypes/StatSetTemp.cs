@@ -22,15 +22,17 @@ public class StatSetTemp : BaseStatusEffect
         int counter = this.Duration;
         while (counter > 0)
         {
-            //compToEffect.SetStat(statToEffect, amount);
-            if (isPercentageBased)
+            foreach (float statVal in entityStatSysToEffect.GetStat(statToEffect))
             {
-                float statVal = entityStatSysToEffect.GetStat(statToEffect);
-                entityStatSysToEffect.SetStat(statToEffect, statVal * amount);
-            }
-            else
-            {
-                entityStatSysToEffect.SetStat(statToEffect, amount);
+                //compToEffect.SetStat(statToEffect, amount);
+                if (isPercentageBased)
+                {
+                    entityStatSysToEffect.SetStat(statToEffect, statVal * amount);
+                }
+                else
+                {
+                    entityStatSysToEffect.SetStat(statToEffect, amount);
+                }
             }
             counter--;
             yield return new WaitForSeconds(1.0f);
@@ -38,14 +40,16 @@ public class StatSetTemp : BaseStatusEffect
 
         // revert the damage
         //compToEffect.SetStat(statToEffect, -amount);
-        if (isPercentageBased)
+        foreach (float statVal in entityStatSysToEffect.GetStat(statToEffect))
         {
-            float statVal = entityStatSysToEffect.GetStat(statToEffect);
-            entityStatSysToEffect.SetStat(statToEffect, -(statVal * amount));
-        }
-        else
-        {
-            entityStatSysToEffect.SetStat(statToEffect, -amount);
+            if (isPercentageBased)
+            {
+                entityStatSysToEffect.SetStat(statToEffect, -(statVal * amount));
+            }
+            else
+            {
+                entityStatSysToEffect.SetStat(statToEffect, -amount);
+            }
         }
         entityStatSysToEffect.RemoveEffect(this);
     }

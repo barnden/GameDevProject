@@ -10,24 +10,12 @@ using UnityEngine;
  * the projectile
  */
 
-public class ProjectileSystem : MonoBehaviour
+public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 {
-    // The event to occur in game for the projectile system
-    // to begin spawning projectiles
-    /*
-    private enum EventType
-    {
-        DISABLED,
-        ON_TARGET_ACQUIRED, // fires when target aquired
-    };
-    [SerializeField] EventType eventTrigger;
-    */
-
-
     // Keep public so other systems may change these
     // attributes (such as status's)
     [Serializable]
-    public struct AttackProperties
+    public class AttackProperties
     {
         // We'll keep it as a gameObject if we want the system
         // to deploy more than just "projectiles"
@@ -38,7 +26,7 @@ public class ProjectileSystem : MonoBehaviour
         public float fireSpread; // in degrees     
     }
 
-    [SerializeField] AttackProperties[] projectiles;
+    [SerializeField] List<AttackProperties> projectiles;
     private GameObject target = null;
     private List<IEnumerator> coroutines;
 
@@ -124,6 +112,65 @@ public class ProjectileSystem : MonoBehaviour
         }
     }
 
+    // Status system dependent functions
+    public void DamageStat(Stats statToDamage, float amount)
+    {
+        switch (statToDamage)
+        {
+            case Stats.FIRERATE:
+                foreach(AttackProperties currProjectile in projectiles)
+                {
+                    currProjectile.fireRate -= amount;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.fireRate = Mathf.Clamp(currProjectile.fireRate, 0.0f, float.MaxValue);
+                }
+                return;
+
+            default:
+                return;
+        }
+    }
+
+    public void SetStat(Stats statToDamage, float value)
+    {
+        switch (statToDamage)
+        {
+            case Stats.FIRERATE:
+                foreach (AttackProperties currProjectile in projectiles)
+                {
+                    currProjectile.fireRate = value;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.fireRate = Mathf.Clamp(currProjectile.fireRate, 0.0f, float.MaxValue);
+                }
+                return;
+
+            default:
+                return;
+        }
+    }
+
+    public List<float> GetStat(Stats stat)
+    {
+        List<float> propertyList = new List<float>();
+
+        foreach (AttackProperties currProjectile in projectiles)
+        {
+            switch (stat)
+            {
+                case Stats.FIRERATE:
+                    float statVal = currProjectile.fireRate;
+                    propertyList.Add(statVal);
+
+                    break;
+
+                default:
+                    return null;
+            }
+        }
+        return propertyList;
+    }
     public void OnDestroy()
     {
         foreach (var coroutine in coroutines)

@@ -9,15 +9,17 @@ public class StatSetInstant : BaseStatusEffect
     public override void Apply(StatusSystem entityStatSysToEffect,
                                 BaseAIComponent compToEffect)
     {
-        //compToEffect.SetStat(statToEffect, amount);
-        if (isPercentageBased)
+        foreach (float statVal in entityStatSysToEffect.GetStat(statToEffect))
         {
-            float statVal = entityStatSysToEffect.GetStat(statToEffect);
-            entityStatSysToEffect.SetStat(statToEffect, statVal * amount);
-        }
-        else
-        {
-            entityStatSysToEffect.SetStat(statToEffect, amount);
+            //compToEffect.SetStat(statToEffect, amount);
+            if (isPercentageBased)
+            {
+                entityStatSysToEffect.SetStat(statToEffect, statVal * amount);
+            }
+            else
+            {
+                entityStatSysToEffect.SetStat(statToEffect, amount);
+            }
         }
     }
 }

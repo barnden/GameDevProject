@@ -61,12 +61,12 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
         }
     }
 
-    public float GetStat(Stats stat)
+    public List<float> GetStat(Stats stat)
     {
         if (stat != Stats.HEALTH)
-            return 0f;
+            return null;
 
-        return effectiveHealth;
+        return new List<float> { effectiveHealth };
     }
 
     /// If healing occured the OnHeal event will be invoked.

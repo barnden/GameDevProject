@@ -139,7 +139,7 @@ MonoBehaviour:
   targetTags:
   - Enemy
   effects:
-  - {fileID: 11400000, guid: 7a3c6c6122ecd7448843bd6be53ad9a8, type: 2}
+  - {fileID: 11400000, guid: 0c57284386fa4d042b561180075d4f7d, type: 2}
   dieOnCollision: 1
   onCollision:
     m_PersistentCalls:

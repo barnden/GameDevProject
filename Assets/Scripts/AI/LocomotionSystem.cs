@@ -71,15 +71,15 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
         }
     }
 
-    public float GetStat(Stats stat)
+    public List<float> GetStat(Stats stat)
     {
         switch (stat)
         {
             case Stats.SPEED:
-                return effectiveSpeed;
+                return new List<float>{ effectiveSpeed };
 
             default:
-                return 0f;
+                return null;
         }
     }
 }

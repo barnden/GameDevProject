@@ -20,32 +20,38 @@ public class StatDmgTemp : BaseStatusEffect
     private IEnumerator DoEffect(StatusSystem entityStatSysToEffect, BaseAIComponent compToEffect)
     {
         int counter = this.Duration;
-        while (counter > 0)
+
+        // Damage the stat
+        foreach (float statVal in entityStatSysToEffect.GetStat(statToEffect))
         {
-            //compToEffect.DamageStat(statToEffect, amount);
             if (isPercentageBased)
             {
-                float statVal = entityStatSysToEffect.GetStat(statToEffect);
                 entityStatSysToEffect.DamageStat(statToEffect, statVal * amount);
             }
             else
             {
                 entityStatSysToEffect.DamageStat(statToEffect, amount);
             }
+        }
+
+        // Wait until timer is up
+        while (counter > 0)
+        {
             counter--;
             yield return new WaitForSeconds(1.0f);
         }
 
         // revert the damage
-        //compToEffect.DamageStat(statToEffect, -amount);
-        if (isPercentageBased)
+        foreach (float statVal in entityStatSysToEffect.GetStat(statToEffect))
         {
-            float statVal = entityStatSysToEffect.GetStat(statToEffect);
-            entityStatSysToEffect.DamageStat(statToEffect, statVal * amount);
-        }
-        else
-        {
-            entityStatSysToEffect.DamageStat(statToEffect, -amount);
+            if (isPercentageBased)
+            {
+                entityStatSysToEffect.DamageStat(statToEffect, -(statVal * amount));
+            }
+            else
+            {
+                entityStatSysToEffect.DamageStat(statToEffect, -amount);
+            }
         }
         entityStatSysToEffect.RemoveEffect(this);
     }

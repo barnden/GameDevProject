@@ -25,14 +25,16 @@ public class StatDOT : BaseStatusEffect
         int counter = this.Duration;
         while (counter > 0)
         {
-            if (isPercentageBased)
+            foreach (float statVal in entityStatSysToEffect.GetStat(statToEffect))
             {
-                float statVal = entityStatSysToEffect.GetStat(statToEffect);
-                entityStatSysToEffect.DamageStat(statToEffect, statVal * amount);
-            }
-            else
-            {
-                entityStatSysToEffect.DamageStat(statToEffect, amount);
+                if (isPercentageBased)
+                {
+                    entityStatSysToEffect.DamageStat(statToEffect, statVal * amount);
+                }
+                else
+                {
+                    entityStatSysToEffect.DamageStat(statToEffect, amount);
+                }
             }
             //compToEffect.DamageStat(statToEffect, amount);
             counter--;
