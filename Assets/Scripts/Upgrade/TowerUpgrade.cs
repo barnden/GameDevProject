@@ -9,8 +9,8 @@ public class Upgrade
     public string description { get; }
     public double cost { get; }
     public int index { get; }
-
     public Sprite sprite { get;  }
+    public Sprite icon { get;  }
 
     public Upgrade(UpgradeNode node, int index)
     {
@@ -18,6 +18,7 @@ public class Upgrade
         description = node.description;
         cost = node.cost;
         sprite = node.sprite;
+        icon = node.icon;
         
         this.index = index;
     }
@@ -81,6 +82,8 @@ public class TowerUpgrade : MonoBehaviour
             {
                 statusSystem.DamageStat(mod.stat, (float) amount);
             }
+
+            Debug.Log($"[Upgrade] {node.title} Applying modifier {mod.stat} {mod.action} {mod.amount}. Updated value: {statusSystem.GetStat(mod.stat)}");
         }
 
         return true;
@@ -108,5 +111,7 @@ public class TowerUpgrade : MonoBehaviour
         // Hydrate new instance of UpgradeTree with existing upgrade tree
         tree = ScriptableObject.CreateInstance<UpgradeTree>();
         tree.Init(upgradeTree);
+
+        GetComponent<SpriteRenderer>().sprite = tree[0].sprite;
     }
 }

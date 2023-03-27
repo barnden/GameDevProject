@@ -420,7 +420,6 @@ public class UpgradeTreeEditor : Editor
         // Build node inspector fields
         EditorGUILayout.BeginHorizontal();
         {
-
             if (active.node != null)
             {
                 // Left most column of node inspector for basic node information
@@ -488,6 +487,10 @@ public class UpgradeTreeEditor : Editor
                         }
                         EditorGUILayout.EndHorizontal();
                     }
+
+                    EditorGUILayout.BeginHorizontal();
+                    PropertyLayout("Icon", ref active.node.icon);
+                    EditorGUILayout.EndHorizontal();
                 }
                 EditorGUILayout.EndVertical();
 

@@ -23,7 +23,7 @@ public class BuildDefense : MonoBehaviour
             {
                 numberOfClicks = 1;
                 defense.GetComponent<AI_Base>().enabled = true; //Turn the AI on once placed
-                defenseSprite.color = new Color(0f, 0f, 0f, 1f);
+                defenseSprite.color = new Color(1f, 1f, 1f, 1f);
                 spawning = false;
             }
         }

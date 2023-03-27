@@ -15,7 +15,8 @@ MonoBehaviour:
   tree:
   - title: Basic
     description: 
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 0c9dd4099e84dd649907b34f92242208, type: 3}
+    icon: {fileID: 0}
     cost: 0
     prerequisites: 
     exclusion: 
@@ -26,7 +27,8 @@ MonoBehaviour:
     inheritSprite: 0
   - title: Rapid Fire 1
     description: 
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 31ec9181980cde34bb8c303e775f3354, type: 3}
+    icon: {fileID: 21300000, guid: 86274b40fd019084ca2b7acb61cb2f86, type: 3}
     cost: 0
     prerequisites: 00000000
     exclusion: 
@@ -38,34 +40,37 @@ MonoBehaviour:
     - stat: 1
       action: 0
       amount: 1
-    position: {x: 350, y: 46}
+    position: {x: 349, y: 44}
     zindex: 1
-    inheritSprite: 1
+    inheritSprite: 0
   - title: Rapid Fire 2
     description: 
     sprite: {fileID: 0}
+    icon: {fileID: 21300000, guid: 86274b40fd019084ca2b7acb61cb2f86, type: 3}
     cost: 0
     prerequisites: 01000000
     exclusion: 
     bought: 0
     modifiers: []
-    position: {x: 608, y: 47}
+    position: {x: 614, y: 45}
     zindex: 0
     inheritSprite: 1
   - title: Damage 1
     description: 
-    sprite: {fileID: 0}
+    sprite: {fileID: 21300000, guid: 0c9dd4099e84dd649907b34f92242208, type: 3}
+    icon: {fileID: 21300000, guid: 97937b6242765cd469ba1a988fe3c03a, type: 3}
     cost: 0
     prerequisites: 00000000
     exclusion: 
     bought: 0
     modifiers: []
-    position: {x: 351, y: 145}
+    position: {x: 352, y: 145}
     zindex: 1
     inheritSprite: 1
   - title: Damage 2
     description: 
     sprite: {fileID: 0}
+    icon: {fileID: 21300000, guid: 97937b6242765cd469ba1a988fe3c03a, type: 3}
     cost: 0
     prerequisites: 03000000
     exclusion: 
@@ -77,6 +82,7 @@ MonoBehaviour:
   - title: Range 1
     description: 
     sprite: {fileID: 0}
+    icon: {fileID: 21300000, guid: 86274b40fd019084ca2b7acb61cb2f86, type: 3}
     cost: 0
     prerequisites: 00000000
     exclusion: 
@@ -88,6 +94,7 @@ MonoBehaviour:
   - title: Range 2
     description: 
     sprite: {fileID: 0}
+    icon: {fileID: 21300000, guid: 86274b40fd019084ca2b7acb61cb2f86, type: 3}
     cost: 0
     prerequisites: 05000000
     exclusion: 
