@@ -193,6 +193,22 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
                         Mathf.Clamp(currProjectile.projectileProperties.speed, 0.0f, float.MaxValue);
                     return;
 
+                case Stats.PROJECTILE_LIFETIME:
+                    currProjectile.projectileProperties.lifeTime -= amount;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.projectileProperties.lifeTime =
+                        Mathf.Clamp(currProjectile.projectileProperties.lifeTime, 0.0f, float.MaxValue);
+                    return;
+
+                case Stats.PROJECTILE_DAMAGE:
+                    currProjectile.projectileProperties.damage -= amount;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.projectileProperties.damage =
+                        Mathf.Clamp(currProjectile.projectileProperties.damage, float.MinValue, float.MaxValue);
+                    return;
+
 
                 default:
                     return;
@@ -202,7 +218,6 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
     public void SetStat(Stats statToDamage, float value)
     {
-        Debug.Log("damage!");
         foreach (AttackProperties currProjectile in projectiles)
         {
             switch (statToDamage)
@@ -231,6 +246,24 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
                     // give small wiggle room to protect against float inaccuracies
                     currProjectile.projectileProperties.speed =
                         Mathf.Clamp(currProjectile.projectileProperties.speed, 0.0f, float.MaxValue);
+                    return;
+
+                case Stats.PROJECTILE_LIFETIME:
+
+                    currProjectile.projectileProperties.lifeTime = value;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.projectileProperties.lifeTime =
+                        Mathf.Clamp(currProjectile.projectileProperties.lifeTime, 0.0f, float.MaxValue);
+                    return;
+
+                case Stats.PROJECTILE_DAMAGE:
+
+                    currProjectile.projectileProperties.damage = value;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.projectileProperties.damage =
+                        Mathf.Clamp(currProjectile.projectileProperties.damage, float.MinValue, float.MaxValue);
                     return;
 
                 default:
@@ -266,6 +299,18 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
                     break;
 
+                case Stats.PROJECTILE_LIFETIME:
+                    statVal = currProjectile.projectileProperties.lifeTime;
+                    propertyList.Add(statVal);
+
+                    break;
+
+                case Stats.PROJECTILE_DAMAGE:
+                    statVal = currProjectile.projectileProperties.damage;
+                    propertyList.Add(statVal);
+
+                    break;
+
                 default:
                     return null;
             }
@@ -278,6 +323,8 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
         statusSystem.RegisterAIComponent(this, Stats.FIRERATE);
         statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_SCALE);
         statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_SPEED);
+        statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_LIFETIME);
+        statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_DAMAGE);
     }
 
     public void OnDestroy()

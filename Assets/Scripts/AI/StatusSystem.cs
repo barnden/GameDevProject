@@ -106,14 +106,3 @@ public class StatusSystem : MonoBehaviour
         return GetComponent(componentType) as BaseAIComponent;
     }
 }
-
-    /*
-    public List<float> this[Stats stat]
-    {
-        get => GetStat(stat, 0f);
-    }
-    public float this[Stats stat]
-    {
-        set => SetStat(stat, value);
-    }
-    */
