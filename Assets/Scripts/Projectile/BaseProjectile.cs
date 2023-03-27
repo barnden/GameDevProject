@@ -1,39 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine;
 
 // To replace old BaseProjectile once completed
 public class BaseProjectile : MonoBehaviour
 {
-    [SerializeField] List<string> targetTags; // Tags that the bullet will check collision with
+    // Tags that the bullet will check collision with
+    [SerializeField] List<string> targetTags; 
 
     [SerializeField] List<BaseStatusEffect> effects;
-    /* A projectile in which this projectile will spawn
-     * useful for AOE explosions, or projectiles firing more
-     * projectiles 
-     */
-    [SerializeField] GameObject recursiveProjectile;
     [SerializeField] bool dieOnCollision;
-    [SerializeField] float lifeTime;
-    [SerializeField] float speed;
-    [SerializeField] float scale; // Changes the scale from the default object
-    
+
+    public UnityEvent onCollision;
+
+    /* Since projectile systems deal with how projectiles
+     * act, with projectiles just being payloads for effects
+     * and in charge of collision events, we don't get to
+     * modify the properties here
+     */
+    private ProjectileProperties properties;
 
     private GameObject self; 
     private Vector2 direction;
+    private ProjectileSystem projectileSysComponent;
+    private void Start()
+    {
+        projectileSysComponent = GetComponent<ProjectileSystem>();
+    }
 
     // Will be added once subparams within arrays can be displayed
-    /*
-    public void Init(GameObject self, float lifeTime, float speed, float damage, float AOESize, Vector2 direction)
+    public void Init(GameObject self, float lifeTime, float damage, float speed, float scaleMod, GameObject target, Vector2 direction)
     {
-        this.lifeTime = lifeTime;
-        this.speed = speed;
-        this.damage = damage;
-        this.scale = AOESize;
-        this.direction = direction;
         this.self = self;
+        properties.target = target;
+
+        properties.lifeTime = lifeTime;
+        properties.damage = damage;
+        properties.speed = speed;
+        properties.scaleModifier = scaleMod;
+
+        // Update the scale
+        gameObject.transform.localScale *= scaleMod;
+
+        this.direction = direction;
     }
-    */
+
+    // Legacy function
     public void Init(GameObject self)
     {
         this.self = self;
@@ -42,24 +55,27 @@ public class BaseProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lifeTime -= Time.deltaTime;
-        if (lifeTime <= 0)
+        properties.lifeTime -= Time.deltaTime;
+        if (properties.lifeTime <= 0)
         {
             Destroy(self);
         }
-        transform.Translate(Time.deltaTime * speed * direction);
+        transform.Translate(Time.deltaTime * properties.speed * direction);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (checkCollisionTags(collision))
         {
-            if (recursiveProjectile)
+
+            // pass target information to projectileSystem (if there is one)
+            if (projectileSysComponent != null)
             {
-                GameObject projectile = Instantiate(recursiveProjectile, transform.position, Quaternion.identity);
-                projectile.GetComponent<BaseProjectile>().Init(projectile); // To be removed once custom UI for inspector is made
-                projectile.GetComponent<BaseProjectile>().setDirection(new Vector3(0.0f, 0.0f, 0.0f)); // To be removed once custom UI for inspector is made
+                projectileSysComponent.setTarget(properties.target);
             }
+
+            onCollision.Invoke();
+
             if (dieOnCollision)
             {
                 Destroy(self);

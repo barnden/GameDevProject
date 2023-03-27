@@ -8,7 +8,7 @@ using UnityEngine;
 public class AI_Base : MonoBehaviour
 {
     [SerializeField] LocomotionSystem locomotionSystem;
-    [SerializeField] AttackSystem_Base attackSystem;
+    [SerializeField] ProjectileSystem projectileSystem;
     [SerializeField] string[] targetTags;
 
     private GameObject target = null;
@@ -26,14 +26,24 @@ public class AI_Base : MonoBehaviour
         {
             locomotionSystem.setTarget(target);
         }
-        if (attackSystem)
+        if (projectileSystem)
         {
-            attackSystem.setTarget(target);
+            projectileSystem.setTarget(target);
         }
     }
 
     private void Start()
     {
+        // Attempt to find the locomotion and projectile system
+        if(locomotionSystem == null) 
+        { 
+            locomotionSystem = gameObject.GetComponent<LocomotionSystem>(); 
+        }
+        if (projectileSystem == null)
+        {
+            projectileSystem = gameObject.GetComponent<ProjectileSystem>();
+        }
+
         Retarget();
     }
 
@@ -104,6 +114,6 @@ public class AI_Base : MonoBehaviour
     private void checkComponentsAreValid()
     {
         Debug.Assert(locomotionSystem != null, "Enemy: " + this.name.ToString() + " does not have it's locomotion script assigned");
-        Debug.Assert(attackSystem != null, "Enemy: " + this.name.ToString() + " does not have it's attack system script assigned");
+        Debug.Assert(projectileSystem != null, "Enemy: " + this.name.ToString() + " does not have it's attack system script assigned");
     }
 }

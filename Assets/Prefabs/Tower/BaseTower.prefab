@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locomotionSystem: {fileID: 4605530934032298004}
-  attackSystem: {fileID: 4605530934032298005}
+  projectileSystem: {fileID: 0}
   targetTags:
   - Enemy
 --- !u!114 &4605530934032298004
@@ -133,14 +133,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilesToFire:
+  eventTrigger: 1
+  projectiles:
   - projectile: {fileID: 4967661330752684158, guid: adce051043ab17b48bb8afd266e7a47e, type: 3}
-    distToSpawnProjectile: 1
-    lifetime: 5
-    speed: 2
-    damage: 1
+    projectileProperties:
+      speed: 5
+      scaleModifier: 1
+      lifeTime: 5
+      damage: 10
+      target: {fileID: 0}
+    projectileSpawnDistance: 1
     fireRate: 0.5
-    AOESize: 0
     fireSpread: 0
 --- !u!114 &4605530934032298088
 MonoBehaviour:

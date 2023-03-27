@@ -140,8 +140,5 @@ MonoBehaviour:
   - Enemy
   effects:
   - {fileID: 11400000, guid: 41eb249083a1e854f8bb1785e5f4c531, type: 2}
-  recursiveProjectile: {fileID: 0}
+  recursiveProjectile: {fileID: 4967661330752684158, guid: adce051043ab17b48bb8afd266e7a47e, type: 3}
   dieOnCollision: 1
-  lifeTime: 5
-  speed: 5
-  scale: 1
