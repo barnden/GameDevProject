@@ -155,6 +155,7 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
     public void SetStat(Stats statToDamage, float value)
     {
+        Debug.Log("damage!");
         foreach (AttackProperties currProjectile in projectiles)
         {
             switch (statToDamage)
