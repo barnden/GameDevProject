@@ -16,7 +16,7 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
     void Start()
     {
         effectiveHealth = maxHealth;
-        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.HEALTH);
+        RegCompToStatSystem();
     }
 
     /// <summary>
@@ -67,6 +67,10 @@ public class HealthComponent : MonoBehaviour, BaseAIComponent
             return null;
 
         return new List<float> { effectiveHealth };
+    }
+    public void RegCompToStatSystem()
+    {
+        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.HEALTH);
     }
 
     /// If healing occured the OnHeal event will be invoked.

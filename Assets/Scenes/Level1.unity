@@ -1366,7 +1366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].fireRate
@@ -1375,13 +1375,21 @@ PrefabInstance:
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[0].projectile
       value: 
-      objectReference: {fileID: 4967661330752684158, guid: adce051043ab17b48bb8afd266e7a47e, type: 3}
+      objectReference: {fileID: 4967661330752684158, guid: 40e21804c7710a946b31b062e362c7b5, type: 3}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].projectile
       value: 
       objectReference: {fileID: 4967661330752684158, guid: e3b0261a949d42f40a8cc8539e75ebd1, type: 3}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
+      propertyPath: projectiles.Array.data[0].projectileSpawnDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].projectileSpawnDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
+      propertyPath: projectiles.Array.data[0].projectileProperties.speed
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
@@ -1393,12 +1401,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
+      propertyPath: projectiles.Array.data[0].projectileProperties.lifeTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].projectileProperties.lifeTime
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[0].projectileProperties.scaleModifier
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].projectileProperties.scaleModifier
@@ -1484,14 +1496,14 @@ PrefabInstance:
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[0].projectile
       value: 
-      objectReference: {fileID: 4967661330752684158, guid: e3b0261a949d42f40a8cc8539e75ebd1, type: 3}
+      objectReference: {fileID: 4967661330752684158, guid: 4635c49b730249d45840e6b78af2cfbb, type: 3}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].projectile
       value: 
       objectReference: {fileID: 4967661330752684158, guid: e3b0261a949d42f40a8cc8539e75ebd1, type: 3}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[0].projectileSpawnDistance
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].projectileSpawnDistance
@@ -1499,7 +1511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[0].projectileProperties.speed
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].projectileProperties.speed
@@ -1511,7 +1523,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[0].projectileProperties.lifeTime
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4605530934032298005, guid: e13b3b689b551ed49a2d7e431cc308ae, type: 3}
       propertyPath: projectiles.Array.data[1].projectileProperties.lifeTime

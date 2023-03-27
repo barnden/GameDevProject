@@ -29,6 +29,7 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
     [SerializeField] List<AttackProperties> projectiles;
     private GameObject target = null;
     private List<IEnumerator> coroutines;
+    private StatusSystem statusSystem;
 
     public void setTarget(GameObject target)
     {
@@ -37,9 +38,14 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
     public void Start()
     {
-        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.FIRERATE);
-        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.PROJECTILE_SCALE);
-        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.PROJECTILE_SPEED);
+        statusSystem = gameObject.GetComponent<StatusSystem>();
+        if (statusSystem == null)
+        {
+            Debug.Log("ERROR: Status system not found as component");
+            gameObject.SetActive(false);
+        }
+
+        RegCompToStatSystem();
 
         coroutines = new List<IEnumerator>();
 
@@ -79,6 +85,26 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
                                                                target, 
                                                                targetDir);
 
+                // propagate the status of this object to the spawning children
+                foreach (BaseStatusEffect currEffect in statusSystem.activeEffects)
+                {
+                    if(currEffect.propagateToChildren)
+                    {
+                        // Since we are unsure that the projectile will register the component
+                        // quick enough, we need to do that here before we apply the effect.
+                        StatusSystem projStatusSystem = projectile.GetComponent<StatusSystem>();
+                        if (projStatusSystem != null)
+                        {
+                            BaseAIComponent aiProjComp = projectile.GetComponent<ProjectileSystem>();
+
+                            projStatusSystem.RegisterAIComponent(aiProjComp, Stats.FIRERATE);
+                            projStatusSystem.RegisterAIComponent(aiProjComp, Stats.PROJECTILE_SCALE);
+                            projStatusSystem.RegisterAIComponent(aiProjComp, Stats.PROJECTILE_SPEED);
+
+                            projStatusSystem.ApplyEffect(currEffect);
+                        }
+                    }
+                }
             }
             yield return new WaitForSeconds(attack.fireRate);
         }
@@ -111,6 +137,27 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
                                                                    properties.scaleModifier,
                                                                    target,
                                                                    targetDir);
+
+                    // propagate the status of this object to the spawning children
+                    foreach (BaseStatusEffect currEffect in statusSystem.activeEffects)
+                    {
+                        if (currEffect.propagateToChildren)
+                        {
+                            // Since we are unsure that the projectile will register the component
+                            // quick enough, we need to do that here before we apply the effect.
+                            StatusSystem projStatusSystem = projectile.GetComponent<StatusSystem>();
+                            if (projStatusSystem != null)
+                            {
+                                BaseAIComponent aiProjComp = projectile.GetComponent<ProjectileSystem>();
+
+                                projStatusSystem.RegisterAIComponent(aiProjComp, Stats.FIRERATE);
+                                projStatusSystem.RegisterAIComponent(aiProjComp, Stats.PROJECTILE_SCALE);
+                                projStatusSystem.RegisterAIComponent(aiProjComp, Stats.PROJECTILE_SPEED);
+
+                                projStatusSystem.ApplyEffect(currEffect);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -225,6 +272,14 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
         }
         return propertyList;
     }
+
+    public void RegCompToStatSystem()
+    {
+        statusSystem.RegisterAIComponent(this, Stats.FIRERATE);
+        statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_SCALE);
+        statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_SPEED);
+    }
+
     public void OnDestroy()
     {
         foreach (var coroutine in coroutines)

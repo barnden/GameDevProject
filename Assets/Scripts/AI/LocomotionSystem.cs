@@ -20,7 +20,7 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
     void Start()
     {
         rawSpeed = effectiveSpeed;
-        GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.SPEED);
+        RegCompToStatSystem();
     }
 
     // Update is called once per frame
@@ -76,10 +76,15 @@ public abstract class LocomotionSystem : MonoBehaviour, BaseAIComponent
         switch (stat)
         {
             case Stats.SPEED:
-                return new List<float>{ effectiveSpeed };
+                return new List<float> { effectiveSpeed };
 
             default:
                 return null;
         }
+    }
+
+    public void RegCompToStatSystem()
+    {
+        GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.SPEED);
     }
 }
