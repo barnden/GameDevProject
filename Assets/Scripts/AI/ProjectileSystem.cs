@@ -78,6 +78,7 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
                 ProjectileProperties properties = attack.projectileProperties;
                 projectile.GetComponent<BaseProjectile>().Init(projectile, 
+                                                               gameObject,
                                                                properties.lifeTime, 
                                                                properties.damage, 
                                                                properties.speed, 
@@ -131,6 +132,7 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
                     ProjectileProperties properties = currProjectile.projectileProperties;
                     projectile.GetComponent<BaseProjectile>().Init(projectile,
+                                                                   gameObject,
                                                                    properties.lifeTime,
                                                                    properties.damage,
                                                                    properties.speed,

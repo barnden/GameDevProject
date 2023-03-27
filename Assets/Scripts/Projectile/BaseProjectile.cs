@@ -21,7 +21,8 @@ public class BaseProjectile : MonoBehaviour
      */
     private ProjectileProperties properties;
 
-    private GameObject self; 
+    private GameObject self;
+    private GameObject owner;
     private Vector2 direction;
     private ProjectileSystem projectileSysComponent;
     private void Start()
@@ -30,9 +31,10 @@ public class BaseProjectile : MonoBehaviour
     }
 
     // Will be added once subparams within arrays can be displayed
-    public void Init(GameObject self, float lifeTime, float damage, float speed, float scaleMod, GameObject target, Vector2 direction)
+    public void Init(GameObject self, GameObject owner, float lifeTime, float damage, float speed, float scaleMod, GameObject target, Vector2 direction)
     {
         this.self = self;
+        this.owner = owner;
         properties.target = target;
 
         properties.lifeTime = lifeTime;
@@ -87,7 +89,11 @@ public class BaseProjectile : MonoBehaviour
             {
                 foreach (BaseStatusEffect currEffect in effects)
                 {
-                    statSys.ApplyEffect(currEffect);
+                    // check to see if status effect is self inflicting
+                    if (collision.gameObject != owner || currEffect.isOwnerInflicting)
+                    {
+                        statSys.ApplyEffect(currEffect);
+                    }
                 }
             }
         }

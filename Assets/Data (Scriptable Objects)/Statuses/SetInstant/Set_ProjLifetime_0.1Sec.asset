@@ -15,5 +15,6 @@ MonoBehaviour:
   statToEffect: 6
   isStackable: 0
   isPercentageBased: 0
+  isOwnerInflicting: 0
   propagateToChildren: 0
   amount: 0.1

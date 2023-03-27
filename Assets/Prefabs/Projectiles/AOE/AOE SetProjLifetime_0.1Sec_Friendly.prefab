@@ -142,7 +142,7 @@ MonoBehaviour:
   - Turret
   effects:
   - {fileID: 11400000, guid: 4a50ab90128aaad49b26b5049f9e4c75, type: 2}
-  dieOnCollision: 1
+  dieOnCollision: 0
   onCollision:
     m_PersistentCalls:
       m_Calls:
