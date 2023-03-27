@@ -37,6 +37,10 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
     public void Start()
     {
+        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.FIRERATE);
+        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.PROJECTILE_SCALE);
+        gameObject.GetComponent<StatusSystem>().RegisterAIComponent(this, Stats.PROJECTILE_SPEED);
+
         coroutines = new List<IEnumerator>();
 
         foreach (AttackProperties currProjectile in projectiles)
@@ -115,39 +119,75 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
     // Status system dependent functions
     public void DamageStat(Stats statToDamage, float amount)
     {
-        switch (statToDamage)
+        foreach (AttackProperties currProjectile in projectiles)
         {
-            case Stats.FIRERATE:
-                foreach(AttackProperties currProjectile in projectiles)
-                {
+            switch (statToDamage)
+            {
+                case Stats.FIRERATE:
                     currProjectile.fireRate -= amount;
 
                     // give small wiggle room to protect against float inaccuracies
                     currProjectile.fireRate = Mathf.Clamp(currProjectile.fireRate, 0.0f, float.MaxValue);
-                }
-                return;
+                    return;
 
-            default:
-                return;
+                case Stats.PROJECTILE_SCALE:
+                    currProjectile.projectileProperties.scaleModifier -= amount;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.projectileProperties.scaleModifier = 
+                        Mathf.Clamp(currProjectile.projectileProperties.scaleModifier, 0.0f, float.MaxValue);
+                    return;
+
+                case Stats.PROJECTILE_SPEED:
+                    currProjectile.projectileProperties.speed -= amount;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.projectileProperties.speed =
+                        Mathf.Clamp(currProjectile.projectileProperties.speed, 0.0f, float.MaxValue);
+                    return;
+
+
+                default:
+                    return;
+            }
         }
     }
 
     public void SetStat(Stats statToDamage, float value)
     {
-        switch (statToDamage)
+        foreach (AttackProperties currProjectile in projectiles)
         {
-            case Stats.FIRERATE:
-                foreach (AttackProperties currProjectile in projectiles)
-                {
+            switch (statToDamage)
+            {
+                case Stats.FIRERATE:
+
                     currProjectile.fireRate = value;
 
                     // give small wiggle room to protect against float inaccuracies
                     currProjectile.fireRate = Mathf.Clamp(currProjectile.fireRate, 0.0f, float.MaxValue);
-                }
-                return;
+                    return;
 
-            default:
-                return;
+                case Stats.PROJECTILE_SCALE:
+
+                    currProjectile.projectileProperties.scaleModifier = value;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.projectileProperties.scaleModifier = 
+                        Mathf.Clamp(currProjectile.projectileProperties.scaleModifier, 0.0f, float.MaxValue);
+                    return;
+
+                case Stats.PROJECTILE_SPEED:
+
+                    currProjectile.projectileProperties.speed = value;
+
+                    // give small wiggle room to protect against float inaccuracies
+                    currProjectile.projectileProperties.speed =
+                        Mathf.Clamp(currProjectile.projectileProperties.speed, 0.0f, float.MaxValue);
+                    return;
+
+                default:
+                    return;
+            }
         }
     }
 
@@ -157,10 +197,23 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
         foreach (AttackProperties currProjectile in projectiles)
         {
+            float statVal = 0.0f;
             switch (stat)
             {
                 case Stats.FIRERATE:
-                    float statVal = currProjectile.fireRate;
+                    statVal = currProjectile.fireRate;
+                    propertyList.Add(statVal);
+
+                    break;
+
+                case Stats.PROJECTILE_SCALE:
+                    statVal = currProjectile.projectileProperties.scaleModifier;
+                    propertyList.Add(statVal);
+
+                    break;
+
+                case Stats.PROJECTILE_SPEED:
+                    statVal = currProjectile.projectileProperties.speed;
                     propertyList.Add(statVal);
 
                     break;
