@@ -174,12 +174,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventTrigger: 0
   projectiles:
   - projectile: {fileID: 4967661330752684158, guid: c2f2d1947ec9ba84784b8e97f9fa605d, type: 3}
     projectileProperties:
-      speed: 0.5
-      scaleModifier: 1
+      speed: 0
+      scaleModifier: 5
       lifeTime: 1
       damage: 10
       target: {fileID: 0}
