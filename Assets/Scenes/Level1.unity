@@ -750,19 +750,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6371646998062907139, guid: e586077721dbe2044a55f66c49b4fe4e, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6371646998062907139, guid: e586077721dbe2044a55f66c49b4fe4e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6371646998062907139, guid: e586077721dbe2044a55f66c49b4fe4e, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6371646998062907139, guid: e586077721dbe2044a55f66c49b4fe4e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6371646998062907139, guid: e586077721dbe2044a55f66c49b4fe4e, type: 3}
       propertyPath: m_SizeDelta.x
@@ -814,11 +814,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6371646998062907139, guid: e586077721dbe2044a55f66c49b4fe4e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 783
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6371646998062907139, guid: e586077721dbe2044a55f66c49b4fe4e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 488.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6371646998062907139, guid: e586077721dbe2044a55f66c49b4fe4e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1975,7 +1975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6715210267330762668, guid: 7b8d145e25abfdc42b035c8c8cfb5a2f, type: 3}
       propertyPath: waveList.Array.data[0].waveGroups.Array.data[0].enemiesInGroup.Array.data[0].numToSpawn
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6715210267330762668, guid: 7b8d145e25abfdc42b035c8c8cfb5a2f, type: 3}
       propertyPath: waveList.Array.data[0].waveGroups.Array.data[0].enemiesInGroup.Array.data[1].numToSpawn
@@ -1983,7 +1983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6715210267330762668, guid: 7b8d145e25abfdc42b035c8c8cfb5a2f, type: 3}
       propertyPath: waveList.Array.data[0].waveGroups.Array.data[1].enemiesInGroup.Array.data[0].numToSpawn
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6715210267330762668, guid: 7b8d145e25abfdc42b035c8c8cfb5a2f, type: 3}
       propertyPath: waveList.Array.data[0].waveGroups.Array.data[0].enemiesInGroup.Array.data[0].enemyToSpawn
