@@ -149,12 +149,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectiles:
-  - projectile: {fileID: 4967661330752684158, guid: adce051043ab17b48bb8afd266e7a47e, type: 3}
+  - projectile: {fileID: 4967661330752684158, guid: 4635c49b730249d45840e6b78af2cfbb, type: 3}
     projectileProperties:
       speed: 5
       scaleModifier: 1
       lifeTime: 5
       damage: 10
+      dieOnCollision: 0
       target: {fileID: 0}
     projectileSpawnDistance: 1
     fireRate: 0.5
