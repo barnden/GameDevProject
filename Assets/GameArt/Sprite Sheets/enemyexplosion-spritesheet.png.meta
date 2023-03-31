@@ -263,6 +263,69 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: enemyexplosion-spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 256
+        height: 239
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14f2061f6c7697c4eb6a3af943c4b639
+      internalID: 1156968777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemyexplosion-spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 239
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70176ddfa45cce44695b8d66c661c1fd
+      internalID: 855138595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemyexplosion-spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 239
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c60cb326f2f259429b227632c5fa696
+      internalID: -1555241407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -276,7 +339,10 @@ TextureImporter:
     nameFileIdTable:
       enemyexplosion-spritesheet_5: 154104557
       enemyexplosion-spritesheet_0: 315083432
+      enemyexplosion-spritesheet_9: -1555241407
+      enemyexplosion-spritesheet_7: 1156968777
       enemyexplosion-spritesheet_2: 397354310
+      enemyexplosion-spritesheet_8: 855138595
       enemyexplosion-spritesheet_3: 2139325486
       enemyexplosion-spritesheet_1: -1803848695
       enemyexplosion-spritesheet_4: -715341120
