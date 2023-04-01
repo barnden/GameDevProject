@@ -5,10 +5,13 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.EventSystems;
+using System;
 
 public class Movement : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;
+    [SerializeField] Map map;
+    [SerializeField] Platform platform;
 
     private bool mouseIsUp = true;
     private bool selectMode = false;
@@ -25,7 +28,20 @@ public class Movement : MonoBehaviour
             if (mouseIsUp && Input.GetMouseButtonDown(0))
             {
                 selectMode = false;
-                destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 dest = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                Tuple<float, float, float, float> borders = map.getBorders();
+                float left = borders.Item1;
+                float right = borders.Item2;
+                float bottom = borders.Item3;
+                float top = borders.Item4;
+
+                float baseRad = platform.getBaseRadius();
+
+                dest.x = Math.Max(left + baseRad, Math.Min(right - baseRad, dest.x));
+                dest.y = Math.Max(bottom + baseRad, Math.Min(top - baseRad, dest.y));
+
+                destination = dest;
                 destination.Set(destination.x, destination.y, 0.0f); //Z must be set to 0 to prevent object from moving into the background
                 addLine(destination);
                 moveMode = true;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+using System;
 
 public class RadialUiButton : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class RadialUiButton : MonoBehaviour
     [SerializeField] CoreData coreData;
 
     public bool coreClicked = false;
+    public Tuple<Vector2, int, int> snap;
 
     void Start()
     {
@@ -21,7 +22,7 @@ public class RadialUiButton : MonoBehaviour
 
     public void clicked()
     {
-        if(buttonType == ButtonType.Create)
+        if (buttonType == ButtonType.Create)
         {
             gameObject.GetComponent<BuildDefense>().BuyDefense();
         }
@@ -64,17 +65,17 @@ public class RadialUiButton : MonoBehaviour
         }
         if (buttonType == ButtonType.Move)
         {
-            if(platform.towerExists())
+            if(snap != null && platform.towerExists(snap.Item2, snap.Item3))
             {
-                GameObject tower = platform.delete();
+                GameObject tower = platform.delete(snap.Item2, snap.Item3);
                 gameObject.GetComponent<BuildDefense>().MoveDefense(tower);
             }
         }
         else if(buttonType == ButtonType.Delete)
         {
-            if(platform.towerExists())
+            if(snap != null && platform.towerExists(snap.Item2, snap.Item3))
             {
-                GameObject tower = platform.delete();
+                GameObject tower = platform.delete(snap.Item2, snap.Item3);
                 Destroy(tower);
             }
         }

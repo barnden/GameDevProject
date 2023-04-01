@@ -9,6 +9,7 @@ public class CoreData : ScriptableObject
 {
     [SerializeField] private float startingEnergyStored = 0.0f;
     [SerializeField] private float energyMax = 50.0f;
+    [SerializeField] private int maxLevel = 2;
     private float energyStored;
 
     [SerializeField] private int startingCoreLevel = 0;
@@ -52,8 +53,10 @@ public class CoreData : ScriptableObject
 
     public int levelUp()
     {
-        coreLevel++;
-        //Maybe increase max health?
+        if (coreLevel + 1 <= maxLevel)
+        {
+            coreLevel++;
+        }
         return coreLevel;
     }
 }

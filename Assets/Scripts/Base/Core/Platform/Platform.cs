@@ -16,253 +16,77 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Platform : MonoBehaviour
 {
+    [System.Serializable]
+    public class Towers
+    {
+        public GameObject[] towerArr;
+    }
+
     [SerializeField] private CoreData coreData;
     [SerializeField] private float coreRadius;
     [SerializeField] private float[] baseRadii;
+    [SerializeField] private Towers[] towers; //towers[ringNum].towerArr[towerNum]
     [SerializeField] private Sprite[] baseSprites;
-
-    [SerializeField] private bool displayRing = false;
-    [SerializeField] private int defaultStartingSections;
-    [SerializeField] private float ringZ;
     
-    [SerializeField] private float[] towerRadii;
-    //private float ringIncrement = 0.75f; //Towers take up 0.75f radius
-    private int startingSections = 4; //4,8,12 towers in radius 0,1,2
-
-    private List<PlacementLine> placementLines = new List<PlacementLine>();
-    private List<PlacementCircle> placementCircles = new List<PlacementCircle>();
-
-    private Vector2 cursorPos;
-    private CursorInfo cursorInfo;
-    
-    //private HashSet<(int ringNum, int section)> placedTowers = new HashSet<(int ringNum, int section)>();
-    private Dictionary<(int ringNum, int section), GameObject> placedTowers = new Dictionary<(int ringNum, int section), GameObject>();
-
-    struct CursorInfo
-    {
-        public float cursorRadius;
-
-        public int ringNum;
-        public float innerRadius;
-        public float outerRadius;
-        public float snapRadius;
-
-        public float closestTheta;
-        public int closestSection;
-        public float snapAngle;
-
-        public CursorInfo(float cursorRad, int ringN, float innerRad, float outerRad, float snapRad, float closestThet, int closestSec, float snapAngl)
-        {
-            cursorRadius = cursorRad;
-            ringNum = ringN;
-            innerRadius = innerRad;
-            outerRadius = outerRad;
-            snapRadius = snapRad;
-            closestTheta = closestThet;
-            closestSection = closestSec;
-            snapAngle = snapAngl;
-        }
-    }
-
-    private Vector2 rotatePoint(Vector2 point, float theta)
-    {
-        float newX = point.x * Mathf.Cos(theta) - point.y * Mathf.Sin(theta);
-        float newY = point.y = point.x * Mathf.Sin(theta) + point.y * Mathf.Cos(theta);
-        return new Vector2(newX, newY);
-    }
-
-    private void drawCircle(float radius)
-    {
-        PlacementCircle circle = gameObject.AddComponent<PlacementCircle>();
-        circle.lineZ = ringZ;
-        circle.parentObject = gameObject;
-        circle.radius = radius;
-        placementCircles.Add(circle);
-    }
-
-    private void drawLine(float startRadius, float endRadius, float theta)
-    {
-        PlacementLine line = gameObject.AddComponent<PlacementLine>();
-        line.lineZ = ringZ;
-        line.parentObject = gameObject;
-        line.startPoint = rotatePoint(new Vector2(0.0f, startRadius), theta);
-        line.endPoint = rotatePoint(new Vector2(0.0f, endRadius), theta);
-        placementLines.Add(line);
-    }
-
-    private void drawRing(float startRadius, float endRadius, int ringNum)
-    {
-        drawCircle(startRadius);
-        drawCircle(endRadius);
-        int sections = startingSections + (int)(startingSections * ringNum);
-        for (int section = 0; section < sections; section++)
-        {
-            float theta = section * ((2.0f * Mathf.PI) / sections);
-            drawLine(startRadius, endRadius, theta);
-        }
-    }
-
-    private void deleteRing()
-    {
-        foreach (PlacementLine placementLine in placementLines)
-        {
-            Destroy(placementLine);
-        }
-        placementLines.Clear();
-
-        foreach (PlacementCircle placementCircle in placementCircles)
-        {
-            Destroy(placementCircle);
-        }
-        placementCircles.Clear();
-    }
+    private Dictionary<(int ringNum, int towerNum), GameObject> placedTowers = new Dictionary<(int ringNum, int towerNum), GameObject>();
 
     private void Update()
     {
-        float baseRadius = baseRadii[coreData.getLevel()];
-        gameObject.transform.localScale = new Vector3(baseRadius * 2, baseRadius * 2, 1.0f);
         gameObject.GetComponent<SpriteRenderer>().sprite = baseSprites[coreData.getLevel()];
+    }
 
-        if(placementLines.Count > 0 || placementCircles.Count > 0)
+    public Tuple<Vector2, int, int> getSnap(Vector2 cursorPos)
+    {
+        if (pointInBase(cursorPos) && !pointInCore(cursorPos))
         {
-            deleteRing(); //This is really inefficient
-        }
-
-        if(displayRing)
-        {
-            Vector2 corePos = gameObject.transform.position;
-            float cursorRadius = Vector2.Distance(cursorPos, corePos);
-
-            int ringNum = 0;
-            float radSum = coreRadius;
-            for (int i = 0; i < baseRadii.Length; i++)
+            float closestDist = float.PositiveInfinity;
+            GameObject closestTowerPos = null;
+            int ringNum = -1;
+            int towerNum = -1;
+            for (int ring = 0; ring <= coreData.getLevel(); ring++)
             {
-                radSum += towerRadii[i];
-                if (cursorRadius <= radSum)
-                {
-                    ringNum = i;
-                    break;
+                for(int tower = 0; tower < towers[ring].towerArr.Length; tower++) {
+                    float dist = Vector2.Distance(cursorPos, towers[ring].towerArr[tower].transform.position);
+                    if(dist < closestDist)
+                    {
+                        closestDist = dist;
+                        closestTowerPos = towers[ring].towerArr[tower];
+                        ringNum = ring;
+                        towerNum = tower;
+                    }
                 }
             }
 
-            float innerAdd = 0.0f;
-            for(int i = 0; i < ringNum; i++)
-            {
-                innerAdd += towerRadii[i];
-            }
-            float innerRadius = Mathf.Max(coreRadius + innerAdd, coreRadius);
-            float outerRadius = innerRadius + towerRadii[ringNum];
-            
-            if (outerRadius <= baseRadius)
-            {
-                drawRing(innerRadius, outerRadius, ringNum);
-            }
-        }
-        
-        if(Input.GetMouseButtonDown(1))
-        {
-            Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if(pointInBase(cursorPos))
-            {
-                setCursorPos(cursorPos);
-            }
-        }
-    }
-
-    private void setCursorInfo()
-    {
-        Vector2 corePos = gameObject.transform.position;
-        float cursorRadius = Vector2.Distance(cursorPos, corePos);
-
-        int ringNum = 0;
-        float radSum = coreRadius;
-        for (int i = 0; i < baseRadii.Length; i++)
-        {
-            radSum += towerRadii[i];
-            if (cursorRadius <= radSum)
-            {
-                ringNum = i;
-                break;
-            }
-        }
-        
-        float innerAdd = 0.0f;
-        for (int i = 0; i < ringNum; i++)
-        {
-            innerAdd += towerRadii[i];
-        }
-        float innerRadius = Mathf.Max(coreRadius + innerAdd, coreRadius);
-        float outerRadius = innerRadius + towerRadii[ringNum];
-        float snapRadius = (innerRadius + outerRadius) / 2.0f;
-
-        int sections = startingSections + (int)(startingSections * ringNum);
-        float closestTheta = 0.0f;
-        int closestSection = 0;
-
-        float cursorAngle = Mathf.Atan2(snapRadius, 0.0f) - Mathf.Atan2(cursorPos.y - corePos.y, cursorPos.x - corePos.x);
-        if (cursorAngle < 0.0f)
-        {
-            cursorAngle += 2.0f * Mathf.PI;
+            return new Tuple<Vector2, int, int>(closestTowerPos.transform.position, ringNum, towerNum);
         }
 
-        for (int section = 0; section < sections; section++) //I bet there is some math to do this in O(1)
-        {
-            float theta = section * ((2.0f * Mathf.PI) / sections);
-            if (theta < cursorAngle)
-            {
-                closestTheta = theta;
-                closestSection = section;
-            }
-        }
-
-        float snapAngle = closestTheta + ((2.0f * Mathf.PI) / sections) / 2.0f;
-        
-        cursorInfo = new CursorInfo(cursorRadius, ringNum, innerRadius, outerRadius, snapRadius, closestTheta, closestSection, snapAngle);
+        return null;
     }
 
-    public void setCursorPos(Vector2 cursor)
+    public float getBaseRadius()
     {
-        cursorPos = cursor;
-        setCursorInfo();
+        return baseRadii[coreData.getLevel()];
     }
 
-    public Tuple<Vector2, float, int> getSnap()
+    public bool towerExists(int ringNum, int towerNum)
     {
-        Vector2 corePos = gameObject.transform.position;
-        cursorInfo.snapAngle = 2.0f * Mathf.PI - cursorInfo.snapAngle; //Mirror it
-        Vector2 snapPoint = rotatePoint(new Vector2(0.0f, cursorInfo.snapRadius), cursorInfo.snapAngle);
-        return new Tuple<Vector2, float, int>(snapPoint + corePos, cursorInfo.snapAngle, cursorInfo.ringNum);
+        return placedTowers.ContainsKey((ringNum, towerNum));
     }
 
-    public void enableRing()
+    public GameObject getTower(int ringNum, int towerNum)
     {
-        displayRing = true;
+        return placedTowers[(ringNum, towerNum)];
     }
 
-    public void disableRing()
+    public void place(GameObject obj, int ringNum, int towerNum)
     {
-        displayRing = false;
+        placedTowers.Add((ringNum, towerNum), obj);
     }
 
-    public bool towerExists()
+    public GameObject delete(int ringNum, int towerNum)
     {
-        return placedTowers.ContainsKey((cursorInfo.ringNum, cursorInfo.closestSection));
-    }
-
-    public GameObject getTower()
-    {
-        return placedTowers[(cursorInfo.ringNum, cursorInfo.closestSection)];
-    }
-
-    public void place(GameObject obj)
-    {
-        placedTowers.Add((cursorInfo.ringNum, cursorInfo.closestSection), obj);
-    }
-
-    public GameObject delete()
-    {
-        GameObject obj = placedTowers[(cursorInfo.ringNum, cursorInfo.closestSection)];
-        placedTowers.Remove((cursorInfo.ringNum, cursorInfo.closestSection));
+        GameObject obj = placedTowers[(ringNum, towerNum)];
+        placedTowers.Remove((ringNum, towerNum));
         return obj;
     }
 
@@ -270,8 +94,7 @@ public class Platform : MonoBehaviour
     {
         Vector2 corePosition = gameObject.transform.position;
         float pointRadius = Vector2.Distance(point, corePosition);
-        float baseRadius = baseRadii[coreData.getLevel()];
-        return pointRadius < baseRadius;
+        return pointRadius < getBaseRadius();
     }
 
     public bool pointInCore(Vector2 point)
