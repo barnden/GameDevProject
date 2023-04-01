@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3019415976513176237}
   - component: {fileID: -2210693612578009972}
   m_Layer: 8
-  m_Name: Base Turret Projectile
+  m_Name: LaserTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 4967661330752684158}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.92708635, b: 1, a: 1}
+  m_Color: {r: 0.495283, g: 1, b: 0.5490932, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -140,11 +140,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTags:
   - Enemy
-  effects:
-  - {fileID: 11400000, guid: 6a0710f64f276684ebd5af554aed1e00, type: 2}
+  effects: []
   onCollision:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3019415976513176237}
+        m_TargetAssemblyTypeName: ProjectileSystem, Assembly-CSharp
+        m_MethodName: FireProjectiles
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3019415976513176237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +168,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectiles: []
+  projectiles:
+  - projectile: {fileID: 4967661330752684158, guid: 3f42f513db84b234a87e93af58189a27, type: 3}
+    projectileProperties:
+      speed: 0
+      scaleModifier: 2
+      lifeTime: 0.5
+      damage: 10
+      dieOnCollision: 0
+      target: {fileID: 0}
+    projectileSpawnDistance: 0
+    fireRate: 0
+    fireSpread: 0
 --- !u!114 &-2210693612578009972
 MonoBehaviour:
   m_ObjectHideFlags: 0

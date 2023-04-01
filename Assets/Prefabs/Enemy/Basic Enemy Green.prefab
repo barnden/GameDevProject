@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 481477862952636339}
   - component: {fileID: -1541882329994755046}
   - component: {fileID: 6400432567666431771}
+  - component: {fileID: -7529451405930207508}
   m_Layer: 8
   m_Name: Basic Enemy Green
   m_TagString: Enemy
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1998198589, guid: dde8db814ff74664c9f6d8c8829fd7d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -116,7 +117,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
 --- !u!114 &8425825489313815657
 MonoBehaviour:
@@ -131,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orb: {fileID: 4499453735377373803, guid: 65fac8a9fa4de3a4281b71db9f24bab6, type: 3}
+  animController: {fileID: 0}
 --- !u!114 &9074310293624954182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,3 +246,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &-7529451405930207508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962644661464884768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1b23a8e64dfb6b41b85b83497bdd6bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
