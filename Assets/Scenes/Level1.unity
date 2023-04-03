@@ -1415,7 +1415,7 @@ RectTransform:
   - {fileID: 689761024}
   - {fileID: 2069432271}
   m_Father: {fileID: 1203264931}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2838,6 +2838,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5486830942836831636, guid: 81e5437d8e0a8d747acbbdb8d1755aa6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5486830943264016451, guid: 81e5437d8e0a8d747acbbdb8d1755aa6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5486830943712621381, guid: 81e5437d8e0a8d747acbbdb8d1755aa6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8
+      objectReference: {fileID: 0}
     - target: {fileID: 5486830943724246156, guid: 81e5437d8e0a8d747acbbdb8d1755aa6, type: 3}
       propertyPath: m_Name
       value: Map
@@ -2890,6 +2902,10 @@ PrefabInstance:
       propertyPath: baseCore
       value: 
       objectReference: {fileID: 169599447}
+    - target: {fileID: 5486830944507783492, guid: 81e5437d8e0a8d747acbbdb8d1755aa6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5486830944035679773, guid: 81e5437d8e0a8d747acbbdb8d1755aa6, type: 3}
     - {fileID: 5486830942735280197, guid: 81e5437d8e0a8d747acbbdb8d1755aa6, type: 3}
@@ -3318,7 +3334,7 @@ PrefabInstance:
       objectReference: {fileID: 962644661464884768, guid: 834578f1c47c171428a542251800093a, type: 3}
     - target: {fileID: 6921260855180360574, guid: 7b8d145e25abfdc42b035c8c8cfb5a2f, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7204666645003837125, guid: 7b8d145e25abfdc42b035c8c8cfb5a2f, type: 3}
       propertyPath: m_AnchorMax.x
