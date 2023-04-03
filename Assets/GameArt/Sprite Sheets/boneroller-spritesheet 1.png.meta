@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0a11bfeb08eed9948863ccf18422b5ab
+guid: dde8db814ff74664c9f6d8c8829fd7d6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: boneroller-spritesheet_0
+      name: boneroller-spritesheet 1_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 582
-        width: 318
-        height: 291
+        y: 554
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 208904fed1e897748bf27fa813e9630e
-      internalID: -392690762
+      spriteID: 09deb57db242c17459c2e59d1e794df8
+      internalID: -1998198589
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_1
+      name: boneroller-spritesheet 1_1
       rect:
         serializedVersion: 2
-        x: 318
-        y: 582
-        width: 318
-        height: 291
+        x: 320
+        y: 554
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7206be5235a7aa4ca79e146b387a17a
-      internalID: -1764252678
+      spriteID: b866f55ba0e834e4a93c73adc01e6d92
+      internalID: 841398419
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_2
+      name: boneroller-spritesheet 1_2
       rect:
         serializedVersion: 2
-        x: 636
-        y: 582
-        width: 318
-        height: 291
+        x: 640
+        y: 554
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,20 +173,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 20d59087c674c4446a430cde84fe6c97
-      internalID: -1823491536
+      spriteID: 5a95f39a2fcf5004f98d257a410eb8d5
+      internalID: 1366855900
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_3
+      name: boneroller-spritesheet 1_3
       rect:
         serializedVersion: 2
-        x: 954
-        y: 582
-        width: 318
-        height: 291
+        x: 960
+        y: 554
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,20 +194,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3ff1bfc2da6b8943baeb2f873c67a60
-      internalID: -117710272
+      spriteID: 64aa7b8e840af794ab855aff6f20d083
+      internalID: -501631278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_4
+      name: boneroller-spritesheet 1_4
       rect:
         serializedVersion: 2
-        x: 1272
-        y: 582
-        width: 318
-        height: 291
+        x: 1280
+        y: 554
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,20 +215,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1b0841dc993320c408f2520d5b6b6305
-      internalID: 1668479665
+      spriteID: 22e4eaa7bc0702244a983600b0cdae32
+      internalID: 1752811854
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_5
+      name: boneroller-spritesheet 1_5
       rect:
         serializedVersion: 2
         x: 0
-        y: 291
-        width: 318
-        height: 291
+        y: 277
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,20 +236,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7963fe74b5af3954ea69c9e1f19693a2
-      internalID: -90271079
+      spriteID: 8389104df2fbe8e4eaef8a7d24df3f0d
+      internalID: -1649285981
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_6
+      name: boneroller-spritesheet 1_6
       rect:
         serializedVersion: 2
-        x: 318
-        y: 291
-        width: 318
-        height: 291
+        x: 320
+        y: 277
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,20 +257,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bc0abb5c65ce3c44d85f5bb38aae912c
-      internalID: -1004169600
+      spriteID: 740ce5ef1d1c9d149b6e308945e8fdfa
+      internalID: -1732904597
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_7
+      name: boneroller-spritesheet 1_7
       rect:
         serializedVersion: 2
-        x: 636
-        y: 291
-        width: 318
-        height: 291
+        x: 640
+        y: 277
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,20 +278,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9316c05ef3cdce4ca2db159c3927a24
-      internalID: -1323198868
+      spriteID: fd9c5ab72a344094eac569a4eaef7c64
+      internalID: -1334466215
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_8
+      name: boneroller-spritesheet 1_8
       rect:
         serializedVersion: 2
-        x: 954
-        y: 291
-        width: 318
-        height: 291
+        x: 960
+        y: 277
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -299,20 +299,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a392c9ba8b242c45abdc93e5d12314d
-      internalID: 1047302679
+      spriteID: 42603c86150f1ca4b92f0c33f0ab14dd
+      internalID: 1800896797
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_9
+      name: boneroller-spritesheet 1_9
       rect:
         serializedVersion: 2
-        x: 1272
-        y: 291
-        width: 318
-        height: 291
+        x: 1280
+        y: 277
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -320,20 +320,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c926ce05d695c58488639bca5e125c1c
-      internalID: 359023524
+      spriteID: a24c11d3b119fd34e88b11670dc89b24
+      internalID: -214106945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_10
+      name: boneroller-spritesheet 1_10
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 318
-        height: 291
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -341,20 +341,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: efdd5e289f58ba249adb7707aee312ed
-      internalID: -1628692328
+      spriteID: cb585eb29a7ace44d913ea62ef3a13ae
+      internalID: -407388110
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: boneroller-spritesheet_11
+      name: boneroller-spritesheet 1_11
       rect:
         serializedVersion: 2
-        x: 318
+        x: 320
         y: 0
-        width: 318
-        height: 291
+        width: 320
+        height: 277
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -362,8 +362,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea71beaab0681f646aef557cf88b1734
-      internalID: 839807644
+      spriteID: c59a0a591f4afc44e93ae97f0475bc40
+      internalID: 399932859
       vertices: []
       indices: 
       edges: []
@@ -379,18 +379,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      boneroller-spritesheet_3: -117710272
-      boneroller-spritesheet_6: -1004169600
-      boneroller-spritesheet_0: -392690762
-      boneroller-spritesheet_8: 1047302679
-      boneroller-spritesheet_4: 1668479665
-      boneroller-spritesheet_5: -90271079
-      boneroller-spritesheet_1: -1764252678
-      boneroller-spritesheet_7: -1323198868
-      boneroller-spritesheet_10: -1628692328
-      boneroller-spritesheet_2: -1823491536
-      boneroller-spritesheet_11: 839807644
-      boneroller-spritesheet_9: 359023524
+      boneroller-spritesheet 1_7: -1334466215
+      boneroller-spritesheet 1_6: -1732904597
+      boneroller-spritesheet 1_10: -407388110
+      boneroller-spritesheet 1_8: 1800896797
+      boneroller-spritesheet 1_2: 1366855900
+      boneroller-spritesheet 1_3: -501631278
+      boneroller-spritesheet 1_9: -214106945
+      boneroller-spritesheet 1_1: 841398419
+      boneroller-spritesheet 1_4: 1752811854
+      boneroller-spritesheet 1_11: 399932859
+      boneroller-spritesheet 1_5: -1649285981
+      boneroller-spritesheet 1_0: -1998198589
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
