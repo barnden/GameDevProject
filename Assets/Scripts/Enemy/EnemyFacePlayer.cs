@@ -4,28 +4,51 @@ using UnityEngine;
 
 public class EnemyFacePlayer : MonoBehaviour
 {
-    private GameObject playerRef;
-    private bool flipped = false;
+    [SerializeField]private GameObject playerRef;
     private Vector3 currScale;
+    public bool doneSpawning;
     // Start is called before the first frame update
+    private void Awake()
+    {
+        currScale = transform.localScale;
+        doneSpawning = false;
+        playerRef = GameObject.FindGameObjectWithTag("Player");
+        
+    }
     void Start()
     {
-        flipped = false;
-        playerRef = GameObject.FindGameObjectWithTag("Player");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        currScale = transform.localScale;
-        if(playerRef.transform.position.x < transform.position.x)
+       
+        if(doneSpawning)
         {
-            currScale.x = Mathf.Abs(currScale.x) * -1 * (flipped? -1:1);
+            if (playerRef.transform.position.x < transform.position.x)
+            {
+                currScale.x = -1;
+            }
+            else
+            {
+                currScale.x = 1;
+            }
         }
-        else
+    }
+
+    // properly facing base after spawning animation has occured
+    private void LateUpdate()
+    {
+        if(doneSpawning)
         {
-            currScale.x = Mathf.Abs(currScale.x) * (flipped ? -1 : 1);
+            this.transform.localScale = currScale;
         }
-        transform.localScale = currScale;
+       
+    }
+    // not called, in beginning of move animation, donespawning is set to true
+    public void DoneSpawning()
+    {
+        doneSpawning = true;
     }
 }
