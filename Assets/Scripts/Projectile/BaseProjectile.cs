@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
@@ -20,8 +20,7 @@ public class BaseProjectile : MonoBehaviour
      */
     private ProjectileProperties properties;
 
-    private GameObject self;
-    private GameObject owner;
+    private GameObject parent;
     private Vector2 direction;
     private ProjectileSystem projectileSysComponent;
     private void Start()
@@ -30,10 +29,9 @@ public class BaseProjectile : MonoBehaviour
     }
 
     // Will be added once subparams within arrays can be displayed
-    public void Init(GameObject self, GameObject owner, float lifeTime, float damage, float speed, float scaleMod, bool dieOnCollision, GameObject target, Vector2 direction)
+    public void Init(GameObject parent, float lifeTime, float damage, float speed, float scaleMod, bool dieOnCollision, GameObject target, Vector2 direction)
     {
-        this.self = self;
-        this.owner = owner;
+        this.parent = parent;
         properties.target = target;
 
         properties.lifeTime = lifeTime;
@@ -48,66 +46,57 @@ public class BaseProjectile : MonoBehaviour
         this.direction = direction;
     }
 
-    // Legacy function
-    public void Init(GameObject self)
-    {
-        this.self = self;
-    }
-
     // Update is called once per frame
     void Update()
     {
         properties.lifeTime -= Time.deltaTime;
+
         if (properties.lifeTime <= 0)
         {
-            Destroy(self);
+            Destroy(gameObject);
         }
+
         transform.Translate(Time.deltaTime * properties.speed * direction);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (checkCollisionTags(collision))
+        if (!checkCollisionTags(collision))
+            return;
+
+        // pass target information to projectileSystem (if there is one)
+        if (projectileSysComponent != null)
         {
-            // pass target information to projectileSystem (if there is one)
-            if (projectileSysComponent != null)
-            {
-                projectileSysComponent.setTarget(properties.target);
-            }
+            projectileSysComponent.setTarget(properties.target);
+        }
 
-            onCollision.Invoke();
+        onCollision.Invoke();
 
-            if (properties.dieOnCollision)
-            {
-                Destroy(self);
-            }
+        if (properties.dieOnCollision)
+        {
+            Destroy(gameObject);
+        }
 
-            //collision.GetComponent<HealthComponent>().DamageStat(Stats.HEALTH, damage);
-            StatusSystem statSys = collision.GetComponent<StatusSystem>();
-            if (statSys)
-            {
-                foreach (BaseStatusEffect currEffect in effects)
-                {
-                    // check to see if status effect is self inflicting
-                    if (collision.gameObject != owner || currEffect.isOwnerInflicting)
-                    {
-                        statSys.ApplyEffect(currEffect);
-                    }
-                }
-            }
+        //collision.GetComponent<HealthComponent>().DamageStat(Stats.HEALTH, damage);
+        StatusSystem statSys = collision.GetComponent<StatusSystem>();
+        if (!statSys)
+            return;
+
+        foreach (BaseStatusEffect currEffect in effects)
+        {
+            if (collision.gameObject == parent && !currEffect.isOwnerInflicting)
+                continue;
+
+            statSys.ApplyEffect(currEffect);
         }
     }
 
     private bool checkCollisionTags(Collider2D collision)
     {
-        foreach (string currTag in targetTags)
-        {
-            if (collision.CompareTag(currTag)) 
-            { 
-                return true; 
-            }
-        }
-        return false;
+        // Check to see if collision contains a targeted tag
+        return targetTags
+                .Select(tag => collision.CompareTag(tag))
+                .Aggregate(false, (acc, tag) => acc || tag);
     }
 
     public void setDirection(Vector2 direction)

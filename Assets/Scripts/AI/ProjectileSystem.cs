@@ -1,4 +1,5 @@
 using System; // contains [Serializable]
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,57 +58,53 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
         }
     }
 
+    private void SpawnProjectile(GameObject projectileReference, ProjectileProperties projectileProperties, float projectileSpawnDistance)
+    {
+        Vector2 targetDir = (target.transform.position - transform.position).normalized;
+
+        // find front of enemy to instantiate bullet
+        // Note: Vector3 cast into Vector2 implicitly drops z dimension, which is what we want here.
+        Vector2 front = (Vector2) transform.position + targetDir * projectileSpawnDistance;
+
+        // Instantiate the projectile with provided params
+        GameObject projectile = Instantiate(projectileReference, front, Quaternion.identity);
+
+        ProjectileProperties properties = projectileProperties;
+        projectile.GetComponent<BaseProjectile>().Init(gameObject,
+                                                        properties.lifeTime,
+                                                        properties.damage,
+                                                        properties.speed,
+                                                        properties.scaleModifier,
+                                                        properties.dieOnCollision,
+                                                        target,
+                                                        targetDir);
+
+        // propagate the status of this object to the spawning children
+        statusSystem.activeEffects.ForEach(effect =>
+        {
+            if (!effect.propagateToChildren)
+                return;
+
+            // Since we are unsure that the projectile will register the component
+            // quick enough, we need to do that here before we apply the effect.
+            if (projectile.GetComponent<StatusSystem>() is StatusSystem status)
+            {
+                // FIXME: Do we really need to RegisterAIComponent() here? Start() should be called on Instantiate<T>()
+                //status.RegisterAIComponent(typeof(ProjectileSystem), Stats.FIRERATE, Stats.PROJECTILE_SCALE, Stats.PROJECTILE_SPEED);
+                status.ApplyEffect(effect);
+            }
+        });
+    }
+
     IEnumerator FireProjectileCoroutine(AttackProperties attack)
     {
         // keep the subroutine running so the enemy keeps firing
         while (true)
         {
             // if(eventTrigger == EventType.DISABLED) { break; }
-            
-            if(target)
-            {
-                Vector2 targetDir = target.transform.position - transform.position;
-                targetDir.Normalize();
+            if (target)
+                SpawnProjectile(attack.projectile, attack.projectileProperties, attack.projectileSpawnDistance);
 
-                // find front of enemy to instantiate bullet
-                Vector2 front = new Vector2(transform.position.x + (targetDir.x * attack.projectileSpawnDistance),
-                                            transform.position.y + (targetDir.y * attack.projectileSpawnDistance));
-
-                // Instantiate the projectile with provided params
-                GameObject projectile = Instantiate(attack.projectile, front, Quaternion.identity);
-
-                ProjectileProperties properties = attack.projectileProperties;
-                projectile.GetComponent<BaseProjectile>().Init(projectile, 
-                                                               gameObject,
-                                                               properties.lifeTime, 
-                                                               properties.damage, 
-                                                               properties.speed, 
-                                                               properties.scaleModifier,
-                                                               properties.dieOnCollision,
-                                                               target, 
-                                                               targetDir);
-
-                // propagate the status of this object to the spawning children
-                foreach (BaseStatusEffect currEffect in statusSystem.activeEffects)
-                {
-                    if(currEffect.propagateToChildren)
-                    {
-                        // Since we are unsure that the projectile will register the component
-                        // quick enough, we need to do that here before we apply the effect.
-                        StatusSystem projStatusSystem = projectile.GetComponent<StatusSystem>();
-                        if (projStatusSystem != null)
-                        {
-                            BaseAIComponent aiProjComp = projectile.GetComponent<ProjectileSystem>();
-
-                            projStatusSystem.RegisterAIComponent(aiProjComp, Stats.FIRERATE);
-                            projStatusSystem.RegisterAIComponent(aiProjComp, Stats.PROJECTILE_SCALE);
-                            projStatusSystem.RegisterAIComponent(aiProjComp, Stats.PROJECTILE_SPEED);
-
-                            projStatusSystem.ApplyEffect(currEffect);
-                        }
-                    }
-                }
-            }
             yield return new WaitForSeconds(attack.fireRate);
         }
     }
@@ -115,55 +112,13 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
     // Fires all projectiles in projectiles array
     public void FireProjectiles(int numberOfTimes)
     {
-        foreach (AttackProperties currProjectile in projectiles)
+        foreach (AttackProperties projectile in projectiles)
         {
-            if (target)
-            {
-                for (int i = 0; i < numberOfTimes; i++)
-                {
-                    Vector2 targetDir = target.transform.position - transform.position;
-                    targetDir.Normalize();
+            if (!target)
+                continue;
 
-                    // find front of enemy to instantiate bullet
-                    Vector2 front = new Vector2(transform.position.x + (targetDir.x * currProjectile.projectileSpawnDistance),
-                                                transform.position.y + (targetDir.y * currProjectile.projectileSpawnDistance));
-
-                    // Instantiate the projectile with provided params
-                    GameObject projectile = Instantiate(currProjectile.projectile, front, Quaternion.identity);
-
-                    ProjectileProperties properties = currProjectile.projectileProperties;
-                    projectile.GetComponent<BaseProjectile>().Init(projectile,
-                                                                   gameObject,
-                                                                   properties.lifeTime,
-                                                                   properties.damage,
-                                                                   properties.speed,
-                                                                   properties.scaleModifier,
-                                                                   properties.dieOnCollision,
-                                                                   target,
-                                                                   targetDir);
-
-                    // propagate the status of this object to the spawning children
-                    foreach (BaseStatusEffect currEffect in statusSystem.activeEffects)
-                    {
-                        if (currEffect.propagateToChildren)
-                        {
-                            // Since we are unsure that the projectile will register the component
-                            // quick enough, we need to do that here before we apply the effect.
-                            StatusSystem projStatusSystem = projectile.GetComponent<StatusSystem>();
-                            if (projStatusSystem != null)
-                            {
-                                BaseAIComponent aiProjComp = projectile.GetComponent<ProjectileSystem>();
-
-                                projStatusSystem.RegisterAIComponent(aiProjComp, Stats.FIRERATE);
-                                projStatusSystem.RegisterAIComponent(aiProjComp, Stats.PROJECTILE_SCALE);
-                                projStatusSystem.RegisterAIComponent(aiProjComp, Stats.PROJECTILE_SPEED);
-
-                                projStatusSystem.ApplyEffect(currEffect);
-                            }
-                        }
-                    }
-                }
-            }
+            for (int i = 0; i < numberOfTimes; i++)
+                SpawnProjectile(projectile.projectile, projectile.projectileProperties, projectile.projectileSpawnDistance);
         }
     }
 
@@ -212,7 +167,6 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
                     currProjectile.projectileProperties.damage =
                         Mathf.Clamp(currProjectile.projectileProperties.damage, float.MinValue, float.MaxValue);
                     return;
-
 
                 default:
                     return;
@@ -324,18 +278,15 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 
     public void RegCompToStatSystem()
     {
-        statusSystem.RegisterAIComponent(this, Stats.FIRERATE);
-        statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_SCALE);
-        statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_SPEED);
-        statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_LIFETIME);
-        statusSystem.RegisterAIComponent(this, Stats.PROJECTILE_DAMAGE);
+        statusSystem.RegisterAIComponent(this, Stats.FIRERATE,
+                                               Stats.PROJECTILE_SCALE,
+                                               Stats.PROJECTILE_SPEED,
+                                               Stats.PROJECTILE_LIFETIME,
+                                               Stats.PROJECTILE_DAMAGE);
     }
 
     public void OnDestroy()
     {
-        foreach (var coroutine in coroutines)
-        {
-            StopCoroutine(coroutine);
-        }
+        coroutines.ForEach(routine => StopCoroutine(routine));
     }
 }

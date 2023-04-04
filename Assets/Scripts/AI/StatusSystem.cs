@@ -1,11 +1,12 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 // Handles an AI status's such as damage, DOT, ect...
 public class StatusSystem : MonoBehaviour
 {
-    [System.NonSerialized]
+    [NonSerialized]
     public GameObject entityRoot;
     public List<BaseStatusEffect> activeEffects = new List<BaseStatusEffect>();
     private Dictionary<Stats, Type> handlers = new Dictionary<Stats, Type>();
@@ -20,15 +21,12 @@ public class StatusSystem : MonoBehaviour
     {
         // No need to keep track of the se if it's only going
         // to apply permanent damage once and never again
-        if (se is not StatDmgInstant && (!activeEffects.Contains(se) || se.isStackable))
+        if (se is not StatDmgInstant && (se.isStackable && !activeEffects.Contains(se)))
         {
             activeEffects.Add(se);
-            se.Apply(this, GetComponent(GetAIComponentType(se.statToEffect)) as BaseAIComponent);
         }
-        else if (se is StatDmgInstant)
-        {
-            se.Apply(this, GetComponent(GetAIComponentType(se.statToEffect)) as BaseAIComponent);
-        }
+
+        se.Apply(this, GetComponent(GetAIComponentType(se.statToEffect)) as BaseAIComponent);
     }
 
     public void RemoveEffect(BaseStatusEffect se)
@@ -37,19 +35,21 @@ public class StatusSystem : MonoBehaviour
     }
 
     // Helpers
-    public void RegisterAIComponent<T>(T component, params Stats[] stats) where T : BaseAIComponent
+    public void RegisterAIComponent(Type componentType, params Stats[] stats)
     {
         foreach (Stats stat in stats)
         {
-            handlers[stat] = typeof(T);
+            handlers[stat] = componentType;
         }
     }
+
+    public void RegisterAIComponent<T>(T _, params Stats[] stats) where T : BaseAIComponent => RegisterAIComponent(typeof(T), stats);
 
     public Type GetAIComponentType(Stats stat)
     {
         if (!handlers.ContainsKey(stat))
         {
-            Debug.LogError($"Attempted to retrieve nonexistent AI component for {stat}.");
+            Debug.LogError($"Attempted to retrieve nonexistent AI component for {stat} on {gameObject}.");
             return null;
         }
 
@@ -67,11 +67,20 @@ public class StatusSystem : MonoBehaviour
     public void DamageStat(Stats stat, float val) => DamageStat(GetAIComponent(stat), stat, val);
     public void DamageStatPercent(Stats stat, float val)
     {
-        List<float> statsToEffect = GetStat(stat);
-        foreach (float statValue in statsToEffect)
-        {
-            DamageStat(stat, statValue * val);
-        }
+        List<float> values = GetStat(stat);
+
+        /**
+         * FIXME: Does this actually do what we want?
+         * 
+         * The Linq code has functional equivalence to the original foreach:
+         *   List<float> statsToEffect = GetStat(stat);
+         *   foreach (float statValue in statsToEffect)
+         *   {
+         *       DamageStat(stat, statValue * val);
+         *   }
+        */
+        values.ForEach(x => DamageStat(stat, x * val));
+
     }
 
     public void SetStat(BaseAIComponent component, Stats stat, float val)
@@ -100,8 +109,10 @@ public class StatusSystem : MonoBehaviour
     {
         var componentType = GetAIComponentType(stat);
 
-        if (componentType == null)
+        if (componentType == null) {
+            Debug.LogError($"Could not find component associated with {stat} on {gameObject}.");
             return null;
+        }
 
         return GetComponent(componentType) as BaseAIComponent;
     }
