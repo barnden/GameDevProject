@@ -141,5 +141,12 @@ public class TurretUpgrade : MonoBehaviour
         tree.Init(upgradeTree);
 
         GetComponent<SpriteRenderer>().sprite = tree[0].sprite;
+
+
+        // Always buy basic upgrade on start to have correct properties applied.
+        if (tree[0].title == "Basic")
+        {
+            BuyUpgrade(0);
+        }
     }
 }
