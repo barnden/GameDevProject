@@ -140,8 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetTags:
   - Enemy
-  effects:
-  - {fileID: 11400000, guid: 6a0710f64f276684ebd5af554aed1e00, type: 2}
+  effects: []
   onCollision:
     m_PersistentCalls:
       m_Calls: []
