@@ -31,6 +31,7 @@ public class UpgradeTreeEditor : Editor
     Vector2 scrollStartPos;
 
     (UpgradeNode node, Rect? rect, HashSet<int> prereqs, SerializedObject list, SerializedObject projectiles) active;
+    SerializedObject sapso;
 
     HashSet<KeyCode> keydown;
 
@@ -44,6 +45,8 @@ public class UpgradeTreeEditor : Editor
         EditorSceneManager.sceneSaving += OnSceneSave;
         EditorSceneManager.sceneClosing += OnSceneClose;
         Undo.undoRedoPerformed += OnUndo;
+
+        sapso = CreateTemporaryAPSO();
     }
 
     private void OnSceneClose(UnityEngine.SceneManagement.Scene scene, bool removingScene)
@@ -537,18 +540,14 @@ public class UpgradeTreeEditor : Editor
 
                             if (projectileParent != -1)
                             {
-                                //SerializedProperty projectiles = sapso.FindProperty("projectiles"); 
-                                //Serializable.SetTargetObjectOfProperty(projectiles, tree[projectileParent].projectiles);
-
-                                //PropertyLayout("Effective Projectiles", ref projectiles);
-
-                                SerializedObject sapso = CreateTemporaryAPSO();
+                                if (sapso == null)
+                                {
+                                    sapso = CreateTemporaryAPSO();
+                                }
                                 SerializedProperty projectiles = sapso.FindProperty("projectiles");
                                 sapso.Update();
                                 Serializable.SetTargetObjectOfProperty(projectiles, tree[projectileParent].projectiles);
-                                Debug.Log($"projectileParent {projectileParent} Count {tree[projectileParent].projectiles.Count}");
                                 PropertyLayout("Effective Projectiles", ref projectiles);
-                                sapso.Dispose();
                             }
                         }
                         GUI.enabled = true;
