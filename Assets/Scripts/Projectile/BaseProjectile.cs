@@ -82,12 +82,12 @@ public class BaseProjectile : MonoBehaviour
         if (!statSys)
             return;
 
-        foreach (BaseStatusEffect currEffect in effects)
+        foreach (BaseStatusEffect effect in effects)
         {
-            if (collision.gameObject == parent && !currEffect.isOwnerInflicting)
+            if (collision.gameObject == parent && !effect.isOwnerInflicting)
                 continue;
 
-            statSys.ApplyEffect(currEffect);
+            statSys.ApplyEffect(effect);
         }
     }
 

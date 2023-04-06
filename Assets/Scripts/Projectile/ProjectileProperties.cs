@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public struct ProjectileProperties
 {
-    [SerializeField] public float speed;
-    [SerializeField] public float scaleModifier;
-    [SerializeField] public float lifeTime;
-    [SerializeField] public float damage;
-    [SerializeField] public bool dieOnCollision;
+    public float speed;
+    public float scaleModifier;
+    public float lifeTime;
+    public float damage;
+    public bool dieOnCollision;
 
     // Only used to pass down target information to projectiles
     // which spawn other projectiles
-    [HideInInspector] public GameObject target;
+    [NonSerialized] public GameObject target;
 }
