@@ -37,7 +37,7 @@ public class RadialUiButton : MonoBehaviour
                 radialUi.UpgradeScreenPanel.SetActive(true);
                 radialUi.BuildingPhaseOn();
                 // then create amount of buttons available in tower's upgrade tree
-                List<Upgrade> upgrades = radialUi.selectedGameObject.GetComponent<TowerUpgrade>().GetBuyableUpgrades();
+                List<Upgrade> upgrades = radialUi.selectedGameObject.GetComponent<TurretUpgrade>().GetBuyableUpgrades();
                 
                 // FIXME: code better positioning of choices
                 float ypos = 225f;

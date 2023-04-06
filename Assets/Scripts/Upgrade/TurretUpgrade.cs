@@ -24,7 +24,7 @@ public class Upgrade
     }
 };
 
-public class TowerUpgrade : MonoBehaviour
+public class TurretUpgrade : MonoBehaviour
 {
     // Reference Upgrade Tree
     [SerializeField]

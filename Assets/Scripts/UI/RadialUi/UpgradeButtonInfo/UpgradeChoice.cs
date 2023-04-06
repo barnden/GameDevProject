@@ -23,6 +23,6 @@ public class UpgradeChoice : MonoBehaviour
     {
         // apply it one time
         print("applied upgrade: " + chosenUpgrade.title);
-        radialUIref.selectedGameObject.GetComponent<TowerUpgrade>().BuyUpgrade(chosenUpgrade);
+        radialUIref.selectedGameObject.GetComponent<TurretUpgrade>().BuyUpgrade(chosenUpgrade);
     }
 }
