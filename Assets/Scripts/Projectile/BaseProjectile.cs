@@ -9,7 +9,7 @@ public class BaseProjectile : MonoBehaviour
     // Tags that the bullet will check collision with
     [SerializeField] List<string> targetTags; 
 
-    [SerializeField] List<BaseStatusEffect> effects;
+    [SerializeField] public List<BaseStatusEffect> effects;
 
     public UnityEvent onCollision;
 

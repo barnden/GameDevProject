@@ -526,7 +526,7 @@ public class UpgradeTreeEditor : Editor
                 {
                     PropertyLayout("Inherit Projectile", ref active.node.inheritProjectile);
 
-                    var projectileParent = tree.GetParentProjectile(active.node);
+                    var projectileParent = tree.GetParentProjectiles(active.node);
                     if (active.node.inheritProjectile)
                     {
                         GUI.enabled = false;

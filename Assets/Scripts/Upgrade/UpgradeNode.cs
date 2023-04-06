@@ -96,6 +96,7 @@ public class UpgradeNode
 
         prerequisites = new List<int>();
         exclusion = new List<int>();
+        projectiles = new List<AttackProperties>();
 
         foreach (var upgrade in other.prerequisites)
             prerequisites.Add(upgrade);

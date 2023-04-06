@@ -44,6 +44,16 @@ public class ProjectileSystem : MonoBehaviour, BaseAIComponent
         }
 
         RegCompToStatSystem();
+        ResetSystem();
+    }
+
+    public void ResetSystem()
+    {
+        if (coroutines != null && coroutines.Count > 0)
+        {
+            // Destroy existing coroutines
+            coroutines.ForEach(routine => StopCoroutine(routine));
+        }
 
         coroutines = new List<IEnumerator>();
 

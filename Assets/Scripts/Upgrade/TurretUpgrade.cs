@@ -65,10 +65,10 @@ public class TurretUpgrade : MonoBehaviour
         }
 
         // Resolve effective sprite
-        var effectiveSprite = tree.GetEffectiveSprite(node);
-
-        if (effectiveSprite != null)
+        if (tree.GetEffectiveSprite(node) is Sprite effectiveSprite)
+        {
             gameObject.GetComponent<SpriteRenderer>().sprite = effectiveSprite;
+        }
 
         foreach (Modifier mod in node.modifiers)
         {
@@ -89,10 +89,30 @@ public class TurretUpgrade : MonoBehaviour
             Debug.Log($"[Upgrade] {node.title} Applying modifier {mod.stat} {mod.action} {mod.amount}. Updated value: {statusSystem.GetStat(mod.stat)}");
         }
 
-        // Clear all projectiles on turret and add effective projectile
-        // FIXME: Maybe figure out a way to manage multiple projectiles?
-        ref List<AttackProperties> projectiles = ref gameObject.GetComponent<ProjectileSystem>().projectiles;
-        projectiles.Clear();
+        if (gameObject.GetComponent<ProjectileSystem>() is ProjectileSystem projectileSystem)
+        {
+            // Clear all projectiles on turret and add effective projectiles
+            ref List<AttackProperties> projectiles = ref projectileSystem.projectiles;
+            projectiles.Clear();
+
+            foreach (AttackProperties p in tree.GetEffectiveProjectiles(node))
+            {
+                // Add projectile from effective projectiles on upgrade
+
+                projectiles.Add(p);
+
+                // FIXME: Find some way to implement damage on projectiles.
+                //// Create status effect for damaging health.
+                //// Value of this status effect is PROJECTILE_DAMAGE
+                //if (p.projectile.GetComponent<BaseProjectile>() is BaseProjectile projectile)
+                //{
+                //    // Add projectile damage here?
+                //}
+            }
+
+            projectileSystem.ResetSystem();
+        }
+
 
         return true;
     }

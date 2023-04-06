@@ -32,7 +32,7 @@ public class UpgradeTree : ScriptableObject
         if (idx != -1)
             return false;
 
-        tree.Add(new UpgradeNode(title, "", null, null, 0.0, new List<int>(), new List<int>(), false, false, null, null, pos));
+        tree.Add(new UpgradeNode(title, "", null, null, 0.0, new List<int>(), new List<int>(), false, false, null, new List<AttackProperties>(), pos));
         return true;
     }
 
@@ -162,7 +162,7 @@ public class UpgradeTree : ScriptableObject
 
     public int GetParentSprite(UpgradeNode node, HashSet<int> ancestors = null) => GetParentSprite(IndexOf(node), ancestors);
 
-    public int GetParentProjectile(int node, HashSet<int> ancestors = null)
+    public int GetParentProjectiles(int node, HashSet<int> ancestors = null)
     {
         if (ancestors == null)
             ancestors = GetAncestors(node, true);
@@ -185,7 +185,19 @@ public class UpgradeTree : ScriptableObject
         return parentSprite;
     }
 
-    public int GetParentProjectile(UpgradeNode node, HashSet<int> ancestors = null) => GetParentProjectile(IndexOf(node), ancestors);
+    public int GetParentProjectiles(UpgradeNode node, HashSet<int> ancestors = null) => GetParentProjectiles(IndexOf(node), ancestors);
+
+    public List<AttackProperties> GetEffectiveProjectiles(int node)
+    {
+        int parent = -1;
+
+        if (tree[node].inheritProjectile)
+            parent = GetParentProjectiles(node);
+
+        return (parent == -1) ? tree[node].projectiles : tree[parent].projectiles;
+    }
+
+    public List<AttackProperties> GetEffectiveProjectiles(UpgradeNode node) => GetEffectiveProjectiles(IndexOf(node));
 
     public Sprite GetEffectiveSprite(int node)
     {

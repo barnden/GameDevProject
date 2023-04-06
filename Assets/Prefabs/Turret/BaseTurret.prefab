@@ -161,18 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd03adf62481a84a830ab4dc0cf4624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectiles:
-  - projectile: {fileID: 4967661330752684158, guid: 3fd2cd63a44cefd4caed90840fa088bf, type: 3}
-    projectileProperties:
-      speed: 5
-      scaleModifier: 1
-      lifeTime: 3
-      damage: 10
-      dieOnCollision: 1
-      target: {fileID: 0}
-    projectileSpawnDistance: 1
-    fireRate: 0.5
-    fireSpread: 0
+  projectiles: []
 --- !u!61 &-8651899896809767815
 BoxCollider2D:
   m_ObjectHideFlags: 0
