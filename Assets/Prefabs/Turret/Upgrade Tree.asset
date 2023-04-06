@@ -21,9 +21,23 @@ MonoBehaviour:
     prerequisites: 
     exclusion: 
     bought: 1
+    zone: {fileID: 0}
+    inheritProjectile: 0
+    projectile:
+      projectile: {fileID: 0}
+      projectileProperties:
+        speed: 0
+        scaleModifier: 0
+        lifeTime: 0
+        damage: 0
+        dieOnCollision: 0
+      projectileSpawnDistance: 0
+      fireRate: 0
+      fireSpread: 0
     modifiers: []
     position: {x: 79, y: 144}
     zindex: 0
+    pindex: 0
     inheritSprite: 0
   - title: Rapid Fire 1
     description: 
@@ -33,12 +47,26 @@ MonoBehaviour:
     prerequisites: 00000000
     exclusion: 
     bought: 0
+    zone: {fileID: 0}
+    inheritProjectile: 1
+    projectile:
+      projectile: {fileID: 0}
+      projectileProperties:
+        speed: 0
+        scaleModifier: 0
+        lifeTime: 0
+        damage: 0
+        dieOnCollision: 0
+      projectileSpawnDistance: 0
+      fireRate: 0
+      fireSpread: 0
     modifiers:
     - stat: 3
       action: 0
       amount: 0.15
     position: {x: 349, y: 44}
     zindex: 1
+    pindex: 0
     inheritSprite: 0
   - title: Rapid Fire 2
     description: 
@@ -48,9 +76,23 @@ MonoBehaviour:
     prerequisites: 01000000
     exclusion: 
     bought: 0
+    zone: {fileID: 0}
+    inheritProjectile: 1
+    projectile:
+      projectile: {fileID: 0}
+      projectileProperties:
+        speed: 0
+        scaleModifier: 0
+        lifeTime: 0
+        damage: 0
+        dieOnCollision: 0
+      projectileSpawnDistance: 0
+      fireRate: 0
+      fireSpread: 0
     modifiers: []
     position: {x: 614, y: 45}
     zindex: 0
+    pindex: 0
     inheritSprite: 1
   - title: Damage 1
     description: 
@@ -60,12 +102,26 @@ MonoBehaviour:
     prerequisites: 00000000
     exclusion: 
     bought: 0
+    zone: {fileID: 0}
+    inheritProjectile: 1
+    projectile:
+      projectile: {fileID: 0}
+      projectileProperties:
+        speed: 0
+        scaleModifier: 0
+        lifeTime: 0
+        damage: 0
+        dieOnCollision: 0
+      projectileSpawnDistance: 0
+      fireRate: 0
+      fireSpread: 0
     modifiers:
     - stat: 7
       action: 0
       amount: 50
     position: {x: 352, y: 145}
     zindex: 1
+    pindex: 0
     inheritSprite: 1
   - title: Damage 2
     description: 
@@ -75,9 +131,23 @@ MonoBehaviour:
     prerequisites: 03000000
     exclusion: 
     bought: 0
+    zone: {fileID: 2262138801241056872, guid: 9c859c7d3b6e5a14e8632652db7f5cd8, type: 3}
+    inheritProjectile: 1
+    projectile:
+      projectile: {fileID: 0}
+      projectileProperties:
+        speed: 0
+        scaleModifier: 0
+        lifeTime: 0
+        damage: 0
+        dieOnCollision: 0
+      projectileSpawnDistance: 0
+      fireRate: 0
+      fireSpread: 0
     modifiers: []
     position: {x: 609, y: 141}
     zindex: 2
+    pindex: 0
     inheritSprite: 1
   - title: Range 1
     description: 
@@ -87,12 +157,26 @@ MonoBehaviour:
     prerequisites: 00000000
     exclusion: 
     bought: 0
+    zone: {fileID: 873852204895997393, guid: 58474205c8c236a4e92f12dcc6c2577a, type: 3}
+    inheritProjectile: 1
+    projectile:
+      projectile: {fileID: 0}
+      projectileProperties:
+        speed: 0
+        scaleModifier: 0
+        lifeTime: 0
+        damage: 0
+        dieOnCollision: 0
+      projectileSpawnDistance: 0
+      fireRate: 0
+      fireSpread: 0
     modifiers:
     - stat: 3
       action: 0
       amount: 0.15
     position: {x: 357, y: 247}
     zindex: 1
+    pindex: 0
     inheritSprite: 1
   - title: Range 2
     description: 
@@ -102,7 +186,21 @@ MonoBehaviour:
     prerequisites: 05000000
     exclusion: 
     bought: 0
+    zone: {fileID: 0}
+    inheritProjectile: 1
+    projectile:
+      projectile: {fileID: 0}
+      projectileProperties:
+        speed: 0
+        scaleModifier: 0
+        lifeTime: 0
+        damage: 0
+        dieOnCollision: 0
+      projectileSpawnDistance: 0
+      fireRate: 0
+      fireSpread: 0
     modifiers: []
     position: {x: 609, y: 246}
     zindex: 0
+    pindex: 0
     inheritSprite: 1

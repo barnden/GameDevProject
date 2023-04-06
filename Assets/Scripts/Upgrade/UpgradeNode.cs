@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public enum ModifierAction
     MULTIPLY
 }
 
-[System.Serializable]
+[Serializable]
 public struct Modifier
 {
     public Stats stat;
@@ -15,7 +16,7 @@ public struct Modifier
     public double amount;
 }
 
-[System.Serializable]
+[Serializable]
 public class ModifierSO : ScriptableObject
 {
     [SerializeField]
@@ -24,6 +25,18 @@ public class ModifierSO : ScriptableObject
     public void Init()
     {
         modifiers = new List<Modifier>();
+    }
+}
+
+[Serializable]
+public class AttackPropertiesSO : ScriptableObject
+{
+    [SerializeField]
+    public List<AttackProperties> projectiles;
+
+    public void Init()
+    {
+        projectiles = new List<AttackProperties>();
     }
 }
 
@@ -40,7 +53,7 @@ public class UpgradeNode
     public bool bought;
     public GameObject zone;
     public bool inheritProjectile;
-    public GameObject projectile;
+    public List<AttackProperties> projectiles;
 
     public List<Modifier> modifiers;
 
@@ -49,7 +62,7 @@ public class UpgradeNode
     public int pindex;
     public bool inheritSprite;
 
-    public UpgradeNode(string title, string description, Sprite sprite, Sprite icon, double cost, List<int> prerequisites, List<int> exclusion, bool bought, bool inheritProjectile, GameObject zone, GameObject projectile, Vector2 position)
+    public UpgradeNode(string title, string description, Sprite sprite, Sprite icon, double cost, List<int> prerequisites, List<int> exclusion, bool bought, bool inheritProjectile, GameObject zone, List<AttackProperties> projectiles, Vector2 position)
     {
         this.title = title;
         this.description = description;
@@ -62,7 +75,7 @@ public class UpgradeNode
         this.icon = icon;
         this.zone = zone;
         this.inheritProjectile = inheritProjectile;
-        this.projectile = projectile;
+        this.projectiles = projectiles;
 
         modifiers = new List<Modifier>();
         zindex = 0;
@@ -90,6 +103,9 @@ public class UpgradeNode
         foreach (var upgrade in other.exclusion)
             exclusion.Add(upgrade);
 
+        foreach (var projectile in other.projectiles)
+            projectiles.Add(projectile);
+
         position = other.position;
 
         bought = other.bought;
@@ -97,7 +113,7 @@ public class UpgradeNode
         zone = other.zone;
 
         inheritProjectile = other.inheritProjectile;
-        projectile = other.projectile;
+        projectiles = other.projectiles;
 
         zindex = other.zindex;
         pindex = other.pindex;

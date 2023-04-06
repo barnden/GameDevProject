@@ -10,23 +10,21 @@ using UnityEngine;
  * the projectile
  */
 
+[Serializable]
+public class AttackProperties
+{
+    // We'll keep it as a gameObject if we want the system
+    // to deploy more than just "projectiles"
+    public GameObject projectile;
+    public ProjectileProperties projectileProperties;
+    public float projectileSpawnDistance;
+    public float fireRate; // in seconds
+    public float fireSpread; // in degrees     
+}
+
 public class ProjectileSystem : MonoBehaviour, BaseAIComponent
 {
-    // Keep public so other systems may change these
-    // attributes (such as status's)
-    [Serializable]
-    public class AttackProperties
-    {
-        // We'll keep it as a gameObject if we want the system
-        // to deploy more than just "projectiles"
-        public GameObject projectile;
-        public ProjectileProperties projectileProperties;
-        public float projectileSpawnDistance;
-        public float fireRate; // in seconds
-        public float fireSpread; // in degrees     
-    }
-
-    [SerializeField] List<AttackProperties> projectiles;
+    [SerializeField] public List<AttackProperties> projectiles;
     private GameObject target = null;
     private List<IEnumerator> coroutines;
     private StatusSystem statusSystem;

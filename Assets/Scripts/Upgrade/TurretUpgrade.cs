@@ -89,6 +89,11 @@ public class TurretUpgrade : MonoBehaviour
             Debug.Log($"[Upgrade] {node.title} Applying modifier {mod.stat} {mod.action} {mod.amount}. Updated value: {statusSystem.GetStat(mod.stat)}");
         }
 
+        // Clear all projectiles on turret and add effective projectile
+        // FIXME: Maybe figure out a way to manage multiple projectiles?
+        ref List<AttackProperties> projectiles = ref gameObject.GetComponent<ProjectileSystem>().projectiles;
+        projectiles.Clear();
+
         return true;
     }
 
